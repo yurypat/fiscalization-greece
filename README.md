@@ -1,3 +1,1 @@
 # Mews.Fiscalization.Greece
-
-test
