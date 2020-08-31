@@ -2,6 +2,7 @@
 {
     public enum InvoiceDetailType
     {
-
+        ThirdPartySalesClearance = 1,
+        FeeFromThirdPartySales = 2
     }
 }

@@ -16,12 +16,13 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         [XmlElement(ElementName = "taxType", IsNullable = false)]
         public TaxType TaxType { get; set; }
 
-        [XmlElement(ElementName = "taxCategory", IsNullable = false)]
+        [XmlElement(ElementName = "taxCategory")]
         public TaxCategory TaxCategory { get; set; }
 
         [XmlElement(ElementName = "underlyingValue")]
         public decimal UnderlyingValue { get; set; }
 
+        [XmlIgnore]
         public bool UnderlyingValueSpecified { get; set; }
 
         [XmlElement(ElementName = "taxAmount", IsNullable = false)]

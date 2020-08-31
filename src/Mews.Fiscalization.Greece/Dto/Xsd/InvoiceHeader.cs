@@ -21,9 +21,15 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 
         [XmlElement(ElementName = "vatPaymentSuspension")]
         public bool VatPaymentSuspension { get; set; }
+        
+        [XmlIgnore]
+        public bool VatPaymentSuspensionSpecified { get; set; }
 
         [XmlElement(ElementName = "currency")]
         public Currency Currency { get; set; }
+
+        [XmlIgnore]
+        public bool CurrencySpecified { get; set; }
 
         [XmlElement(ElementName = "exchangeRate")]
         public decimal ExchangeRate { get; set; }
@@ -39,6 +45,9 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 
         [XmlElement(ElementName = "selfPricing")]
         public bool SelfPricing { get; set; }
+
+        [XmlIgnore]
+        public bool SelfPricingSpecified { get; set; }
 
         [XmlElement(ElementName = "dispatchDate")]
         public DateTime DispatchDate { get; set; }

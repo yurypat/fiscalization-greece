@@ -8,3 +8,4 @@
 *.dtbcache.v2
 src/packages
 src/.idea
+src/.vs

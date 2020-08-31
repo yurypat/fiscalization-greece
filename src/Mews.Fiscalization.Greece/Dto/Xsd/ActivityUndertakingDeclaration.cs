@@ -16,7 +16,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         [XmlElement(ElementName = "doy")]
         public string Doy { get; set; }
 
-        [XmlElement(ElementName = "shipID")]
+        [XmlElement(ElementName = "shipID", IsNullable = false)]
         public string ShipId { get; set; }
     }
 }
