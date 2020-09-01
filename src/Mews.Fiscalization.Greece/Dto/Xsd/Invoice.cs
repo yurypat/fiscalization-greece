@@ -8,19 +8,19 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 	public class Invoice
 	{
 		[XmlElement(ElementName = "uid")]
-		public string Uid { get; set; }
+		public string InvoiceId { get; set; }
 
 		[XmlElement(ElementName = "mark")]
-		public long Mark { get; set; }
+		public long InvoiceMark { get; set; }
 
 		[XmlIgnore]
-		public bool MarkSpecified { get; set; }
+		public bool InvoiceMarkSpecified { get; set; }
 
 		[XmlElement(ElementName = "cancelledByMark")]
-		public long CancelledByMark { get; set; }
+		public long InvoiceCancellationMark { get; set; }
 
 		[XmlIgnore]
-		public bool CancelledByMarkSpecified { get; set; }
+		public bool InvoiceCancellationMarkSpecified { get; set; }
 
 		[XmlElement(ElementName = "authenticationCode")]
 		public string AuthenticationCode { get; set; }
@@ -32,22 +32,22 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 		public bool TransmissionFailureSpecified { get; set; }
 
 		[XmlElement(ElementName = "issuer")]
-		public Party Issuer { get; set; }
+		public InvoiceParty InvoiceIssuer { get; set; }
 
 		[XmlElement(ElementName = "counterpart")]
-		public Party Counterpart { get; set; }
+		public InvoiceParty InvoiceCounterpart { get; set; }
 
 		[XmlElement(ElementName = "invoiceHeader", IsNullable = false)]
 		public InvoiceHeader InvoiceHeader { get; set; }
 
 		[XmlElement(ElementName = "paymentMethods")]
-		public PaymentMethodDetails[] PaymentMethods { get; set; }
+		public PaymentMethod[] PaymentMethods { get; set; }
 
 		[XmlElement(ElementName = "invoiceDetails", IsNullable = false)]
-		public InvoiceDetails InvoiceDetails { get; set; }
+		public InvoiceDetail InvoiceDetail { get; set; }
 
 		[XmlElement(ElementName = "taxesTotals")]
-		public Taxes[] TaxesTotals { get; set; }
+		public Tax[] Taxes { get; set; }
 
 		[XmlElement(ElementName = "invoiceSummary", IsNullable = false)]
 		public InvoiceSummary InvoiceSummary { get; set; }

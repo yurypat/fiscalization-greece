@@ -4,11 +4,11 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum TransmissionFailure
+    public enum SelfBillingRemarkType
     {
         [XmlEnum("1")]
-        ProviderCommunicationIssue = 1,
+        ThirdPartySalesClearance = 1,
         [XmlEnum("2")]
-        MyDataCommunicationIssue = 2
+        FeeFromThirdPartySales = 2
     }
 }

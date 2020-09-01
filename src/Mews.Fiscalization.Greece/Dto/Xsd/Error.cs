@@ -7,10 +7,10 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
     [XmlType(Namespace = InvoicesDoc.Namespace)]
     public class Error
     {
-        [XmlElement(ElementName = "message")]
+        [XmlElement(ElementName = "message", IsNullable = false)]
         public string Message { get; set; }
 
-        [XmlElement(ElementName = "code")]
+        [XmlElement(ElementName = "code", IsNullable = false)]
         public string Code { get; set; }
     }
 }

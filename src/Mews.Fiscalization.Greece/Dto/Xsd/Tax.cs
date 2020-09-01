@@ -5,23 +5,24 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlRoot(Namespace = InvoicesDoc.Namespace)]
-    public class Taxes
+    public class Tax
     {
         [XmlElement(ElementName = "id")]
-        public byte Id { get; set; }
+        public byte LineNumber { get; set; }
 
         [XmlIgnore]
-        public bool IdSpecified { get; set; }
+        public bool LineNumberSpecified { get; set; }
 
         [XmlElement(ElementName = "taxType", IsNullable = false)]
         public TaxType TaxType { get; set; }
 
-        [XmlElement(ElementName = "taxCategory", IsNullable = false)]
-        public TaxCategory TaxCategory { get; set; }
+        [XmlElement(ElementName = "taxCategory")]
+        public byte TaxCategory { get; set; }
 
         [XmlElement(ElementName = "underlyingValue")]
         public decimal UnderlyingValue { get; set; }
 
+        [XmlIgnore]
         public bool UnderlyingValueSpecified { get; set; }
 
         [XmlElement(ElementName = "taxAmount", IsNullable = false)]

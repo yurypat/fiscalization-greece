@@ -5,13 +5,13 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    public class Party
+    public class InvoiceParty
     {
         [XmlElement(ElementName = "vatNumber", IsNullable = false)]
         public string VatNumber { get; set; }
 
         [XmlElement(ElementName = "country", IsNullable = false)]
-        public Country Country { get; set; }
+        public string CountryCode { get; set; }
 
         [XmlElement(ElementName = "branch")]
         public int Branch { get; set; }
