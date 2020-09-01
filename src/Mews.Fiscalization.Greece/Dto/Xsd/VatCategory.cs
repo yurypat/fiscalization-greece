@@ -9,6 +9,6 @@
         Vat9 = 5,
         Vat4 = 6,
         Vat0 = 7,
-        NoVat = 8
+        WithoutVat = 8
     }
 }

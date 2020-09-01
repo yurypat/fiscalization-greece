@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    public class InvoiceDetails
+    public class InvoiceDetail
     {
         [XmlElement(ElementName = "lineNumber", IsNullable = false)]
         public int LineNumber { get; set; }
@@ -17,15 +17,15 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public bool QuantitySpecified { get; set; }
 
         [XmlElement(ElementName = "measurementUnit")]
-        public MeasurementUnit MeasurementUnit { get; set; }
+        public UnitOfMeasurement UnitOfMeasurement { get; set; }
 
         [XmlIgnore]
-        public bool MeasurementUnitSpecified { get; set; }
+        public bool UnitOfMeasurementSpecified { get; set; }
 
         [XmlElement(ElementName = "invoiceDetailType")]
-        public InvoiceDetailType InvoiceDetailType { get; set; }
+        public SelfBillingRemarkType SelfBillingRemarkType { get; set; }
 
-        public bool InvoiceDetailTypeSpecified { get; set; }
+        public bool SelfBillingRemarkTypeSpecified { get; set; }
 
         [XmlElement(ElementName = "netValue", IsNullable = false)]
         public decimal NetValue { get; set; }
@@ -52,16 +52,16 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public bool DiscountOptionSpecified { get; set; }
 
         [XmlElement(ElementName = "withheldAmount")]
-        public decimal WithholdingTaxAmount { get; set; }
+        public decimal WithheldTaxAmount { get; set; }
 
         [XmlIgnore]
-        public bool WithholdingTaxAmountSpecified { get; set; }
+        public bool WithheldTaxAmountSpecified { get; set; }
 
         [XmlElement(ElementName = "withheldPercentCategory")]
-        public TaxCategory WithholdingTaxCategory { get; set; }
+        public TaxCategory WithheldTaxCategory { get; set; }
 
         [XmlIgnore]
-        public bool WithholdingTaxCategorySpecified { get; set; }
+        public bool WithheldTaxCategorySpecified { get; set; }
 
         [XmlElement(ElementName = "stampDutyAmount")]
         public decimal StampDutyAmount { get; set; }
@@ -110,6 +110,6 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public IncomeClassification IncomeClassification { get; set; }
 
         [XmlElement(ElementName = "expensesClassification")]
-        public ExpensesClassification ExpensesClassification { get; set; }
+        public ExpenseClassification ExpenseClassification { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public string Series { get; set; }
 
         [XmlElement(ElementName = "aa", IsNullable = false)]
-        public string Aa { get; set; }
+        public string SerialNumber { get; set; }
 
         [XmlElement(ElementName = "issueDate", IsNullable = false)]
         public DateTime IssueDate { get; set; }
@@ -21,7 +21,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 
         [XmlElement(ElementName = "vatPaymentSuspension")]
         public bool VatPaymentSuspension { get; set; }
-        
+
         [XmlIgnore]
         public bool VatPaymentSuspensionSpecified { get; set; }
 

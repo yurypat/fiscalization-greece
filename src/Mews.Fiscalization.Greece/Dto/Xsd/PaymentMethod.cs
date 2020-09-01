@@ -5,15 +5,15 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    public class PaymentMethodDetails
+    public class PaymentMethod
     {
         [XmlElement(ElementName = "type", IsNullable = false)]
-        public PaymentMethodType Type { get; set; }
+        public PaymentMethodType PaymentMethodType { get; set; }
 
         [XmlElement(ElementName = "amount", IsNullable = false)]
         public decimal Amount { get; set; }
 
         [XmlElement(ElementName = "paymentMethodInfo")]
-        public string PaymentMethodInfo { get; set; }
+        public string Info { get; set; }
     }
 }

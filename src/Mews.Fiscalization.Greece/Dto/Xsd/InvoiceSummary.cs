@@ -35,6 +35,6 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public IncomeClassification IncomeClassification { get; set; }
 
         [XmlElement(ElementName = "expensesClassification")]
-        public ExpensesClassification ExpensesClassification { get; set; }
+        public ExpenseClassification ExpenseClassification { get; set; }
     }
 }

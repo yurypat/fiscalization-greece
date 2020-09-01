@@ -14,7 +14,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public DateTime ApplicationDate { get; set; }
 
         [XmlElement(ElementName = "doy")]
-        public string Doy { get; set; }
+        public string TaxOffice { get; set; }
 
         [XmlElement(ElementName = "shipID", IsNullable = false)]
         public string ShipId { get; set; }

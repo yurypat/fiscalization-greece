@@ -13,9 +13,9 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         [XmlEnum("category2_3")]
         ServicesReceipt,
         [XmlEnum("category2_4")]
-        GeneralExpensesSubjectToVATDeduction,
+        GeneralExpensesSubjectToVatDeduction,
         [XmlEnum("category2_5")]
-        GeneralExpensesNotSubjectToVATDeduction,
+        GeneralExpensesNotSubjectToVatDeduction,
         [XmlEnum("category2_6")]
         PersonnelFeesAndBenefits,
         [XmlEnum("category2_7")]

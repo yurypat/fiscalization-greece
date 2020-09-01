@@ -13,7 +13,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         [XmlEnum("E3_102_002")]
         FiscalYearCommodityPurchasesRetail,
         [XmlEnum("E3_102_003")]
-        FiscalYearCommodityPurchasesGoodsUnderArticle39a,
+        FiscalYearCommodityPurchasesGoodsUnderArticle39A,
         [XmlEnum("E3_102_004")]
         FiscalYearCommodityPurchasesForeignIntraCommunity,
         [XmlEnum("E3_102_005")]
@@ -149,7 +149,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         [XmlEnum("VAT_364")]
         IntraCommunityGoodsAcquisitions,
         [XmlEnum("VAT_365")]
-        IntraCommunityServicesReceiptsPerArticle142a,
+        IntraCommunityServicesReceiptsPerArticle142A,
         [XmlEnum("VAT_366")]
         OtherRecipientActions
     }

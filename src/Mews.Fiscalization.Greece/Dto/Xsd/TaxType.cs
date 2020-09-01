@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mews.Fiscalization.Greece.Dto.Xsd
+﻿namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     public enum TaxType
     {

@@ -2,60 +2,60 @@
 {
     public enum TaxCategory
     {
-        WithholdingTaxes_Interests = 1,
-        OtherTaxes_A1FireInsurancePremiums = 1,
-        StampDuty_Rate12 = 1,
-        Fees_MonthlyBill12 = 1,
+        WithholdingTaxesInterests = 1,
+        OtherTaxesA1FireInsurancePremiums = 1,
+        StampDutyRate12 = 1,
+        FeesMonthlyBill12 = 1,
 
-        WithholdingTaxes_Royalties = 2,
-        OtherTaxes_A2FireInsurancePremiums = 2,
-        StampDuty_Rate24 = 2,
-        Fees_MonthlyBill15 = 2,
+        WithholdingTaxesRoyalties = 2,
+        OtherTaxesA2FireInsurancePremiums = 2,
+        StampDutyRate24 = 2,
+        FeesMonthlyBill15 = 2,
 
-        WithholdingTaxes_ManagementConsultantFees = 3,
-        OtherTaxes_LifeInsurancePremiums = 3,
-        StampDuty_Rate36 = 3,
-        Fees_MonthlyBill18 = 3,
+        WithholdingTaxesManagementConsultantFees = 3,
+        OtherTaxesLifeInsurancePremiums = 3,
+        StampDutyRate36 = 3,
+        FeesMonthlyBill18 = 3,
 
-        WithholdingTaxes_TechnicalProjects = 4,
-        OtherTaxes_OtherInsurancePremiums = 4,
-        Fees_MonthlyBill20 = 4,
+        WithholdingTaxesTechnicalProjects = 4,
+        OtherTaxesOtherInsurancePremiums = 4,
+        FeesMonthlyBill20 = 4,
 
-        WithholdingTaxes_LiquidFuelAndTobaccoIndustryproducts = 5,
-        OtherTaxes_TaxExemptInsurancePremiums = 5,
-        Fees_PrepaidTelephony = 5,
+        WithholdingTaxesLiquidFuelAndTobaccoIndustryProducts = 5,
+        OtherTaxesTaxExemptInsurancePremiums = 5,
+        FeesPrepaidTelephony = 5,
 
-        WithholdingTaxes_OtherGoods = 6,
-        OtherTaxes_Hotels1Or2Stars = 6,
-        Fees_SubscriptionTelevision = 6,
+        WithholdingTaxesOtherGoods = 6,
+        OtherTaxesHotels1Or2Stars = 6,
+        FeesSubscriptionTelevision = 6,
 
-        WithholdingTaxes_ServicesProvision = 7,
-        OtherTaxes_Hotels3Stars = 7,
-        Fees_LandlineSubscriber = 7,
+        WithholdingTaxesServicesProvision = 7,
+        OtherTaxesHotels3Stars = 7,
+        FeesLandlineSubscriber = 7,
 
-        WithholdingTaxes_ArchitectAndEngineerTax4 = 8,
-        OtherTaxes_Hotels4Stars = 8,
-        Fees_EcotaxAndPlasticBagTax = 8,
+        WithholdingTaxesArchitectAndEngineerTax4 = 8,
+        OtherTaxesHotels4Stars = 8,
+        FeesEcoTaxAndPlasticBagTax = 8,
 
-        WithholdingTaxes_ArchitectAndEngineerTax10 = 9,
-        OtherTaxes_Hotels5Stars = 9,
-        Fees_OliveFruitFlyControlContribution = 9,
+        WithholdingTaxesArchitectAndEngineerTax10 = 9,
+        OtherTaxesHotels5Stars = 9,
+        FeesOliveFruitFlyControlContribution = 9,
 
-        WithholdingTaxes_AttorneyFeeTax = 10,
-        OtherTaxes_RentalRooms = 10,
+        WithholdingTaxesAttorneyFeeTax = 10,
+        OtherTaxesRentalRooms = 10,
 
-        WithholdingTaxes_Payroll = 11,
-        OtherTaxes_TVBroadcastCommercials = 11,
+        WithholdingTaxesPayroll = 11,
+        OtherTaxesTvBroadcastCommercials = 11,
 
-        WithholdingTaxes_MerchantMarineOfficersPayroll = 12,
-        OtherTaxes_LuxuryTaxIntraCommunityAcquiredGoods = 12,
+        WithholdingTaxesMerchantMarineOfficersPayroll = 12,
+        OtherTaxesLuxuryTaxIntraCommunityAcquiredGoods = 12,
 
-        WithholdingTaxes_MerchantMarineLowerRankingCrewPayroll = 13,
-        OtherTaxes_LuxuryTaxDomesticallyProducedGoods = 13,
+        WithholdingTaxesMerchantMarineLowerRankingCrewPayroll = 13,
+        OtherTaxesLuxuryTaxDomesticallyProducedGoods = 13,
 
-        WithholdingTaxes_SpecialSolidarityContribution = 14,
-        OtherTaxes_AdmissionTicketPriceForCasinos = 14,
+        WithholdingTaxesSpecialSolidarityContribution = 14,
+        OtherTaxesAdmissionTicketPriceForCasinos = 14,
 
-        WithholdingTaxes_CompensationForTerminationOfEmployment = 15
+        WithholdingTaxesCompensationForTerminationOfEmployment = 15
     }
 }

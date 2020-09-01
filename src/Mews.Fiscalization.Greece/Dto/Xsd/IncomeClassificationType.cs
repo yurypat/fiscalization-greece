@@ -21,11 +21,11 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         [XmlEnum("E3_561_001")]
         WholesaleSalesOfGoodsAndServicesForTraders,
         [XmlEnum("E3_561_002")]
-        WholesaleSalesOfGoodsAndServicesPursuantToArticle39a,
+        WholesaleSalesOfGoodsAndServicesPursuantToArticle39A,
         [XmlEnum("E3_561_003")]
         RetailSalesOfGoodsAndServicesPrivateClientele,
         [XmlEnum("E3_561_004")]
-        RetailSalesOfGoodsAndServicesPursuantToArticle39a,
+        RetailSalesOfGoodsAndServicesPursuantToArticle39A,
         [XmlEnum("E3_561_005")]
         IntraCommunityForeignSalesOfGoodsAndServices,
         [XmlEnum("E3_561_006")]
@@ -39,7 +39,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         [XmlEnum("E3_564")]
         CreditExchangeDifferences,
         [XmlEnum("E3_565")]
-        IncomeFromParticipations,
+        IncomeFromParticipation,
         [XmlEnum("E3_566")]
         ProfitsFromDisposingNonCurrentAssets,
         [XmlEnum("E3_567")]
