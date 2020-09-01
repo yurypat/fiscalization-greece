@@ -58,7 +58,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public bool WithheldTaxAmountSpecified { get; set; }
 
         [XmlElement(ElementName = "withheldPercentCategory")]
-        public TaxCategory WithheldTaxCategory { get; set; }
+        public WithheldTaxCategory WithheldTaxCategory { get; set; }
 
         [XmlIgnore]
         public bool WithheldTaxCategorySpecified { get; set; }
@@ -70,7 +70,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public bool StampDutyAmountSpecified { get; set; }
 
         [XmlElement(ElementName = "stampDutyPercentCategory")]
-        public TaxCategory StampDutyCategory { get; set; }
+        public StampDutyCategory StampDutyCategory { get; set; }
 
         [XmlIgnore]
         public bool StampDutyCategorySpecified { get; set; }
@@ -87,7 +87,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public bool FeesCategorySpecified { get; set; }
 
         [XmlElement(ElementName = "otherTaxesPercentCategory")]
-        public TaxCategory OtherTaxesCategory { get; set; }
+        public OtherTaxesCategory OtherTaxesCategory { get; set; }
 
         public bool OtherTaxesCategorySpecified { get; set; }
 
