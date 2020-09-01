@@ -4,9 +4,11 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    [XmlType(Namespace = InvoicesDoc.Namespace)]
+    [XmlType(Namespace = ExpenseClassification.Namespace)]
     public class ExpenseClassification
     {
+        public const string Namespace = "https://www.aade.gr/myDATA/expensesClassificaton/v1.0";
+
         [XmlElement(ElementName = "id")]
         public byte SerialNumber { get; set; }
 
