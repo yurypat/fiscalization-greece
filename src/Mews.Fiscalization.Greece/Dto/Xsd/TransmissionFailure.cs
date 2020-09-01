@@ -2,7 +2,7 @@
 {
     public enum TransmissionFailure
     {
-        ProviderCommunicationIssue = (byte)1,
-        MyDataCommunicationIssue = (byte)2
+        ProviderCommunicationIssue = 1,
+        MyDataCommunicationIssue = 2
     }
 }

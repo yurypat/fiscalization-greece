@@ -17,7 +17,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public TaxType TaxType { get; set; }
 
         [XmlElement(ElementName = "taxCategory")]
-        public TaxCategory TaxCategory { get; set; }
+        public byte TaxCategory { get; set; }
 
         [XmlElement(ElementName = "underlyingValue")]
         public decimal UnderlyingValue { get; set; }
