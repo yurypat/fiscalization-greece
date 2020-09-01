@@ -8,7 +8,8 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
     {
         [XmlEnum("E3_101")]
         CommoditiesAtPeriodStart,
-        [XmlEnum("E3_102_001")]        FiscalYearCommodityPurchasesWholesale,
+        [XmlEnum("E3_102_001")]
+        FiscalYearCommodityPurchasesWholesale,
         [XmlEnum("E3_102_002")]
         FiscalYearCommodityPurchasesRetail,
         [XmlEnum("E3_102_003")]
@@ -53,9 +54,12 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         FiscalYearRawAndOtherMaterialPurchaseNetAmountOthers,
         [XmlEnum("E3_304")]
         RawAndOtherMaterialStockAtPeriodEndAgricultural,
-        [XmlEnum("E3_307")]        ProductsAndProductionInProgressAtPeriodStartAgricultural,
-        [XmlEnum("E3_309")]        ProductsAndProductionInProgressAtPeriodEndAgricultural,
-        [XmlEnum("E3_312")]        StockAtPeriodStart,
+        [XmlEnum("E3_307")]
+        ProductsAndProductionInProgressAtPeriodStartAgricultural,
+        [XmlEnum("E3_309")]
+        ProductsAndProductionInProgressAtPeriodEndAgricultural,
+        [XmlEnum("E3_312")]
+        StockAtPeriodStart,
         [XmlEnum("E3_313_001")]
         AnimalPlantPurchasesWholesale,
         [XmlEnum("E3_313_002")]
