@@ -31,10 +31,10 @@ jobs:
         dotnet-version: 3.1.x
         
     - name: Install dependencies
-      run: dotnet restore $env:SolutionName
+      run: dotnet restore
     
     - name: Build
-      run: dotnet build $env:SolutionName --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore
     
     - name: Test
-      run: dotnet test $env:TestProjectPath --no-restore --verbosity normal
+      run: dotnet test --no-restore --verbosity normal
