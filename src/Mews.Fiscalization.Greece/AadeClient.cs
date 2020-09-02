@@ -11,8 +11,9 @@ namespace Mews.Fiscalization.Greece
     {
         public string UserId { get; }
         public string SubscriptionKey { get; }
+        public string Url { get; }
 
-        public AadeClient(string userId, string subscriptionKey)
+        public AadeClient(string userId, string subscriptionKey, AadeEnvironment environment = AadeEnvironment.Production)
         {
             UserId = userId;
             SubscriptionKey = subscriptionKey;

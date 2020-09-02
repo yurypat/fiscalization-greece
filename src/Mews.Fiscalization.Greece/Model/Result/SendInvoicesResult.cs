@@ -17,9 +17,8 @@ namespace Mews.Fiscalization.Greece.Model.Result
             }
         }
 
-        public bool IsSuccess
-        {
-            get;
-        }
+        public bool IsSuccess { get; }
+
+        public IEnumerable<SendInvoiceResult> SendInvoiceResults { get; }
     }
 }
