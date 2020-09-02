@@ -26,7 +26,10 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public bool VatPaymentSuspensionSpecified { get; set; }
 
         [XmlElement(ElementName = "currency")]
-        public string CurrencyCode { get; set; }
+        public Currency Currency { get; set; }
+
+        [XmlIgnore]
+        public bool CurrencySpecified { get; set; }
 
         [XmlElement(ElementName = "exchangeRate")]
         public decimal ExchangeRate { get; set; }
