@@ -7,16 +7,15 @@ on:
   pull_request:
     branches:
       - master
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     env:
-      SolutionName: Mews.Fiscalization.Greece.sln
-      TestProjectPath: Mews.Fiscalization.Greece.Tests/Mews.Fiscalization.Greece.Tests.csproj
-      
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+    
     defaults:
       run:
         working-directory: src
