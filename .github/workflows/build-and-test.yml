@@ -14,8 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      SolutionName: src\Mews.Fiscalization.Greece.sln
-      TestProjectPath: src\Mews.Fiscalization.Greece.Tests\Mews.Fiscalization.Greece.Tests.csproj
+      SolutionName: Mews.Fiscalization.Greece.sln
+      TestProjectPath: Mews.Fiscalization.Greece.Tests/Mews.Fiscalization.Greece.Tests.csproj
+      
+    defaults:
+      run:
+        working-directory: src
       
     steps:
     - name: Checkout
