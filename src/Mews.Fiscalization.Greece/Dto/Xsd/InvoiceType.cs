@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum InvoiceType
+    internal enum InvoiceType
     {
         [XmlEnum("1.1")]
         SalesInvoice,

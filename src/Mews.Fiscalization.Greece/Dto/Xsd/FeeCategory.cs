@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum FeeCategory
+    internal enum FeeCategory
     {
         [XmlEnum("1")]
         MonthlyBillsLess50 = 1,

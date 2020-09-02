@@ -6,7 +6,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
     [XmlRoot(ElementName = "InvoicesDoc", Namespace = InvoicesDoc.Namespace)]
-    public class InvoicesDoc
+    internal sealed class InvoicesDoc
     {
         public const string Namespace = "http://www.aade.gr/myDATA/invoice/v1.0";
 

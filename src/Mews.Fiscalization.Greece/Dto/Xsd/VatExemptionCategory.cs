@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum VatExemptionCategory
+    internal enum VatExemptionCategory
     {
         [XmlEnum("1")]
         WithoutVatArticle3 = 1,

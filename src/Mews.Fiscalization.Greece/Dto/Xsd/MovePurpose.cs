@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum MovePurpose
+    internal enum MovePurpose
     {
         [XmlEnum("1")]
         Sale = 1,

@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum UnitOfMeasurement
+    internal enum UnitOfMeasurement
     {
         [XmlEnum("1")]
         Piece = 1,

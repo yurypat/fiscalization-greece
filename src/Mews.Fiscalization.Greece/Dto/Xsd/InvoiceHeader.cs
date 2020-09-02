@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    public class InvoiceHeader
+    internal sealed class InvoiceHeader
     {
         [XmlElement(ElementName = "series", IsNullable = false)]
         public string Series { get; set; }

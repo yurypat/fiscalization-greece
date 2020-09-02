@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum SelfBillingRemarkType
+    internal enum SelfBillingRemarkType
     {
         [XmlEnum("1")]
         ThirdPartySalesClearance = 1,

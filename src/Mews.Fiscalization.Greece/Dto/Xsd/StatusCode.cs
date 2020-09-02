@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum StatusCode
+    internal enum StatusCode
     {
         [XmlEnum("Success")]
         Success,

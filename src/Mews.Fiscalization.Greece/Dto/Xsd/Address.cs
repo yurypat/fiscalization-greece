@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    public class Address
+    internal sealed class Address
     {
         [XmlElement(ElementName = "street")]
         public string Street { get; set; }

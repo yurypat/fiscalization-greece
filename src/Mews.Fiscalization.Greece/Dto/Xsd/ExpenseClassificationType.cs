@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum ExpenseClassificationType
+    internal enum ExpenseClassificationType
     {
         [XmlEnum("E3_101")]
         CommoditiesAtPeriodStart,

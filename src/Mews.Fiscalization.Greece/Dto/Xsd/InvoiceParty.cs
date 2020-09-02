@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    public class InvoiceParty
+    internal sealed class InvoiceParty
     {
         [XmlElement(ElementName = "vatNumber", IsNullable = false)]
         public string VatNumber { get; set; }

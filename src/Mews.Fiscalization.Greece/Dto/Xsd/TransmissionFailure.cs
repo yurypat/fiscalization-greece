@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    public enum TransmissionFailure
+    internal enum TransmissionFailure
     {
         [XmlEnum("1")]
         ProviderCommunicationIssue = 1,
