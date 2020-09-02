@@ -3,11 +3,11 @@ name: Build and test
 on:
   push:
     branches:
-    - master
+      - master
   pull_request:
     branches:
-    - masster:
-  workflow_dispatch:
+      - masster
+  workflow_dispatch
 
 jobs:
   build:
