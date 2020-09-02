@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalization.Greece.Dto;
+﻿using Mews.Fiscalization.Greece.Model;
+using Mews.Fiscalization.Greece.Model.Result;
 using System;
 using System.Collections.Generic;
 using System.Text;

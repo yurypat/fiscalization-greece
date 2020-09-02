@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mews.Fiscalization.Greece.Dto
+namespace Mews.Fiscalization.Greece.Model.Result
 {
     public class SendInvoicesResult
     {
