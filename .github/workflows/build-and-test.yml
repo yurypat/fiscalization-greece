@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - masster
-  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   build:
