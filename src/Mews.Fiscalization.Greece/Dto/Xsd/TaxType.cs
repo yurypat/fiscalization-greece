@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    internal enum TaxType
+    public enum TaxType
     {
         [XmlEnum("1")]
         WithheldTaxes = 1,

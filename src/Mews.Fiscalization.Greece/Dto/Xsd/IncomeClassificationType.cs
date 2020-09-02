@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    internal enum IncomeClassificationType
+    public enum IncomeClassificationType
     {
         [XmlEnum("E3_106")]
         DestroyingInventorAndCommodities,

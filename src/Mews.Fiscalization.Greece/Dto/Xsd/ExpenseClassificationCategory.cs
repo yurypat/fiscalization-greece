@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    internal enum ExpenseClassificationCategory
+    public enum ExpenseClassificationCategory
     {
         [XmlEnum("category2_1")]
         CommodityPurchases,

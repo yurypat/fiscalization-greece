@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    internal sealed class InvoiceSummary
+    public class InvoiceSummary
     {
         [XmlElement(ElementName = "totalNetValue")]
         public decimal TotalNetValue { get; set; }

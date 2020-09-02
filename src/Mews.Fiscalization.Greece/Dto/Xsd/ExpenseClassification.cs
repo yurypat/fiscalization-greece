@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = ExpenseClassification.Namespace)]
-    internal sealed class ExpenseClassification
+    public class ExpenseClassification
     {
         public const string Namespace = "https://www.aade.gr/myDATA/expensesClassificaton/v1.0";
 

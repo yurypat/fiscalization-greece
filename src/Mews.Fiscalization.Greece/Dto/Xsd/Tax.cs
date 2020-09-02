@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlRoot(Namespace = InvoicesDoc.Namespace)]
-    internal sealed class Tax
+    public class Tax
     {
         [XmlElement(ElementName = "id")]
         public byte LineNumber { get; set; }

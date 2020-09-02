@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    internal sealed class ActivityUndertakingDeclaration
+    public class ActivityUndertakingDeclaration
     {
         [XmlElement(ElementName = "applicationId", IsNullable = false)]
         public string ApplicationId { get; set; }

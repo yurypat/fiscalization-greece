@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    internal sealed class Error
+    public class Error
     {
         [XmlElement(ElementName = "message", IsNullable = false)]
         public string Message { get; set; }

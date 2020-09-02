@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    internal sealed class PaymentMethod
+    public class PaymentMethod
     {
         [XmlElement(ElementName = "type", IsNullable = false)]
         public PaymentMethodType PaymentMethodType { get; set; }

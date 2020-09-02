@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
     [XmlType(Namespace = InvoicesDoc.Namespace)]
-    internal sealed class Response
+    public class Response
     {
         [XmlElement(ElementName = "index")]
         public int Index { get; set; }

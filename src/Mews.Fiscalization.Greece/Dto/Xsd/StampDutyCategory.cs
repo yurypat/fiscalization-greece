@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    internal enum StampDutyCategory
+    public enum StampDutyCategory
     {
         [XmlEnum("1")]
         Rate1_2 = 1,

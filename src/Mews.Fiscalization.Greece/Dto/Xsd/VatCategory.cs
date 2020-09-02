@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    internal enum VatCategory
+    public enum VatCategory
     {
         [XmlEnum("1")]
         Vat24 = 1,

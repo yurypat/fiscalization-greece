@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    internal enum PaymentMethodType
+    public enum PaymentMethodType
     {
         [XmlEnum("1")]
         DomesticPaymentsAccountNumber = 1,
