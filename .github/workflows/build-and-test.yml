@@ -1,19 +1,36 @@
 name: Build and test
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - masster:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    env:
+      SolutionName: src/Mews.Fiscalization.Greece.sln
+      TestProjectPath: src/Mews.Fiscalization.Greece.Tests/Mews.Fiscalization.Greece.Tests.csproj
+      
     steps:
+    - name: Checkout
     - uses: actions/checkout@v2
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
+        
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore $env:SolutionName
+    
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build $env:SolutionName --configuration Release --no-restore
+    
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test $env: TestProjectPath --no-restore --verbosity normal
