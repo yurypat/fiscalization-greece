@@ -4,13 +4,12 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    [XmlType(Namespace = InvoicesDoc.Namespace)]
     public class Error
     {
-        [XmlElement(ElementName = "message", IsNullable = false)]
+        [XmlElement(ElementName = "message")]
         public string Message { get; set; }
 
-        [XmlElement(ElementName = "code", IsNullable = false)]
+        [XmlElement(ElementName = "code")]
         public string Code { get; set; }
     }
 }

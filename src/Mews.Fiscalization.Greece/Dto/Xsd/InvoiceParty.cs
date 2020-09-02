@@ -11,7 +11,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public string VatNumber { get; set; }
 
         [XmlElement(ElementName = "country", IsNullable = false)]
-        public string CountryCode { get; set; }
+        public Country Country { get; set; }
 
         [XmlElement(ElementName = "branch")]
         public int Branch { get; set; }
