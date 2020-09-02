@@ -4,7 +4,6 @@ using System.Xml.Serialization;
 namespace Mews.Fiscalization.Greece.Dto.Xsd
 {
     [Serializable]
-    [XmlType(Namespace = InvoicesDoc.Namespace)]
     public class Response
     {
         [XmlElement(ElementName = "index")]
@@ -40,7 +39,8 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         [XmlElement(ElementName = "authenticationCode")]
         public string AuthenticationCode { get; set; }
 
-        [XmlElement(ElementName = "errors")]
+        [XmlArray(ElementName = "errors")]
+        [XmlArrayItem(ElementName = "error")]
         public Error[] Errors { get; set; }
     }
 }
