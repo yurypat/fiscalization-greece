@@ -19,7 +19,7 @@ namespace Mews.Fiscalization.Greece
             SubscriptionKey = subscriptionKey;
         }
 
-        public async Task<SendInvoicesResult> SendInvoicesASync(InvoiceDocument invoiceDocument)
+        public async Task<SendInvoicesResult> SendInvoicesAsync(InvoiceDocument invoiceDocument)
         {
             throw new NotImplementedException();
         }
