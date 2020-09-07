@@ -22,6 +22,6 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public ExpenseClassificationCategory ClassificationCategory { get; set; }
 
         [XmlElement(ElementName = "amount")]
-        public string Amount { get; set; }
+        public decimal Amount { get; set; }
     }
 }
