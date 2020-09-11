@@ -110,9 +110,9 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public string LineComments { get; set; }
 
         [XmlElement(ElementName = "incomeClassification")]
-        public IncomeClassification IncomeClassification { get; set; }
+        public IncomeClassification[] IncomeClassification { get; set; }
 
         [XmlElement(ElementName = "expensesClassification")]
-        public ExpenseClassification ExpenseClassification { get; set; }
+        public ExpenseClassification[] ExpenseClassification { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public PaymentMethod[] PaymentMethods { get; set; }
 
         [XmlElement(ElementName = "invoiceDetails", IsNullable = false)]
-        public InvoiceDetail InvoiceDetail { get; set; }
+        public InvoiceDetail[] InvoiceDetails { get; set; }
 
         [XmlArray(ElementName = "taxesTotals")]
         [XmlArrayItem(ElementName = "taxes")]

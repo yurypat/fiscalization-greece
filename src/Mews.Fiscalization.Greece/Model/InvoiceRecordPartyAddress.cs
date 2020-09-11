@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Mews.Fiscalization.Greece.Model.Types;
+using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordPartyAddress
     {
-        public InvoiceRecordPartyAddress(string street, string number, string postalCode, string city)
+        public InvoiceRecordPartyAddress(StringIdentifier street, StringIdentifier number, NotEmptyString postalCode, NotEmptyString city)
         {
             Street = street;
             Number = number;
-            PostalCode = postalCode;
-            City = city;
+            PostalCode = postalCode ?? throw new ArgumentNullException(nameof(postalCode));
+            City = city ?? throw new ArgumentNullException(nameof(city));
         }
 
-        public string Street { get; }
+        public StringIdentifier Street { get; }
 
-        public string Number { get; }
+        public StringIdentifier Number { get; }
 
-        public string PostalCode { get; }
+        public NotEmptyString PostalCode { get; }
 
-        public string City { get; }
+        public NotEmptyString City { get; }
     }
 }

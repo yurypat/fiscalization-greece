@@ -12,10 +12,8 @@ namespace Mews.Fiscalization.Greece
         }
 
         public AadeLogger(Action<string, object> eagerLogger)
+            :this(onError:eagerLogger, onInfo: eagerLogger, onDebug: eagerLogger)
         {
-            OnError = eagerLogger;
-            OnInfo = eagerLogger;
-            OnDebug = eagerLogger;
         }
 
         private Action<string, object> OnError { get; }

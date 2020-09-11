@@ -1,38 +1,31 @@
-﻿using System;
+﻿using Mews.Fiscalization.Greece.Model.Types;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordSummary
     {
-        public InvoiceRecordSummary(decimal totalNetValue, decimal totalVatAmount, decimal totalWithheldAmount, decimal totalFeesAmount,
-            decimal totalStampDutyAmount, decimal totalOtherTaxesAmount, decimal totalDeductionsAmount, decimal totalGrossValue)
+        public InvoiceRecordSummary(Amount totalNetValue, Amount totalVatAmount, Amount totalGrossValue, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification)
         {
-            TotalNetValue = totalNetValue;
-            TotalVatAmount = totalVatAmount;
-            TotalWithheldAmount = totalWithheldAmount;
-            TotalFeesAmount = totalFeesAmount;
-            TotalStampDutyAmount = totalStampDutyAmount;
-            TotalOtherTaxesAmount = totalOtherTaxesAmount;
-            TotalDeductionsAmount = totalDeductionsAmount;
-            TotalGrossValue = totalGrossValue;
+            TotalNetValue = totalNetValue ?? throw new ArgumentNullException(nameof(totalNetValue));
+            TotalVatAmount = totalVatAmount ?? throw new ArgumentNullException(nameof(totalVatAmount));
+            TotalGrossValue = totalGrossValue ?? throw new ArgumentNullException(nameof(totalGrossValue));
+            InvoiceRecordIncomeClassification = invoiceRecordIncomeClassification ?? throw new ArgumentNullException(nameof(invoiceRecordIncomeClassification));
+
+            if (invoiceRecordIncomeClassification.Count() == 0)
+            {
+                throw new ArgumentException($"Minimal count of {nameof(invoiceRecordIncomeClassification)} is 1.");
+            }
         }
 
-        public decimal TotalNetValue { get; }
+        public Amount TotalNetValue { get; }
 
-        public decimal TotalVatAmount { get; }
+        public Amount TotalVatAmount { get; }
 
-        public decimal TotalWithheldAmount { get; }
+        public Amount TotalGrossValue { get; }
 
-        public decimal TotalFeesAmount { get; }
-
-        public decimal TotalStampDutyAmount { get; }
-
-        public decimal TotalOtherTaxesAmount { get; }
-
-        public decimal TotalDeductionsAmount { get; }
-
-        public decimal TotalGrossValue { get; }
+        public IEnumerable<InvoiceRecordIncomeClassification> InvoiceRecordIncomeClassification { get; }
     }
 }

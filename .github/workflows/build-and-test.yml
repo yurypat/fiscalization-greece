@@ -36,4 +36,8 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Test
+      env:
+        user_id: ${{secrets.UserId}}
+        user_subscription_key: ${{secrets.UserSubscriptionKey}}
+        user_var_number: ${{secrets.UserVatNumber}}
       run: dotnet test --no-restore --verbosity normal

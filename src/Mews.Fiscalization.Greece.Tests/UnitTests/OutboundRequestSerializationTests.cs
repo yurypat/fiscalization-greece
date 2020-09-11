@@ -56,14 +56,14 @@ namespace Mews.Fiscalization.Greece.Tests.UnitTests
 
             var invoiceDetail = _fixture
                 .Build<InvoiceDetail>()
-                .With(x => x.IncomeClassification, incomeClassification)
-                .With(x => x.ExpenseClassification, expensesClassification)
+                .With(x => x.IncomeClassification, new[] { incomeClassification })
+                .With(x => x.ExpenseClassification, new[] { expensesClassification })
                 .Create();
 
             var invoiceSummary = _fixture
                 .Build<InvoiceSummary>()
-                .With(x => x.IncomeClassification, incomeClassification)
-                .With(x => x.ExpenseClassification, expensesClassification)
+                .With(x => x.IncomeClassification, new[] { incomeClassification })
+                .With(x => x.ExpenseClassification, new[] { expensesClassification })
                 .Create();
 
             var taxes = _fixture
@@ -74,7 +74,7 @@ namespace Mews.Fiscalization.Greece.Tests.UnitTests
 
             var invoice = _fixture.Build<Invoice>()
                 .With(x => x.Taxes, new[] { taxes })
-                .With(x => x.InvoiceDetail, invoiceDetail)
+                .With(x => x.InvoiceDetails, new[] { invoiceDetail })
                 .With(x => x.InvoiceSummary, invoiceSummary)
                 .Create();
 

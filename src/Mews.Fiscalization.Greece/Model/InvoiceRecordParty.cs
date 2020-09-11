@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Mews.Fiscalization.Greece.Model.Types;
+using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordParty
     {
-        public InvoiceRecordParty(string vatNumber, int branch, string name, InvoiceRecordPartyAddress invoiceRecordPartyAddress)
+        public InvoiceRecordParty(VatIdentifier vatNumber, NonNegativeInt branch, StringIdentifier name, CountryCode countryCode, InvoiceRecordPartyAddress invoiceRecordPartyAddress)
         {
-            VatNumber = vatNumber;
-            Branch = branch;
+            VatNumber = vatNumber ?? throw new ArgumentNullException(nameof(vatNumber));
+            Branch = branch ?? throw new ArgumentNullException(nameof(branch));
             Name = name;
+            CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
             Address = invoiceRecordPartyAddress;
         }
 
-        public string VatNumber { get; }
+        public VatIdentifier VatNumber { get; }
 
-        public int Branch { get; }
+        public NonNegativeInt Branch { get; }
 
-        public string Name { get; }
+        public StringIdentifier Name { get; }
+
+        public CountryCode CountryCode { get; }
 
         public InvoiceRecordPartyAddress Address { get; }
     }

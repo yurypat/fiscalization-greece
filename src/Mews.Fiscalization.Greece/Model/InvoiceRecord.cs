@@ -1,48 +1,47 @@
-﻿using System;
+﻿using Mews.Fiscalization.Greece.Model.Types;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecord
     {
-		public InvoiceRecord(string invoiceIdentifier, long? invoiceRegistrationNumber, long? cancelledByInvoiceRegistrationNumber, string authenticationCode, InvoiceRecordParty issuer, InvoiceRecordParty counterpart, 
-			InvoiceRecordHeader invoiceHeader, IEnumerable<InvoiceRecordPaymentMethodDetails> paymentMethods, InvoiceRecordDetails invoiceDetails, 
-			IEnumerable<InvoiceRecordTaxes> taxesTotals, InvoiceRecordSummary invoiceSummary)
-		{
-			InvoiceIdentifier = invoiceIdentifier;
-			InvoiceRegistrationNumber = invoiceRegistrationNumber;
-			CancelledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
-			AuthenticationCode = authenticationCode;
-			Issuer = issuer;
-			Counterpart = counterpart;
-			InvoiceHeader = invoiceHeader;
-			PaymentMethods = paymentMethods;
-			InvoiceDetails = invoiceDetails;
-			TaxesTotals = taxesTotals;
-			InvoiceSummary = invoiceSummary;
-		}
+        public InvoiceRecord(StringIdentifier invoiceIdentifier, InvoiceRegistrationNumber invoiceRegistrationNumber, InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber, InvoiceRecordParty issuer, InvoiceRecordParty counterpart,
+            InvoiceRecordHeader invoiceHeader, IEnumerable<InvoiceRecordPaymentMethodDetails> paymentMethods, IEnumerable<InvoiceRecordDetail> invoiceDetails, InvoiceRecordSummary invoiceSummary)
+        {
+            InvoiceIdentifier = invoiceIdentifier;
+            InvoiceRegistrationNumber = invoiceRegistrationNumber;
+            CancelledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
+            Issuer = issuer;
+            Counterpart = counterpart;
+            InvoiceHeader = invoiceHeader ?? throw new ArgumentNullException(nameof(invoiceHeader));
+            PaymentMethods = paymentMethods;
+            InvoiceDetails = invoiceDetails ?? throw new ArgumentNullException(nameof(invoiceDetails));
+            InvoiceSummary = invoiceSummary ?? throw new ArgumentNullException(nameof(invoiceSummary));
 
-		public string InvoiceIdentifier { get; }
+            if (invoiceDetails.Count() == 0)
+            {
+                throw new ArgumentException($"Minimal count of {nameof(invoiceDetails)} is 1.");
+            }
+        }
 
-		public long? InvoiceRegistrationNumber { get; }
+        public StringIdentifier InvoiceIdentifier { get; }
 
-		public long? CancelledByInvoiceRegistrationNumber { get; }
+        public InvoiceRegistrationNumber InvoiceRegistrationNumber { get; }
 
-		public string AuthenticationCode { get; }
+        public InvoiceRegistrationNumber CancelledByInvoiceRegistrationNumber { get; }
 
-		public InvoiceRecordParty Issuer { get; }
+        public InvoiceRecordParty Issuer { get; }
 
-		public InvoiceRecordParty Counterpart { get; }
+        public InvoiceRecordParty Counterpart { get; }
 
-		public InvoiceRecordHeader InvoiceHeader { get; set; }
+        public InvoiceRecordHeader InvoiceHeader { get; set; }
 
-		public IEnumerable<InvoiceRecordPaymentMethodDetails> PaymentMethods { get; set; }
+        public IEnumerable<InvoiceRecordPaymentMethodDetails> PaymentMethods { get; set; }
 
-		public InvoiceRecordDetails InvoiceDetails { get; }
+        public IEnumerable<InvoiceRecordDetail> InvoiceDetails { get; }
 
-		public IEnumerable<InvoiceRecordTaxes> TaxesTotals { get; }
-
-		public InvoiceRecordSummary InvoiceSummary { get; }
-	}
+        public InvoiceRecordSummary InvoiceSummary { get; }
+    }
 }

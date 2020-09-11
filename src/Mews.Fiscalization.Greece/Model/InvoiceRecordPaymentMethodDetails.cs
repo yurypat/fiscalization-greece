@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Mews.Fiscalization.Greece.Model.Types;
+using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordPaymentMethodDetails
     {
-        public InvoiceRecordPaymentMethodDetails(decimal amount, string paymentMethodInfo)
+        public InvoiceRecordPaymentMethodDetails(Amount amount, PaymentType paymentType)
         {
-            Amount = amount;
-            PaymentMethodInfo = paymentMethodInfo;
+            Amount = amount ?? throw new ArgumentNullException(nameof(amount));
+            PaymentType = paymentType;
         }
 
-        public decimal Amount { get; }
+        public Amount Amount { get; }
 
-        public string PaymentMethodInfo { get; }
+        public PaymentType PaymentType { get; }
     }
 }
