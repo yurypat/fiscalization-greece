@@ -100,18 +100,26 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceHeader;
         }
 
-        private InvoiceDetail GetInvoiceDetail(InvoiceRecordDetail invoiceDetail)
+        private InvoiceDetail GetInvoiceDetail(InvoiceRecordDetail invoiceRecordDetail)
         {
-            return new InvoiceDetail
+            var invoiceDetail = new InvoiceDetail
             {
-                LineNumber = invoiceDetail.LineNumber.Value,
-                NetValue = invoiceDetail.NetValue.Value,
-                VatAmount = invoiceDetail.VatAmount.Value,
-                VatCategory = MapVatCategory(invoiceDetail.TaxType),
-                IncomeClassification = invoiceDetail.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
-                DiscountOptionSpecified = invoiceDetail.DiscountOption.IsDefined(),
-                DiscountOption = invoiceDetail.DiscountOption.GetOrDefault(),
+                LineNumber = invoiceRecordDetail.LineNumber.Value,
+                NetValue = invoiceRecordDetail.NetValue.Value,
+                VatAmount = invoiceRecordDetail.VatAmount.Value,
+                VatCategory = MapVatCategory(invoiceRecordDetail.TaxType),
+                IncomeClassification = invoiceRecordDetail.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
+                DiscountOptionSpecified = invoiceRecordDetail.DiscountOption.IsDefined(),
+                DiscountOption = invoiceRecordDetail.DiscountOption.GetOrDefault(),
             };
+
+            if (invoiceRecordDetail.VatExemption.HasValue)
+            {
+                invoiceDetail.VatExemptionCategory = MapVatExemptionCategory(invoiceRecordDetail.VatExemption.Value);
+                invoiceDetail.VatExemptionCategorySpecified = true;
+            }
+
+            return invoiceDetail;
         }
 
         private InvoiceSummary GetInvoiceSummary(InvoiceRecord invoiceRecord)
@@ -217,6 +225,61 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return PaymentMethodType.Cash;
                 default:
                     throw new ArgumentException($"Cannot map PaymentType {paymentType} to PaymentMethodType.");
+            }
+        }
+
+        private VatExemptionCategory MapVatExemptionCategory(VatExemption vatExemption)
+        {
+            switch(vatExemption)
+            {
+                case VatExemption.VatIncludedArticle43:
+                    return VatExemptionCategory.VatIncludedArticle43;
+                case VatExemption.VatIncludedArticle44:
+                    return VatExemptionCategory.VatIncludedArticle44;
+                case VatExemption.VatIncludedArticle45:
+                    return VatExemptionCategory.VatIncludedArticle45;
+                case VatExemption.VatIncludedArticle46:
+                    return VatExemptionCategory.VatIncludedArticle46;
+                case VatExemption.WithoutVatArticle13:
+                    return VatExemptionCategory.WithoutVatArticle13;
+                case VatExemption.WithoutVatArticle14:
+                    return VatExemptionCategory.WithoutVatArticle14;
+                case VatExemption.WithoutVatArticle16:
+                    return VatExemptionCategory.WithoutVatArticle16;
+                case VatExemption.WithoutVatArticle19:
+                    return VatExemptionCategory.WithoutVatArticle19;
+                case VatExemption.WithoutVatArticle22:
+                    return VatExemptionCategory.WithoutVatArticle22;
+                case VatExemption.WithoutVatArticle24:
+                    return VatExemptionCategory.WithoutVatArticle24;
+                case VatExemption.WithoutVatArticle25:
+                    return VatExemptionCategory.WithoutVatArticle25;
+                case VatExemption.WithoutVatArticle26:
+                    return VatExemptionCategory.WithoutVatArticle26;
+                case VatExemption.WithoutVatArticle27:
+                    return VatExemptionCategory.WithoutVatArticle27;
+                case VatExemption.WithoutVatArticle271CSeagoingVessels:
+                    return VatExemptionCategory.WithoutVatArticle271CSeagoingVessels;
+                case VatExemption.WithoutVatArticle27SeagoingVessels:
+                    return VatExemptionCategory.WithoutVatArticle27SeagoingVessels;
+                case VatExemption.WithoutVatArticle28:
+                    return VatExemptionCategory.WithoutVatArticle28;
+                case VatExemption.WithoutVatArticle3:
+                    return VatExemptionCategory.WithoutVatArticle3;
+                case VatExemption.WithoutVatArticle39:
+                    return VatExemptionCategory.WithoutVatArticle39;
+                case VatExemption.WithoutVatArticle39A:
+                    return VatExemptionCategory.WithoutVatArticle39A;
+                case VatExemption.WithoutVatArticle40:
+                    return VatExemptionCategory.WithoutVatArticle40;
+                case VatExemption.WithoutVatArticle41:
+                    return VatExemptionCategory.WithoutVatArticle41;
+                case VatExemption.WithoutVatArticle47:
+                    return VatExemptionCategory.WithoutVatArticle47;
+                case VatExemption.WithoutVatArticle5:
+                    return VatExemptionCategory.WithoutVatArticle5;
+                default:
+                    throw new ArgumentException($"Cannot map VatExemption {vatExemption} to VatExemptionCategory.");
             }
         }
     }
