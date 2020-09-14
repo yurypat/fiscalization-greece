@@ -45,7 +45,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), null, new List<InvoiceRecordIncomeClassification>
+                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(88.50m), TaxType.Vat13, null, new Amount(11.50m), null, new List<InvoiceRecordIncomeClassification>
                             {
                                 new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
                             })
@@ -78,7 +78,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), null, new List<InvoiceRecordIncomeClassification>
+                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(88.50m), TaxType.Vat13, null, new Amount(11.50m), null, new List<InvoiceRecordIncomeClassification>
                             {
                                 new InvoiceRecordIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProductSaleIncome, new Amount(88.50m))
                             })
@@ -111,7 +111,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(100m), TaxType.WithoutVat, new Amount(0m), null, new List<InvoiceRecordIncomeClassification>
+                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(100m), TaxType.WithoutVat, null, new Amount(0m), null, new List<InvoiceRecordIncomeClassification>
                             {
                                 new InvoiceRecordIncomeClassification(classificationType, ClassificationCategory.ProvisionOfServicesIncome, new Amount(100m))
                             })
