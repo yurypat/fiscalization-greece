@@ -21,31 +21,53 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             UserVatNumber = Environment.GetEnvironmentVariable("user_var_number") ?? "INSERT_USER_VAT_NUMBER";
         }
 
-        [Fact(Skip = "not ready yet")]
+        [Fact]
         public async Task ValidInvoiceDocumentSendInvoicesWorks()
         {
+            // Arrange
             var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
 
+            // Act
             var response = await client.SendInvoicesAsync(GetValidTestInvoiceDocument());
 
+            // Assert
+            Assert.NotEmpty(response.SendInvoiceResults.Single().InvoiceIdentifier);
+            Assert.NotNull(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
+            Assert.True(response.SendInvoiceResults.All(x => x.Errors == null));
+        }
+        
+        [Fact]
+        public async Task InvalidInvoiceDocumentSendInvoicesGetsVidationError()
+        {
+            // Arrange
+            var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
+
+            // Act
+            var response = await client.SendInvoicesAsync(GetInvalidTestInvoiceDocument());
+
+            // Assert
+            Assert.Null(response.SendInvoiceResults.Single().InvoiceIdentifier);
+            Assert.Null(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
+            Assert.NotNull(response.SendInvoiceResults.Single().Errors.Single());
+        }
+        
+        [Theory]
+        [MemberData(nameof(AadeTestInvoicesData.GetInvoices), MemberType = typeof(AadeTestInvoicesData))]
+        public async Task ValidInvoiceDocumentWorks(InvoiceDocument invoiceDoc)
+        {
+            // Arrange
+            var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
+
+            // Act
+            var response = await client.SendInvoicesAsync(invoiceDoc);
+
+            // Assert
             Assert.NotEmpty(response.SendInvoiceResults.Single().InvoiceIdentifier);
             Assert.NotNull(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
             Assert.True(response.SendInvoiceResults.All(x => x.Errors == null));
         }
 
-        [Fact(Skip = "not ready yet")]
-        public async Task InvalidInvoiceDocumentSendInvoicesGetsVidationError()
-        {
-            var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
-
-            var response = await client.SendInvoicesAsync(GetInvalidTestInvoiceDocument());
-
-            Assert.Null(response.SendInvoiceResults.Single().InvoiceIdentifier);
-            Assert.Null(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
-            Assert.NotNull(response.SendInvoiceResults.Single().Errors.Single());
-        }
-
-        private InvoiceDocument GetValidTestInvoiceDocument()
+        private static InvoiceDocument GetValidTestInvoiceDocument()
         {
             return new InvoiceDocument(
                 new List<InvoiceRecord>()

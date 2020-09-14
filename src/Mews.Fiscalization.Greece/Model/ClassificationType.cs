@@ -7,6 +7,7 @@
         OtherSalesOfGoodsAndServices,
         OtherOrdinaryIncome,
         IntraCommunityForeignSalesOfGoodsAndServices,
-        ThirdCountryForeignSalesOfGoodsAndServices
+        ThirdCountryForeignSalesOfGoodsAndServices,
+        CreditExchangeDifferences
     }
 }
