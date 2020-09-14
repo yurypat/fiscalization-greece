@@ -25,10 +25,13 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         [Fact]
         public async Task ValidInvoiceDocumentSendInvoicesWorks()
         {
+            // Arrange
             var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
 
+            // Act
             var response = await client.SendInvoicesAsync(GetValidTestInvoiceDocument());
 
+            // Assert
             Assert.NotEmpty(response.SendInvoiceResults.Single().InvoiceIdentifier);
             Assert.NotNull(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
             Assert.True(response.SendInvoiceResults.All(x => x.Errors == null));
@@ -37,28 +40,35 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         [Fact]
         public async Task InvalidInvoiceDocumentSendInvoicesGetsVidationError()
         {
+            // Arrange
             var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
 
+            // Act
             var response = await client.SendInvoicesAsync(GetInvalidTestInvoiceDocument());
 
+            // Assert
             Assert.Null(response.SendInvoiceResults.Single().InvoiceIdentifier);
             Assert.Null(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
             Assert.NotNull(response.SendInvoiceResults.Single().Errors.Single());
         }
 
-        [Fact]
-        public async Task InvoiceDocumentVariousOrderItemTypesWorks()
+        [Theory]
+        [MemberData(nameof(AadeTestInvoicesData.GetInvoices), MemberType = typeof(AadeTestInvoicesData))]
+        public async Task ValidInvoiceDocumentWorks(InvoiceDocument invoiceDoc)
         {
+            // Arrange
             var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
 
-            var response = await client.SendInvoicesAsync(GetInvoiceDocumentVariousOrderItemTypes());
+            // Act
+            var response = await client.SendInvoicesAsync(invoiceDoc);
 
+            // Assert
             Assert.NotEmpty(response.SendInvoiceResults.Single().InvoiceIdentifier);
             Assert.NotNull(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
             Assert.True(response.SendInvoiceResults.All(x => x.Errors == null));
         }
 
-        private InvoiceDocument GetValidTestInvoiceDocument()
+        private static InvoiceDocument GetValidTestInvoiceDocument()
         {
             return new InvoiceDocument(
                 new List<InvoiceRecord>()

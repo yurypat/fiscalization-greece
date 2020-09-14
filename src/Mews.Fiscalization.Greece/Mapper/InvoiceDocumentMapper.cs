@@ -153,6 +153,14 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return InvoiceType.SimplifiedInvoice;
                 case BillType.SalesInvoice:
                     return InvoiceType.SalesInvoice;
+                case BillType.SalesInvoiceIntraCommunitySupplies:
+                    return InvoiceType.SalesInvoiceIntraCommunitySupplies;
+                case BillType.SalesInvoiceThirdCountrySupplies:
+                    return InvoiceType.SalesInvoiceThirdCountrySupplies;
+                case BillType.InvoiceIntraCommunityServicesReceipt:
+                    return InvoiceType.InvoiceIntraCommunityServicesReceipt;
+                case BillType.InvoiceThirdCountryServicesReceipt:
+                    return InvoiceType.InvoiceThirdCountryServicesReceipt;
                 default:
                     throw new ArgumentException($"Cannot map BillType {billType} to InvoiceType.");
             }
@@ -185,6 +193,12 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return IncomeClassificationType.OtherSalesOfGoodsAndServices;
                 case ClassificationType.OtherOrdinaryIncome:
                     return IncomeClassificationType.OtherOrdinaryIncome;
+                case ClassificationType.CreditExchangeDifferences:
+                    return IncomeClassificationType.CreditExchangeDifferences;
+                case ClassificationType.IntraCommunityForeignSalesOfGoodsAndServices:
+                    return IncomeClassificationType.IntraCommunityForeignSalesOfGoodsAndServices;
+                case ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices:
+                    return IncomeClassificationType.ThirdCountryForeignSalesOfGoodsAndServices;
                 default:
                     throw new ArgumentException($"Cannot map ClassificationType {classificationType} to IncomeClassificationType.");
             }
