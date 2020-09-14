@@ -4,6 +4,10 @@
     {
         RetailSalesReceipt,
         SalesInvoice,
-        SimplifiedInvoice
+        SimplifiedInvoice,
+        SalesInvoiceIntraCommunitySupplies,
+        SalesInvoiceThirdCountrySupplies,
+        InvoiceIntraCommunityServicesReceipt,
+        InvoiceThirdCountryServicesReceipt
     }
 }

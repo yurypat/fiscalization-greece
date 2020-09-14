@@ -51,7 +51,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<InvoiceRecord>()
                 {
                     new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new TaxIdentifier(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
+                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
                         null,
                         new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
                         new List<InvoiceRecordPaymentMethodDetails>
@@ -79,7 +79,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<InvoiceRecord>()
                 {
                     new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new TaxIdentifier(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
+                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
                         null,
                         new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
                         new List<InvoiceRecordPaymentMethodDetails>
