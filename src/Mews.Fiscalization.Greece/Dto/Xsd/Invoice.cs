@@ -17,10 +17,10 @@ namespace Mews.Fiscalization.Greece.Dto.Xsd
         public bool InvoiceMarkSpecified { get; set; }
 
         [XmlElement(ElementName = "cancelledByMark")]
-        public long InvoiceCancellationMark { get; set; }
+        public long InvoiceCancelationMark { get; set; }
 
         [XmlIgnore]
-        public bool InvoiceCancellationMarkSpecified { get; set; }
+        public bool InvoiceCancelationMarkSpecified { get; set; }
 
         [XmlElement(ElementName = "authenticationCode")]
         public string AuthenticationCode { get; set; }

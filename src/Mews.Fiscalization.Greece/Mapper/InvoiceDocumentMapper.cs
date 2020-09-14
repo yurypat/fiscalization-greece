@@ -1,9 +1,9 @@
 ﻿using Mews.Fiscalization.Greece.Dto.Xsd;
 using Mews.Fiscalization.Greece.Extensions;
 using Mews.Fiscalization.Greece.Model;
-using Mews.Fiscalization.Greece.Model.Types;
 using System;
-using System.Collections.Generic;
+using System.Linq;
+using TaxType = Mews.Fiscalization.Greece.Model.TaxType;
 
 namespace Mews.Fiscalization.Greece.Mapper
 {
@@ -20,20 +20,8 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             return new InvoicesDoc
             {
-                Invoices = GetInvoices()
+                Invoices = InvoiceDocument.InvoiceRecords.Select(invoiceRecord => GetInvoice(invoiceRecord)).ToArray()
             };
-        }
-
-        private Invoice[] GetInvoices()
-        {
-            var invoices = new List<Invoice>();
-
-            foreach (var invoiceRecord in InvoiceDocument.InvoiceRecords)
-            {
-                invoices.Add(GetInvoice(invoiceRecord));
-            }
-
-            return invoices.ToArray();
         }
 
         private Invoice GetInvoice(InvoiceRecord invoiceRecord)
@@ -42,32 +30,20 @@ namespace Mews.Fiscalization.Greece.Mapper
             {
                 InvoiceMarkSpecified = invoiceRecord.InvoiceRegistrationNumber.IsDefined(),
                 InvoiceMark = invoiceRecord.InvoiceRegistrationNumber.GetOrDefault(),
-                InvoiceCancellationMarkSpecified = invoiceRecord.CancelledByInvoiceRegistrationNumber.IsDefined(),
-                InvoiceCancellationMark = invoiceRecord.CancelledByInvoiceRegistrationNumber.GetOrDefault(),
+                InvoiceCancelationMarkSpecified = invoiceRecord.CanceledByInvoiceRegistrationNumber.IsDefined(),
+                InvoiceCancelationMark = invoiceRecord.CanceledByInvoiceRegistrationNumber.GetOrDefault(),
                 InvoiceId = invoiceRecord.InvoiceIdentifier.GetOrDefault(),
                 InvoiceIssuer = GetInvoiceParty(invoiceRecord.Issuer),
                 InvoiceCounterpart = GetInvoiceParty(invoiceRecord.Counterpart),
-                PaymentMethods = GetInvoicePaymentMethods(invoiceRecord.PaymentMethods),
                 InvoiceSummary = GetInvoiceSummary(invoiceRecord),
-                InvoiceDetails = GetInvoiceDetails(invoiceRecord),
-                InvoiceHeader = GetInvoiceHeader(invoiceRecord)
-            };
-        }
-
-        private PaymentMethod[] GetInvoicePaymentMethods(IEnumerable<InvoiceRecordPaymentMethodDetails> paymentMethods)
-        {
-            var result = new List<PaymentMethod>();
-
-            foreach (var paymentMethod in paymentMethods)
-            {
-                result.Add(new PaymentMethod
+                InvoiceHeader = GetInvoiceHeader(invoiceRecord),
+                InvoiceDetails = invoiceRecord.InvoiceDetails.Select(invoiceDetail => GetInvoiceDetail(invoiceDetail)).ToArray(),
+                PaymentMethods = invoiceRecord.PaymentMethods?.Select(paymentMethod => new PaymentMethod
                 {
                     Amount = paymentMethod.Amount.Value,
-                    PaymentMethodType = paymentMethod.PaymentType.ConvertToEnum<PaymentMethodType>()
-                });
-            }
-
-            return result.ToArray();
+                    PaymentMethodType = MapPaymentMethodType(paymentMethod.PaymentType)
+                }).ToArray()
+            };
         }
 
         private InvoiceParty GetInvoiceParty(InvoiceRecordParty invoiceRecordParty)
@@ -79,7 +55,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                     Country = (Country)Enum.Parse(typeof(Country), invoiceRecordParty.CountryCode.Value, true),
                     Branch = invoiceRecordParty.Branch.Value,
                     Name = invoiceRecordParty.Name.GetOrDefault(),
-                    VatNumber = invoiceRecordParty.VatNumber.Value,
+                    VatNumber = invoiceRecordParty.TaxNumber.Value,
                     Address = GetAddress(invoiceRecordParty.Address)
                 };
             }
@@ -107,7 +83,7 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             var invoiceHeader = new InvoiceHeader
             {
-                InvoiceType = invoiceRecord.InvoiceHeader.BillType.ConvertToEnum<InvoiceType>(),
+                InvoiceType = MapInvoiceType(invoiceRecord.InvoiceHeader.BillType),
                 IssueDate = invoiceRecord.InvoiceHeader.InvoiceIssueDate,
                 SerialNumber = invoiceRecord.InvoiceHeader.InvoiceSerialNumber.Value,
                 Series = invoiceRecord.InvoiceHeader.InvoiceSeries.Value,
@@ -124,18 +100,6 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceHeader;
         }
 
-        private InvoiceDetail[] GetInvoiceDetails(InvoiceRecord invoiceRecord)
-        {
-            var invoiceDetails = new List<InvoiceDetail>();
-
-            foreach (var invoiceDetail in invoiceRecord.InvoiceDetails)
-            {
-                invoiceDetails.Add(GetInvoiceDetail(invoiceDetail));
-            }
-
-            return invoiceDetails.ToArray();
-        }
-
         private InvoiceDetail GetInvoiceDetail(InvoiceRecordDetail invoiceDetail)
         {
             return new InvoiceDetail
@@ -143,8 +107,8 @@ namespace Mews.Fiscalization.Greece.Mapper
                 LineNumber = invoiceDetail.LineNumber.Value,
                 NetValue = invoiceDetail.NetValue.Value,
                 VatAmount = invoiceDetail.VatAmount.Value,
-                VatCategory = invoiceDetail.VatType.ConvertToEnum<VatCategory>(),
-                IncomeClassification = GetIncomeClassifications(invoiceDetail.InvoiceRecordIncomeClassification),
+                VatCategory = MapVatCategory(invoiceDetail.TaxType),
+                IncomeClassification = invoiceDetail.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
                 DiscountOptionSpecified = invoiceDetail.DiscountOption.IsDefined(),
                 DiscountOption = invoiceDetail.DiscountOption.GetOrDefault(),
             };
@@ -155,22 +119,10 @@ namespace Mews.Fiscalization.Greece.Mapper
             return new InvoiceSummary
             {
                 TotalNetValue = invoiceRecord.InvoiceSummary.TotalNetValue.Value,
-                TotalVatAmount = invoiceRecord.InvoiceSummary.TotalVatAmount.Value,
+                TotalVatAmount = invoiceRecord.InvoiceSummary.TotalVatValue.Value,
                 TotalGrossValue = invoiceRecord.InvoiceSummary.TotalGrossValue.Value,
-                IncomeClassification = GetIncomeClassifications(invoiceRecord.InvoiceSummary.InvoiceRecordIncomeClassification)
+                IncomeClassification = invoiceRecord.InvoiceSummary.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
             };
-        }
-
-        private IncomeClassification[] GetIncomeClassifications(IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification)
-        {
-            var incomeClassifications = new List<IncomeClassification>();
-
-            foreach (var invoiceIncomeClassification in invoiceRecordIncomeClassification)
-            {
-                incomeClassifications.Add(GetIncomeClassification(invoiceIncomeClassification));
-            }
-
-            return incomeClassifications.ToArray();
         }
 
         private IncomeClassification GetIncomeClassification(InvoiceRecordIncomeClassification invoiceRecordIncomeClassification)
@@ -178,9 +130,94 @@ namespace Mews.Fiscalization.Greece.Mapper
             return new IncomeClassification
             {
                 Amount = invoiceRecordIncomeClassification.Amount.Value,
-                ClassificationCategory = invoiceRecordIncomeClassification.ClassificationCategory.ConvertToEnum<IncomeClassificationCategory>(),
-                ClassificationType = invoiceRecordIncomeClassification.ClassificationType.ConvertToEnum<IncomeClassificationType>()
+                ClassificationCategory = MapIncomeClassificationCategory(invoiceRecordIncomeClassification.ClassificationCategory),
+                ClassificationType = MapIncomeClassificationType(invoiceRecordIncomeClassification.ClassificationType)
             };
+        }
+
+        private InvoiceType MapInvoiceType(BillType billType)
+        {
+            switch (billType)
+            {
+                case BillType.RetailSalesReceipt:
+                    return InvoiceType.RetailSalesReceipt;
+                case BillType.SimplifiedInvoice:
+                    return InvoiceType.SimplifiedInvoice;
+                case BillType.SalesInvoice:
+                    return InvoiceType.SalesInvoice;
+                default:
+                    throw new ArgumentException($"Cannot map BillType {billType} to InvoiceType.");
+            }
+        }
+
+        private IncomeClassificationCategory MapIncomeClassificationCategory(ClassificationCategory classificationCategory)
+        {
+            switch (classificationCategory)
+            {
+                case ClassificationCategory.ProductSaleIncome:
+                    return IncomeClassificationCategory.ProductSaleIncome;
+                case ClassificationCategory.ProvisionOfServicesIncome:
+                    return IncomeClassificationCategory.ProvisionOfServicesIncome;
+                case ClassificationCategory.OtherIncomeAndProfits:
+                    return IncomeClassificationCategory.OtherIncomeAndProfits;
+                default:
+                    throw new ArgumentException($"Cannot map ClassificationCategory {classificationCategory} to IncomeClassificationCategory.");
+            }
+        }
+
+        private IncomeClassificationType MapIncomeClassificationType(ClassificationType classificationType)
+        {
+            switch (classificationType)
+            {
+                case ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele:
+                    return IncomeClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele;
+                case ClassificationType.RetailSalesOfGoodsAndServicesPursuantToArticle39A:
+                    return IncomeClassificationType.RetailSalesOfGoodsAndServicesPursuantToArticle39A;
+                case ClassificationType.OtherSalesOfGoodsAndServices:
+                    return IncomeClassificationType.OtherSalesOfGoodsAndServices;
+                case ClassificationType.OtherOrdinaryIncome:
+                    return IncomeClassificationType.OtherOrdinaryIncome;
+                default:
+                    throw new ArgumentException($"Cannot map ClassificationType {classificationType} to IncomeClassificationType.");
+            }
+        }
+
+        private VatCategory MapVatCategory(TaxType taxType)
+        {
+            switch (taxType)
+            {
+                case TaxType.Vat24:
+                    return VatCategory.Vat24;
+                case TaxType.Vat13:
+                    return VatCategory.Vat13;
+                case TaxType.Vat6:
+                    return VatCategory.Vat6;
+                case TaxType.Vat0:
+                    return VatCategory.Vat0;
+                case TaxType.WithoutVat:
+                    return VatCategory.WithoutVat;
+                default:
+                    throw new ArgumentException($"Cannot map TaxType {taxType} to VatCategory.");
+            }
+        }
+
+        private PaymentMethodType MapPaymentMethodType(PaymentType paymentType)
+        {
+            switch (paymentType)
+            {
+                case PaymentType.DomesticPaymentsAccountNumber:
+                    return PaymentMethodType.DomesticPaymentsAccountNumber;
+                case PaymentType.ForeignMethodsAccountNumber:
+                    return PaymentMethodType.ForeignMethodsAccountNumber;
+                case PaymentType.Check:
+                    return PaymentMethodType.Check;
+                case PaymentType.OnCredit:
+                    return PaymentMethodType.OnCredit;
+                case PaymentType.Cash:
+                    return PaymentMethodType.Cash;
+                default:
+                    throw new ArgumentException($"Cannot map PaymentType {paymentType} to PaymentMethodType.");
+            }
         }
     }
 }

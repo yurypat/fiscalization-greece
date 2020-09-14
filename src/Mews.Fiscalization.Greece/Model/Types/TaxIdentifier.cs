@@ -2,18 +2,18 @@
 
 namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public class VatIdentifier : StringIdentifier
+    public class TaxIdentifier : StringIdentifier
     {
-        public VatIdentifier(string value)
+        public TaxIdentifier(string value)
             : base(value)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            if (!Patterns.VatIdentifier.IsMatch(value))
+            if (!Patterns.TaxIdentifier.IsMatch(value))
             {
-                throw new ArgumentException($"The value '{value}' does not match the pattern '{Patterns.VatIdentifier}'");
+                throw new ArgumentException($"The value '{value}' does not match the pattern '{Patterns.TaxIdentifier}'");
             }
         }
     }

@@ -51,7 +51,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<InvoiceRecord>()
                 {
                     new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new VatIdentifier(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
+                        new InvoiceRecordParty(new TaxIdentifier(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
                         null,
                         new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
                         new List<InvoiceRecordPaymentMethodDetails>
@@ -60,7 +60,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), VatType.Vat6, new Amount(12.88m), null, new List<InvoiceRecordIncomeClassification>
+                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), null, new List<InvoiceRecordIncomeClassification>
                             {
                                 new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
                             })
@@ -79,7 +79,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<InvoiceRecord>()
                 {
                     new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new VatIdentifier(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
+                        new InvoiceRecordParty(new TaxIdentifier(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
                         null,
                         new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
                         new List<InvoiceRecordPaymentMethodDetails>
@@ -88,7 +88,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), VatType.Vat6, new Amount(12.88m), null, new List<InvoiceRecordIncomeClassification>
+                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), null, new List<InvoiceRecordIncomeClassification>
                             {
                                 new InvoiceRecordIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(53.65m))
                             })

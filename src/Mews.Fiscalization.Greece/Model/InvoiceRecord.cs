@@ -12,7 +12,7 @@ namespace Mews.Fiscalization.Greece.Model
         {
             InvoiceIdentifier = invoiceIdentifier;
             InvoiceRegistrationNumber = invoiceRegistrationNumber;
-            CancelledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
+            CanceledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
             Issuer = issuer;
             Counterpart = counterpart;
             InvoiceHeader = invoiceHeader ?? throw new ArgumentNullException(nameof(invoiceHeader));
@@ -30,7 +30,7 @@ namespace Mews.Fiscalization.Greece.Model
 
         public InvoiceRegistrationNumber InvoiceRegistrationNumber { get; }
 
-        public InvoiceRegistrationNumber CancelledByInvoiceRegistrationNumber { get; }
+        public InvoiceRegistrationNumber CanceledByInvoiceRegistrationNumber { get; }
 
         public InvoiceRecordParty Issuer { get; }
 

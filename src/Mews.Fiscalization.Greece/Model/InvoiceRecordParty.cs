@@ -5,16 +5,16 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordParty
     {
-        public InvoiceRecordParty(VatIdentifier vatNumber, NonNegativeInt branch, StringIdentifier name, CountryCode countryCode, InvoiceRecordPartyAddress invoiceRecordPartyAddress)
+        public InvoiceRecordParty(TaxIdentifier taxNumber, NonNegativeInt branch, StringIdentifier name, CountryCode countryCode, InvoiceRecordPartyAddress invoiceRecordPartyAddress)
         {
-            VatNumber = vatNumber ?? throw new ArgumentNullException(nameof(vatNumber));
+            TaxNumber = taxNumber ?? throw new ArgumentNullException(nameof(taxNumber));
             Branch = branch ?? throw new ArgumentNullException(nameof(branch));
             Name = name;
             CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
             Address = invoiceRecordPartyAddress;
         }
 
-        public VatIdentifier VatNumber { get; }
+        public TaxIdentifier TaxNumber { get; }
 
         public NonNegativeInt Branch { get; }
 
