@@ -35,7 +35,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             Assert.NotNull(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
             Assert.True(response.SendInvoiceResults.All(x => x.Errors == null));
         }
-        
+
         [Fact]
         public async Task InvalidInvoiceDocumentSendInvoicesGetsVidationError()
         {
@@ -50,7 +50,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             Assert.Null(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
             Assert.NotNull(response.SendInvoiceResults.Single().Errors.Single());
         }
-        
+
         [Theory]
         [MemberData(nameof(AadeTestInvoicesData.GetInvoices), MemberType = typeof(AadeTestInvoicesData))]
         public async Task ValidInvoiceDocumentWorks(InvoiceDocument invoiceDoc)
@@ -82,7 +82,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), null, new List<InvoiceRecordIncomeClassification>
+                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, null, new Amount(12.88m), null, new List<InvoiceRecordIncomeClassification>
                             {
                                 new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
                             })
@@ -110,7 +110,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), null, new List<InvoiceRecordIncomeClassification>
+                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, null, new Amount(12.88m), null, new List<InvoiceRecordIncomeClassification>
                             {
                                 new InvoiceRecordIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(53.65m))
                             })
