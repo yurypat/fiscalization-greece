@@ -7,7 +7,8 @@
         <Authors>Mews Systems</Authors>
         <Company>Mews Systems</Company>
         <PackageTags>fiscalization greece mydata</PackageTags>
-        <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-greece</PackageProjectUrl>
+        <PackageVersion>0.0.1-prerelease</PackageVersion>
+		<PackageProjectUrl>https://github.com/MewsSystems/fiscalization-greece</PackageProjectUrl>
         <License>https://github.com/MewsSystems/fiscalization-greece/blob/master/LICENSE</License>
         <RepositoryUrl>https://github.com/MewsSystems/fiscalization-greece</RepositoryUrl>
         <Description>Client for MyData - Greek e-books platform.</Description>
