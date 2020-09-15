@@ -108,9 +108,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 NetValue = invoiceRecordDetail.NetValue.Value,
                 VatAmount = invoiceRecordDetail.VatAmount.Value,
                 VatCategory = MapVatCategory(invoiceRecordDetail.TaxType),
-                IncomeClassification = invoiceRecordDetail.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
-                DiscountOptionSpecified = invoiceRecordDetail.DiscountOption.IsDefined(),
-                DiscountOption = invoiceRecordDetail.DiscountOption.GetOrDefault(),
+                IncomeClassification = invoiceRecordDetail.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray()
             };
 
             if (invoiceRecordDetail.VatExemption.HasValue)
@@ -119,18 +117,33 @@ namespace Mews.Fiscalization.Greece.Mapper
                 invoiceDetail.VatExemptionCategorySpecified = true;
             }
 
+            if (invoiceRecordDetail.CityTax != null)
+            {
+                invoiceDetail.OtherTaxesCategory = MapOtherTaxCategory(invoiceRecordDetail.CityTax.CityTaxType);
+                invoiceDetail.OtherTaxesAmount = invoiceRecordDetail.CityTax.CityTaxAmount.Value;
+                invoiceDetail.OtherTaxesCategorySpecified = true;
+                invoiceDetail.OtherTaxesAmountSpecified = true;
+            }
+
             return invoiceDetail;
         }
 
         private InvoiceSummary GetInvoiceSummary(InvoiceRecord invoiceRecord)
         {
-            return new InvoiceSummary
+            var invoiceSummary = new InvoiceSummary
             {
                 TotalNetValue = invoiceRecord.InvoiceSummary.TotalNetValue.Value,
                 TotalVatAmount = invoiceRecord.InvoiceSummary.TotalVatValue.Value,
                 TotalGrossValue = invoiceRecord.InvoiceSummary.TotalGrossValue.Value,
                 IncomeClassification = invoiceRecord.InvoiceSummary.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
             };
+
+            if (invoiceRecord.InvoiceSummary.TotalOtherTaxesAmount != null)
+            {
+                invoiceSummary.TotalOtherTaxesAmount = invoiceRecord.InvoiceSummary.TotalOtherTaxesAmount.Value;
+            }
+
+            return invoiceSummary;
         }
 
         private IncomeClassification GetIncomeClassification(InvoiceRecordIncomeClassification invoiceRecordIncomeClassification)
@@ -187,8 +200,6 @@ namespace Mews.Fiscalization.Greece.Mapper
             {
                 case ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele:
                     return IncomeClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele;
-                case ClassificationType.RetailSalesOfGoodsAndServicesPursuantToArticle39A:
-                    return IncomeClassificationType.RetailSalesOfGoodsAndServicesPursuantToArticle39A;
                 case ClassificationType.OtherSalesOfGoodsAndServices:
                     return IncomeClassificationType.OtherSalesOfGoodsAndServices;
                 case ClassificationType.OtherOrdinaryIncome:
@@ -294,6 +305,25 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return VatExemptionCategory.WithoutVatArticle5;
                 default:
                     throw new ArgumentException($"Cannot map VatExemption {vatExemption} to VatExemptionCategory.");
+            }
+        }
+
+        private OtherTaxCategory MapOtherTaxCategory(CityTaxType cityTaxType)
+        {
+            switch(cityTaxType)
+            {
+                case CityTaxType.Hotels1Or2Stars:
+                    return OtherTaxCategory.Hotels1Or2Stars;
+                case CityTaxType.Hotels3Stars:
+                    return OtherTaxCategory.Hotels3Stars;
+                case CityTaxType.Hotels4Stars:
+                    return OtherTaxCategory.Hotels4Stars;
+                case CityTaxType.Hotels5Stars:
+                    return OtherTaxCategory.Hotels5Stars;
+                case CityTaxType.RoomsOrApartments:
+                    return OtherTaxCategory.RoomsOrApartments;
+                default:
+                    throw new ArgumentException($"Cannot map CityTaxType {cityTaxType} to OtherTaxCategory.");
             }
         }
     }

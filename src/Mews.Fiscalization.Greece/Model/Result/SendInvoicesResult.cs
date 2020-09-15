@@ -14,14 +14,9 @@ namespace Mews.Fiscalization.Greece.Model.Result
                 invoiceIdentifier: response.InvoiceUid,
                 invoiceRegistrationNumber: response.InvoiceMark,
                 invoiceRegistrationNumberSpecified: response.InvoiceMarkSpecified,
-                errors: GetErrors(response)));
+                errors: response.Errors?.Select(error => new SendInvoiceError(error.Code, error.Message))));
         }
 
         public IEnumerable<SendInvoiceResult> SendInvoiceResults { get; }
-
-        private IEnumerable<SendInvoiceError> GetErrors(Response response)
-        {
-            return response.Errors?.Select(error => new SendInvoiceError(error.Code, error.Message));
-        }
     }
 }

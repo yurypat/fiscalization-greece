@@ -3,7 +3,6 @@
     public enum ClassificationType
     {
         RetailSalesOfGoodsAndServicesPrivateClientele,
-        RetailSalesOfGoodsAndServicesPursuantToArticle39A,
         OtherSalesOfGoodsAndServices,
         OtherOrdinaryIncome,
         IntraCommunityForeignSalesOfGoodsAndServices,
