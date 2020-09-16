@@ -3,9 +3,9 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecordPartyAddress
+    public class Address
     {
-        public InvoiceRecordPartyAddress(NotEmptyString postalCode, NotEmptyString city, StringIdentifier street = null, StringIdentifier number = null)
+        public Address(NotEmptyString postalCode, NotEmptyString city, StringIdentifier street = null, StringIdentifier number = null)
         {
             PostalCode = postalCode ?? throw new ArgumentNullException(nameof(postalCode));
             City = city ?? throw new ArgumentNullException(nameof(city));

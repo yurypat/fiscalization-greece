@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecord
+    public class Invoice
     {
-        public InvoiceRecord(
-            InvoiceRecordParty issuer,
-            InvoiceRecordHeader invoiceHeader,
-            IEnumerable<InvoiceRecordDetail> invoiceDetails,
-            InvoiceRecordSummary invoiceSummary,
+        public Invoice(
+            InvoiceParty issuer,
+            InvoiceHeader invoiceHeader,
+            IEnumerable<RevenueItem> invoiceDetails,
+            InvoiceSummary invoiceSummary,
             StringIdentifier invoiceIdentifier = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
-            InvoiceRecordParty counterpart = null,
-            IEnumerable<InvoiceRecordPaymentMethodDetails> paymentMethods = null)
+            InvoiceParty counterpart = null,
+            IEnumerable<Payment> paymentMethods = null)
         {
             Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
             InvoiceHeader = invoiceHeader ?? throw new ArgumentNullException(nameof(invoiceHeader));
@@ -40,16 +40,16 @@ namespace Mews.Fiscalization.Greece.Model
 
         public InvoiceRegistrationNumber CanceledByInvoiceRegistrationNumber { get; }
 
-        public InvoiceRecordParty Issuer { get; }
+        public InvoiceParty Issuer { get; }
 
-        public InvoiceRecordParty Counterpart { get; }
+        public InvoiceParty Counterpart { get; }
 
-        public InvoiceRecordHeader InvoiceHeader { get; set; }
+        public InvoiceHeader InvoiceHeader { get; set; }
 
-        public IEnumerable<InvoiceRecordPaymentMethodDetails> PaymentMethods { get; set; }
+        public IEnumerable<Payment> PaymentMethods { get; set; }
 
-        public IEnumerable<InvoiceRecordDetail> InvoiceDetails { get; }
+        public IEnumerable<RevenueItem> InvoiceDetails { get; }
 
-        public InvoiceRecordSummary InvoiceSummary { get; }
+        public InvoiceSummary InvoiceSummary { get; }
     }
 }

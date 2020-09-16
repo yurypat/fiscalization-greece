@@ -3,9 +3,9 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecordHeader
+    public class InvoiceHeader
     {
-        public InvoiceRecordHeader(LimitedString1to50 invoiceSeries, LimitedString1to50 invoiceSerialNumber, DateTime invoiceIssueDate, BillType billType, CurrencyCode currencyCode = null, ExchangeRate exchangeRate = null)
+        public InvoiceHeader(LimitedString1to50 invoiceSeries, LimitedString1to50 invoiceSerialNumber, DateTime invoiceIssueDate, BillType billType, CurrencyCode currencyCode = null, ExchangeRate exchangeRate = null)
         {
             InvoiceSeries = invoiceSeries ?? throw new ArgumentNullException(nameof(invoiceSeries));
             InvoiceSerialNumber = invoiceSerialNumber ?? throw new ArgumentNullException(nameof(invoiceSerialNumber));

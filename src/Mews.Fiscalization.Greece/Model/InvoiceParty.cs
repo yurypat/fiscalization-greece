@@ -3,11 +3,11 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecordParty
+    public class InvoiceParty
     {
         private const string GreeceCountryCode = "GR";
 
-        public InvoiceRecordParty(NotEmptyString taxNumber, CountryCode countryCode, NonNegativeInt branch = null, StringIdentifier name = null, InvoiceRecordPartyAddress invoiceRecordPartyAddress = null)
+        public InvoiceParty(NotEmptyString taxNumber, CountryCode countryCode, NonNegativeInt branch = null, StringIdentifier name = null, Address invoiceRecordPartyAddress = null)
         {
             TaxNumber = taxNumber ?? throw new ArgumentNullException(nameof(taxNumber));
             CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
@@ -29,6 +29,6 @@ namespace Mews.Fiscalization.Greece.Model
 
         public CountryCode CountryCode { get; }
 
-        public InvoiceRecordPartyAddress Address { get; }
+        public Address Address { get; }
     }
 }

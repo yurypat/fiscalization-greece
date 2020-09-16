@@ -48,22 +48,22 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private InvoiceDocument GetValidTestInvoiceDocument()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(
-                        issuer: new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
-                        invoiceHeader: new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
-                        invoiceDetails: new List<InvoiceRecordDetail>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        invoiceDetails: new List<RevenueItem>
                         {
-                            new InvoiceRecordDetail(new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
+                            new RevenueItem(new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
                         },
-                        invoiceSummary: new InvoiceRecordSummary(new Amount(53.65m),new Amount( 12.88m), new Amount(66.53m), new List<InvoiceRecordIncomeClassification>
+                        invoiceSummary: new InvoiceSummary(new Amount(53.65m),new Amount( 12.88m), new Amount(66.53m), new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
                         }),
-                        paymentMethods: new List<InvoiceRecordPaymentMethodDetails>
+                        paymentMethods: new List<Payment>
                         {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(66.53m), PaymentType.Cash)
+                            new Payment(new Amount(66.53m), PaymentType.Cash)
                         })
                 });
         }
@@ -71,22 +71,22 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private InvoiceDocument GetInvalidTestInvoiceDocument()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(
-                        issuer: new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
-                        invoiceHeader: new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
-                        invoiceDetails: new List<InvoiceRecordDetail>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        invoiceDetails: new List<RevenueItem>
                         {
-                            new InvoiceRecordDetail(new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome)
+                            new RevenueItem(new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome)
                         },
-                        invoiceSummary: new InvoiceRecordSummary(new Amount(53.65m),new Amount( 12.88m), new Amount(66.53m), new List<InvoiceRecordIncomeClassification>
+                        invoiceSummary: new InvoiceSummary(new Amount(53.65m),new Amount( 12.88m), new Amount(66.53m), new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(53.65m))
+                            new ItemIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(53.65m))
                         }),
-                        paymentMethods: new List<InvoiceRecordPaymentMethodDetails>
+                        paymentMethods: new List<Payment>
                         {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(66.53m), PaymentType.DomesticPaymentsAccountNumber)
+                            new Payment(new Amount(66.53m), PaymentType.DomesticPaymentsAccountNumber)
                         }
                     )
                 });
