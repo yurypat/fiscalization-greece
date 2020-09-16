@@ -7,15 +7,16 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordDetail
     {
-        public InvoiceRecordDetail(PositiveInt lineNumber, Amount netValue, TaxType taxType, VatExemption? vatExemption, Amount vatAmount, DiscountOption discountOption, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification)
+        public InvoiceRecordDetail(PositiveInt lineNumber, Amount netValue, TaxType taxType, Amount vatAmount, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification, 
+            VatExemption? vatExemption = null, CityTax cityTax = null)
         {
             LineNumber = lineNumber ?? throw new ArgumentNullException(nameof(lineNumber));
             NetValue = netValue ?? throw new ArgumentNullException(nameof(netValue));
             TaxType = taxType;
             VatAmount = vatAmount ?? throw new ArgumentNullException(nameof(vatAmount));
-            DiscountOption = discountOption;
             VatExemption = vatExemption;
             InvoiceRecordIncomeClassification = invoiceRecordIncomeClassification ?? throw new ArgumentNullException(nameof(invoiceRecordIncomeClassification));
+            CityTax = cityTax;
 
             if (taxType == TaxType.Vat0 && !vatExemption.HasValue)
             {
@@ -36,9 +37,9 @@ namespace Mews.Fiscalization.Greece.Model
 
         public VatExemption? VatExemption { get; }
 
-        public Amount VatAmount { get; }
+        public CityTax CityTax { get; }
 
-        public DiscountOption DiscountOption { get; }
+        public Amount VatAmount { get; }
 
         public IEnumerable<InvoiceRecordIncomeClassification> InvoiceRecordIncomeClassification { get; }
     }

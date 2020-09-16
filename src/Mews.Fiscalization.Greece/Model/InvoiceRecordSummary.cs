@@ -7,11 +7,12 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordSummary
     {
-        public InvoiceRecordSummary(Amount totalNetValue, Amount totalVatAmount, Amount totalGrossValue, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification)
+        public InvoiceRecordSummary(Amount totalNetValue, Amount totalVatAmount, Amount totalGrossValue, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification, Amount totalOtherTaxesAmount = null)
         {
             TotalNetValue = totalNetValue ?? throw new ArgumentNullException(nameof(totalNetValue));
             TotalVatValue = totalVatAmount ?? throw new ArgumentNullException(nameof(totalVatAmount));
             TotalGrossValue = totalGrossValue ?? throw new ArgumentNullException(nameof(totalGrossValue));
+            TotalOtherTaxesAmount = totalOtherTaxesAmount;
             InvoiceRecordIncomeClassification = invoiceRecordIncomeClassification ?? throw new ArgumentNullException(nameof(invoiceRecordIncomeClassification));
 
             if (invoiceRecordIncomeClassification.Count() == 0)
@@ -25,6 +26,8 @@ namespace Mews.Fiscalization.Greece.Model
         public Amount TotalVatValue { get; }
 
         public Amount TotalGrossValue { get; }
+
+        public Amount TotalOtherTaxesAmount { get; }
 
         public IEnumerable<InvoiceRecordIncomeClassification> InvoiceRecordIncomeClassification { get; }
     }
