@@ -29,6 +29,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     new object[] { InvoiceWithForeignCompanyCounterpart("US", BillType.SalesInvoiceThirdCountrySupplies, ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices, PaymentType.OnCredit) },
                     new object[] { SimplifiedInvoiceForCustomer() },
                     new object[] { InvoiceWithConversionRate() },
+                    new object[] { InvoiceWithRebateOfItems() },
                     new object[] { InvoiceWithVariousPaymentMethods() },
                     new object[] { InvoiceWithVariousOrderItemTypes() }
                 };
@@ -307,6 +308,34 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         new InvoiceRecordSummary(new Amount(8.06m),new Amount(1.94m), new Amount(10m),new List<InvoiceRecordIncomeClassification>
                         {
                             new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(8.06m))
+                        })
+                    )
+                });
+        }
+
+        /// <summary>
+        /// Test case for bills: #1.7
+        /// </summary>
+        private static InvoiceDocument InvoiceWithRebateOfItems()
+        {
+            return new InvoiceDocument(
+                new List<InvoiceRecord>()
+                {
+                    new InvoiceRecord(null, null, null,
+                        new InvoiceRecordParty(new NotEmptyString("090701400"), new NonNegativeInt(0), null, new CountryCode("GR"), null),
+                        null,
+                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase, new CurrencyCode("EUR"), null),
+                        null,
+                        new List<InvoiceRecordDetail>
+                        {
+                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(10m), TaxType.WithoutVat, new Amount(0m), new List<InvoiceRecordIncomeClassification>
+                            {
+                                new InvoiceRecordIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries, new Amount(10m))
+                            })
+                        },
+                        new InvoiceRecordSummary(new Amount(10m),new Amount(0m), new Amount(10m),new List<InvoiceRecordIncomeClassification>
+                        {
+                            new InvoiceRecordIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries, new Amount(10m))
                         })
                     )
                 });

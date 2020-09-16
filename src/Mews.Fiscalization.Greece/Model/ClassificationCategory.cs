@@ -4,6 +4,7 @@
     {
         ProductSaleIncome,
         ProvisionOfServicesIncome,
-        OtherIncomeAndProfits
+        OtherIncomeAndProfits,
+        OtherIncomeAdjustmentAndRegularisationEntries
     }
 }

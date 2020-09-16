@@ -174,6 +174,8 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return InvoiceType.InvoiceIntraCommunityServicesReceipt;
                 case BillType.InvoiceThirdCountryServicesReceipt:
                     return InvoiceType.InvoiceThirdCountryServicesReceipt;
+                case BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase:
+                    return InvoiceType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase;
                 default:
                     throw new ArgumentException($"Cannot map BillType {billType} to InvoiceType.");
             }
@@ -189,6 +191,8 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return IncomeClassificationCategory.ProvisionOfServicesIncome;
                 case ClassificationCategory.OtherIncomeAndProfits:
                     return IncomeClassificationCategory.OtherIncomeAndProfits;
+                case ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries:
+                    return IncomeClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries;
                 default:
                     throw new ArgumentException($"Cannot map ClassificationCategory {classificationCategory} to IncomeClassificationCategory.");
             }
