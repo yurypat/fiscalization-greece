@@ -7,14 +7,14 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordDetail
     {
-        public InvoiceRecordDetail(PositiveInt lineNumber, Amount netValue, TaxType taxType, Amount vatAmount, DiscountOption discountOption, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification)
+        public InvoiceRecordDetail(PositiveInt lineNumber, Amount netValue, TaxType taxType, Amount vatAmount, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification, DiscountOption discountOption = null)
         {
             LineNumber = lineNumber ?? throw new ArgumentNullException(nameof(lineNumber));
             NetValue = netValue ?? throw new ArgumentNullException(nameof(netValue));
             TaxType = taxType;
             VatAmount = vatAmount ?? throw new ArgumentNullException(nameof(vatAmount));
-            DiscountOption = discountOption;
             InvoiceRecordIncomeClassification = invoiceRecordIncomeClassification ?? throw new ArgumentNullException(nameof(invoiceRecordIncomeClassification));
+            DiscountOption = discountOption;
 
             if (invoiceRecordIncomeClassification.Count() == 0)
             {

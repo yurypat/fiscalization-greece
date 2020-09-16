@@ -7,18 +7,26 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecord
     {
-        public InvoiceRecord(StringIdentifier invoiceIdentifier, InvoiceRegistrationNumber invoiceRegistrationNumber, InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber, InvoiceRecordParty issuer, InvoiceRecordParty counterpart,
-            InvoiceRecordHeader invoiceHeader, IEnumerable<InvoiceRecordPaymentMethodDetails> paymentMethods, IEnumerable<InvoiceRecordDetail> invoiceDetails, InvoiceRecordSummary invoiceSummary)
+        public InvoiceRecord(
+            InvoiceRecordParty issuer,
+            InvoiceRecordHeader invoiceHeader,
+            IEnumerable<InvoiceRecordDetail> invoiceDetails,
+            InvoiceRecordSummary invoiceSummary,
+            StringIdentifier invoiceIdentifier = null,
+            InvoiceRegistrationNumber invoiceRegistrationNumber = null,
+            InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
+            InvoiceRecordParty counterpart = null,
+            IEnumerable<InvoiceRecordPaymentMethodDetails> paymentMethods = null)
         {
+            Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
+            InvoiceHeader = invoiceHeader ?? throw new ArgumentNullException(nameof(invoiceHeader));
+            InvoiceDetails = invoiceDetails ?? throw new ArgumentNullException(nameof(invoiceDetails));
+            InvoiceSummary = invoiceSummary ?? throw new ArgumentNullException(nameof(invoiceSummary));
             InvoiceIdentifier = invoiceIdentifier;
             InvoiceRegistrationNumber = invoiceRegistrationNumber;
             CanceledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
-            Issuer = issuer;
             Counterpart = counterpart;
-            InvoiceHeader = invoiceHeader ?? throw new ArgumentNullException(nameof(invoiceHeader));
             PaymentMethods = paymentMethods;
-            InvoiceDetails = invoiceDetails ?? throw new ArgumentNullException(nameof(invoiceDetails));
-            InvoiceSummary = invoiceSummary ?? throw new ArgumentNullException(nameof(invoiceSummary));
 
             if (invoiceDetails.Count() == 0)
             {
