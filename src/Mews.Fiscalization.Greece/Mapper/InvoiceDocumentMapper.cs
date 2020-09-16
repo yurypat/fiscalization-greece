@@ -106,11 +106,9 @@ namespace Mews.Fiscalization.Greece.Mapper
             {
                 LineNumber = invoiceDetail.LineNumber.Value,
                 NetValue = invoiceDetail.NetValue.Value,
-                VatAmount = invoiceDetail.VatAmount.Value,
+                VatAmount = invoiceDetail.VatValue.Value,
                 VatCategory = MapVatCategory(invoiceDetail.TaxType),
                 IncomeClassification = invoiceDetail.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
-                DiscountOptionSpecified = invoiceDetail.DiscountOption.IsDefined(),
-                DiscountOption = invoiceDetail.DiscountOption.GetOrDefault(),
             };
         }
 

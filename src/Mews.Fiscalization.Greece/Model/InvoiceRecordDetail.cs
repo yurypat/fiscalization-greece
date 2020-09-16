@@ -7,19 +7,22 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceRecordDetail
     {
-        public InvoiceRecordDetail(PositiveInt lineNumber, Amount netValue, TaxType taxType, Amount vatAmount, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification, DiscountOption discountOption = null)
+        public InvoiceRecordDetail(Amount netValue, TaxType taxType, Amount vatValue, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification, PositiveInt lineNumber = null)
         {
-            LineNumber = lineNumber ?? throw new ArgumentNullException(nameof(lineNumber));
             NetValue = netValue ?? throw new ArgumentNullException(nameof(netValue));
             TaxType = taxType;
-            VatAmount = vatAmount ?? throw new ArgumentNullException(nameof(vatAmount));
+            VatValue = vatValue ?? throw new ArgumentNullException(nameof(vatValue));
             InvoiceRecordIncomeClassification = invoiceRecordIncomeClassification ?? throw new ArgumentNullException(nameof(invoiceRecordIncomeClassification));
-            DiscountOption = discountOption;
+            LineNumber = lineNumber ?? new PositiveInt(1);
 
             if (invoiceRecordIncomeClassification.Count() == 0)
             {
                 throw new ArgumentException($"Minimal count of {nameof(invoiceRecordIncomeClassification)} is 1.");
             }
+        }
+        public InvoiceRecordDetail(Amount netValue, TaxType taxType, Amount vatValue, ClassificationType classificationType, ClassificationCategory classificationCategory, PositiveInt lineNumber = null)
+            :this(netValue, taxType, vatValue, new[] { new InvoiceRecordIncomeClassification(classificationType, classificationCategory, netValue) }, lineNumber)
+        {
         }
 
         public PositiveInt LineNumber { get; }
@@ -28,9 +31,7 @@ namespace Mews.Fiscalization.Greece.Model
 
         public TaxType TaxType { get; }
 
-        public Amount VatAmount { get; }
-
-        public DiscountOption DiscountOption { get; }
+        public Amount VatValue { get; }
 
         public IEnumerable<InvoiceRecordIncomeClassification> InvoiceRecordIncomeClassification { get; }
     }

@@ -51,14 +51,11 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<InvoiceRecord>()
                 {
                     new InvoiceRecord(
-                        issuer: new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), new CountryCode("GR")),
-                        invoiceHeader: new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
+                        issuer: new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         invoiceDetails: new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
-                            })
+                            new InvoiceRecordDetail(new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
                         },
                         invoiceSummary: new InvoiceRecordSummary(new Amount(53.65m),new Amount( 12.88m), new Amount(66.53m), new List<InvoiceRecordIncomeClassification>
                         {
@@ -77,16 +74,13 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<InvoiceRecord>()
                 {
                     new InvoiceRecord(
-                        issuer: new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), new CountryCode("GR")),
-                        invoiceHeader: new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
+                        issuer: new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         invoiceDetails: new List<InvoiceRecordDetail>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(53.65m))
-                            })
+                            new InvoiceRecordDetail(new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome)
                         },
-                        invoiceSummary: new InvoiceRecordSummary(new Amount(53.65m),new Amount( 12.88m), new Amount(66.53m),new List<InvoiceRecordIncomeClassification>
+                        invoiceSummary: new InvoiceRecordSummary(new Amount(53.65m),new Amount( 12.88m), new Amount(66.53m), new List<InvoiceRecordIncomeClassification>
                         {
                             new InvoiceRecordIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(53.65m))
                         }),

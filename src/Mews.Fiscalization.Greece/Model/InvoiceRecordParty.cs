@@ -7,11 +7,11 @@ namespace Mews.Fiscalization.Greece.Model
     {
         private const string GreeceCountryCode = "GR";
 
-        public InvoiceRecordParty(NotEmptyString taxNumber, NonNegativeInt branch, CountryCode countryCode, StringIdentifier name = null, InvoiceRecordPartyAddress invoiceRecordPartyAddress = null)
+        public InvoiceRecordParty(NotEmptyString taxNumber, CountryCode countryCode, NonNegativeInt branch = null, StringIdentifier name = null, InvoiceRecordPartyAddress invoiceRecordPartyAddress = null)
         {
             TaxNumber = taxNumber ?? throw new ArgumentNullException(nameof(taxNumber));
-            Branch = branch ?? throw new ArgumentNullException(nameof(branch));
             CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
+            Branch = branch ?? new NonNegativeInt(0);
             Name = name;
             Address = invoiceRecordPartyAddress;
 
