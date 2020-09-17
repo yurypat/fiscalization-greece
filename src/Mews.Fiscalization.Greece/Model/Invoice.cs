@@ -10,27 +10,27 @@ namespace Mews.Fiscalization.Greece.Model
         public Invoice(
             InvoiceParty issuer,
             InvoiceHeader invoiceHeader,
-            IEnumerable<RevenueItem> invoiceDetails,
+            IEnumerable<RevenueItem> revenueItems,
             InvoiceSummary invoiceSummary,
             StringIdentifier invoiceIdentifier = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
             InvoiceParty counterpart = null,
-            IEnumerable<Payment> paymentMethods = null)
+            IEnumerable<Payment> payments = null)
         {
             Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
             InvoiceHeader = invoiceHeader ?? throw new ArgumentNullException(nameof(invoiceHeader));
-            InvoiceDetails = invoiceDetails ?? throw new ArgumentNullException(nameof(invoiceDetails));
+            InvoiceDetails = revenueItems ?? throw new ArgumentNullException(nameof(revenueItems));
             InvoiceSummary = invoiceSummary ?? throw new ArgumentNullException(nameof(invoiceSummary));
             InvoiceIdentifier = invoiceIdentifier;
             InvoiceRegistrationNumber = invoiceRegistrationNumber;
             CanceledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
             Counterpart = counterpart;
-            PaymentMethods = paymentMethods;
+            PaymentMethods = payments;
 
-            if (invoiceDetails.Count() == 0)
+            if (revenueItems.Count() == 0)
             {
-                throw new ArgumentException($"Minimal count of {nameof(invoiceDetails)} is 1.");
+                throw new ArgumentException($"Minimal count of {nameof(revenueItems)} is 1.");
             }
         }
 

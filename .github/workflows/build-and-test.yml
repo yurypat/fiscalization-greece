@@ -39,5 +39,5 @@ jobs:
       env:
         user_id: ${{secrets.UserId}}
         user_subscription_key: ${{secrets.UserSubscriptionKey}}
-        user_var_number: ${{secrets.UserVatNumber}}
+        user_vat_number: ${{secrets.UserVatNumber}}
       run: dotnet test --no-restore --verbosity normal

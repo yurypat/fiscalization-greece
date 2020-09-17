@@ -11,7 +11,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 
         static AadeTestInvoicesData()
         {
-            UserVatNumber = Environment.GetEnvironmentVariable("user_var_number") ?? "INSERT_USER_VAT_NUMBER";
+            UserVatNumber = Environment.GetEnvironmentVariable("user_vat_number") ?? "INSERT_USER_VAT_NUMBER";
         }
 
         public static IEnumerable<object[]> GetInvoices()
@@ -42,27 +42,23 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument SimpleValidInvoice()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        null,
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
                         {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(66.53m), PaymentType.Cash)
+                            new RevenueItem(new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
                         },
-                        new List<InvoiceRecordDetail>
+                        invoiceSummary: new InvoiceSummary(new Amount(53.65m),new Amount(12.88m), new Amount(66.53m),new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
-                            })
-                        },
-                        new InvoiceRecordSummary(new Amount(53.65m),new Amount(12.88m), new Amount(66.53m),new List<InvoiceRecordIncomeClassification>
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
+                        }),
+                        payments: new List<Payment>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
-                        })
+                            new Payment(new Amount(66.53m), PaymentType.Cash)
+                        }
                     )
                 });
         }
@@ -74,29 +70,23 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument SimpleValidInvoiceWithCityTax()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        null,
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
                         {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(70.53m), PaymentType.Cash)
+                            new RevenueItem(new Amount(53.65m), TaxType.Vat24, new Amount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, cityTax: new CityTax(CityTaxType.Hotels5Stars, new Amount(4.00m)))
                         },
-                        new List<InvoiceRecordDetail>
+                        invoiceSummary: new InvoiceSummary(new Amount(53.65m), new Amount(12.88m), new Amount(70.53m),new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(53.65m), TaxType.Vat24, new Amount(12.88m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
-                            },
-                            null,
-                            new CityTax(CityTaxType.Hotels5Stars, new Amount(4.00m)))
-                        },
-                        new InvoiceRecordSummary(new Amount(53.65m), new Amount(12.88m), new Amount(70.53m),new List<InvoiceRecordIncomeClassification>
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
+                        }, new Amount(4.00m)),
+                        payments: new List<Payment>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
-                        }, new Amount(4.00m))
+                            new Payment(new Amount(70.53m), PaymentType.Cash)
+                        }
                     )
                 });
         }
@@ -107,29 +97,23 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithEmptyCounterpart()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        null,
-                        // "InvoiceType": "Receipt"
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
                         {
-                            // "PaymentType": "Cash"
-                            new InvoiceRecordPaymentMethodDetails(new Amount(100m), PaymentType.Cash)
+                            new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome)
                         },
-                        new List<InvoiceRecordDetail>
+                        invoiceSummary: new InvoiceSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
-                            })
-                        },
-                        new InvoiceRecordSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<InvoiceRecordIncomeClassification>
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
+                        }),
+                        payments: new List<Payment>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
-                        })
+                            new Payment(new Amount(100m), PaymentType.Cash)
+                        }
                     )
                 });
         }
@@ -140,27 +124,24 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithDomesticCompanyCounterpart(PaymentType paymentType)
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        new InvoiceRecordParty(new NotEmptyString("090701500"), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
                         {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(100m), paymentType)
+                            new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome)
                         },
-                        new List<InvoiceRecordDetail>
+                        invoiceSummary: new InvoiceSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
-                            })
+                            new ItemIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
+                        }),
+                        payments: new List<Payment>
+                        {
+                            new Payment(new Amount(100m), paymentType)
                         },
-                        new InvoiceRecordSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<InvoiceRecordIncomeClassification>
-                        {
-                            new InvoiceRecordIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
-                        })
+                        counterpart:new InvoiceParty(new NotEmptyString("090701900"), new CountryCode("GR"))
                     )
                 });
         }
@@ -171,27 +152,24 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithForeignCompanyCounterpart(string countryCode, BillType billType, ClassificationType classificationType, PaymentType paymentType)
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        new InvoiceRecordParty(new NotEmptyString("12348765"), new NonNegativeInt(0), new StringIdentifier("Name"), new CountryCode(countryCode), new InvoiceRecordPartyAddress(null, null, postalCode: new NotEmptyString("12"), city: new NotEmptyString("City"))),
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, billType, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
-                        {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(100m), paymentType)
-                        },
-                        new List<InvoiceRecordDetail>
-                        {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(100m), TaxType.WithoutVat, new Amount(0m), new List<InvoiceRecordIncomeClassification>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, billType, new CurrencyCode("EUR"), null),
+                        revenueItems: new List<RevenueItem>
                             {
-                                new InvoiceRecordIncomeClassification(classificationType, ClassificationCategory.ProvisionOfServicesIncome, new Amount(100m))
-                            })
-                        },
-                        new InvoiceRecordSummary(new Amount(100m),new Amount(0m), new Amount(100m),new List<InvoiceRecordIncomeClassification>
+                                new RevenueItem(new Amount(100m), TaxType.WithoutVat, new Amount(0m), classificationType, ClassificationCategory.ProvisionOfServicesIncome)
+                            },
+                        invoiceSummary: new InvoiceSummary(new Amount(100m),new Amount(0m), new Amount(100m), new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordIncomeClassification(classificationType, ClassificationCategory.ProvisionOfServicesIncome, new Amount(100m))
-                        })
+                            new ItemIncomeClassification(classificationType, ClassificationCategory.ProvisionOfServicesIncome, new Amount(100m))
+                        }),
+                        payments: new List<Payment>
+                            {
+                                new Payment(new Amount(100m), paymentType)
+                            },
+                        counterpart: new InvoiceParty(new NotEmptyString("12348765"), new CountryCode(countryCode), new NonNegativeInt(0), new StringIdentifier("Name"), new Address(postalCode: new NotEmptyString("12"), city: new NotEmptyString("City")))
                     )
                 });
         }
@@ -199,50 +177,46 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithVariousPaymentMethods()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        null,
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
+                        {
+                            new RevenueItem(new Amount(23.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, vatExemption: VatExemption.VatIncludedArticle44)
+                        },
+                        invoiceSummary: new InvoiceSummary(new Amount(23.00m),new Amount(0.00m), new Amount(23.00m),new List<ItemIncomeClassification>
+                        {
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(23.00m))
+                        }),
+                        payments: new List<Payment>
                         {
                             //ToDo - validate mapping for external payments
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Bacs)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Bad debts)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Bancontact)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Bank charges)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Barter)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Cash)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Cheque)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Chèque vacances)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Comission)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Complimentary)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Credit card)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Cross settlement)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Exchange rate difference)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Exchange rounding difference)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Gift card)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (iDeal)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Invoice)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Loyalty points)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (PayPal)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Prepayment)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Reseller)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit), //External payment (Unspecified)
-                            new InvoiceRecordPaymentMethodDetails(new Amount(1m), PaymentType.OnCredit)  //External payment (Wife transfer)
-                        },
-                        new List<InvoiceRecordDetail>
-                        {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(23.00m), TaxType.Vat0, new Amount(0.00m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(23.00m))
-                            }, VatExemption.VatIncludedArticle44)
-                        },
-                        new InvoiceRecordSummary(new Amount(23.00m),new Amount(0.00m), new Amount(23.00m),new List<InvoiceRecordIncomeClassification>
-                        {
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(23.00m))
-                        })
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Bacs)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Bad debts)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Bancontact)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Bank charges)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Barter)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Cash)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Cheque)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Chèque vacances)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Comission)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Complimentary)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Credit card)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Cross settlement)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Exchange rate difference)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Exchange rounding difference)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Gift card)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (iDeal)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Invoice)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Loyalty points)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (PayPal)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Prepayment)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Reseller)
+                            new Payment(new Amount(1m), PaymentType.OnCredit), //External payment (Unspecified)
+                            new Payment(new Amount(1m), PaymentType.OnCredit)  //External payment (Wife transfer)
+                        }
                     )
                 });
         }
@@ -253,27 +227,23 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument SimplifiedInvoiceForCustomer()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        null,
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
                         {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(100m), PaymentType.OnCredit)
+                            new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
                         },
-                        new List<InvoiceRecordDetail>
+                        invoiceSummary: new InvoiceSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(88.50m))
-                            })
-                        },
-                        new InvoiceRecordSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<InvoiceRecordIncomeClassification>
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(88.50m))
+                        }),
+                        payments: new List<Payment>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(88.50m))
-                        })
+                            new Payment(new Amount(100m), PaymentType.OnCredit)
+                        }
                     )
                 });
         }
@@ -284,31 +254,24 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithConversionRate()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        null,
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
                         {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(10m), PaymentType.Cash)
+                            new RevenueItem(new Amount(4.03m), TaxType.Vat24, new Amount(0.97m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new PositiveInt(1)),
+                            new RevenueItem(new Amount(4.03m), TaxType.Vat24, new Amount(0.97m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new PositiveInt(2))
                         },
-                        new List<InvoiceRecordDetail>
+                        invoiceSummary: new InvoiceSummary(new Amount(8.06m),new Amount(1.94m), new Amount(10m),new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(4.03m), TaxType.Vat24, new Amount(0.97m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(4.03m))
-                            }),
-                            new InvoiceRecordDetail(new PositiveInt(2), new Amount(4.03m), TaxType.Vat24, new Amount(0.97m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(4.03m))
-                            })
-                        },
-                        new InvoiceRecordSummary(new Amount(8.06m),new Amount(1.94m), new Amount(10m),new List<InvoiceRecordIncomeClassification>
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(8.06m))
+                        }),
+                        payments: new List<Payment>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(8.06m))
-                        })
+                            new Payment(new Amount(10m), PaymentType.Cash)
+                        }
                     )
                 });
         }
@@ -319,23 +282,18 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithRebateOfItems()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString("090701400"), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        null,
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase, new CurrencyCode("EUR"), null),
-                        null,
-                        new List<InvoiceRecordDetail>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase, new CurrencyCode("EUR"), null),
+                        revenueItems: new List<RevenueItem>
                         {
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(10m), TaxType.WithoutVat, new Amount(0m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries, new Amount(10m))
-                            })
+                            new RevenueItem(new Amount(10m), TaxType.WithoutVat, new Amount(0m), ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries)
                         },
-                        new InvoiceRecordSummary(new Amount(10m),new Amount(0m), new Amount(10m),new List<InvoiceRecordIncomeClassification>
+                        invoiceSummary: new InvoiceSummary(new Amount(10m),new Amount(0m), new Amount(10m),new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries, new Amount(10m))
+                            new ItemIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries, new Amount(10m))
                         })
                     )
                 });
@@ -348,59 +306,40 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithVariousOrderItemTypes()
         {
             return new InvoiceDocument(
-                new List<InvoiceRecord>()
+                new List<Invoice>()
                 {
-                    new InvoiceRecord(null, null, null,
-                        new InvoiceRecordParty(new NotEmptyString(UserVatNumber), new NonNegativeInt(0), null, new CountryCode("GR"), null),
-                        null,
-                        new InvoiceRecordHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR"), null),
-                        new List<InvoiceRecordPaymentMethodDetails>
-                        {
-                            new InvoiceRecordPaymentMethodDetails(new Amount(425.00m), PaymentType.Cash),
-                        },
-                        new List<InvoiceRecordDetail>
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
                         {
                             //Night 9/16/2020
-                            new InvoiceRecordDetail(new PositiveInt(1), new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
-                            }),
+                            new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new PositiveInt(1)),
                             //Service / Product
-                            new InvoiceRecordDetail(new PositiveInt(2), new Amount(5.00m), TaxType.Vat0, new Amount(0.00m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(5.00m))
-                            },
-                            VatExemption.VatIncludedArticle43),
+                            new RevenueItem(new Amount(5.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new PositiveInt(2),
+                                VatExemption.VatIncludedArticle43),
                             //Garage
-                            new InvoiceRecordDetail(new PositiveInt(3), new Amount(16.13m), TaxType.Vat24, new Amount(3.87m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(16.13m))
-                            }),
+                            new RevenueItem(new Amount(16.13m), TaxType.Vat24, new Amount(3.87m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new PositiveInt(3)),
                             //CancellationFee
-                            new InvoiceRecordDetail(new PositiveInt(4), new Amount(100.00m), TaxType.Vat0, new Amount(0.00m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new Amount(100.00m))
-                            },
-                            VatExemption.VatIncludedArticle44),
+                            new RevenueItem(new Amount(100.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new PositiveInt(4),
+                                VatExemption.VatIncludedArticle44),
                             //Deposit
-                            new InvoiceRecordDetail(new PositiveInt(5), new Amount(100.00m), TaxType.Vat0, new Amount(0.00m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new Amount(100.00m))
-                            },
-                            VatExemption.VatIncludedArticle46),
+                            new RevenueItem(new Amount(100.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new PositiveInt(5),
+                                VatExemption.VatIncludedArticle46),
                             //Deposit
-                            new InvoiceRecordDetail(new PositiveInt(6), new Amount(100.00m), TaxType.Vat0, new Amount(0.00m), new List<InvoiceRecordIncomeClassification>
-                            {
-                                new InvoiceRecordIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new Amount(100.00m))
-                            },
-                            VatExemption.WithoutVatArticle13)
+                            new RevenueItem(new Amount(100.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new PositiveInt(6),
+                                VatExemption.WithoutVatArticle13)
                         },
-                        new InvoiceRecordSummary(new Amount(409.63m), new Amount(15.37m), new Amount(425.00m),new List<InvoiceRecordIncomeClassification>
+                        invoiceSummary: new InvoiceSummary(new Amount(409.63m), new Amount(15.37m), new Amount(425.00m),new List<ItemIncomeClassification>
                         {
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m)),
-                            new InvoiceRecordIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(21.13m)),
-                            new InvoiceRecordIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new Amount(300.00m))
-                        })
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m)),
+                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(21.13m)),
+                            new ItemIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new Amount(300.00m))
+                        }),
+                        payments: new List<Payment>
+                        {
+                            new Payment(new Amount(425.00m), PaymentType.Cash),
+                        }
                     )
                 });
         }
