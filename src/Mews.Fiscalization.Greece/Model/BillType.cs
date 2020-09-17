@@ -7,8 +7,6 @@
         SimplifiedInvoice,
         SalesInvoiceIntraCommunitySupplies,
         SalesInvoiceThirdCountrySupplies,
-        InvoiceIntraCommunityServicesReceipt,
-        InvoiceThirdCountryServicesReceipt,
         OtherIncomeAdjustmentRegularisationEntriesAccountingBase
     }
 }

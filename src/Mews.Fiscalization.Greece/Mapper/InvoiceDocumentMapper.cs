@@ -169,10 +169,6 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return Dto.Xsd.InvoiceType.SalesInvoiceIntraCommunitySupplies;
                 case BillType.SalesInvoiceThirdCountrySupplies:
                     return Dto.Xsd.InvoiceType.SalesInvoiceThirdCountrySupplies;
-                case BillType.InvoiceIntraCommunityServicesReceipt:
-                    return Dto.Xsd.InvoiceType.InvoiceIntraCommunityServicesReceipt;
-                case BillType.InvoiceThirdCountryServicesReceipt:
-                    return Dto.Xsd.InvoiceType.InvoiceThirdCountryServicesReceipt;
                 case BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase:
                     return Dto.Xsd.InvoiceType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase;
                 default:
