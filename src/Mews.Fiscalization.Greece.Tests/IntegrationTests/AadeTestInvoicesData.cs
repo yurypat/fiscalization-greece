@@ -20,7 +20,8 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new object[] { SimpleValidInvoice() },
                     new object[] { SimpleValidInvoiceWithCityTax() },
-                    new object[] { InvoiceWithEmptyCounterpart() },
+                    new object[] { InvoiceWithEmptyCounterpart(PaymentType.Cash) },
+                    new object[] { InvoiceWithEmptyCounterpart(PaymentType.DomesticPaymentsAccountNumber) },
                     new object[] { InvoiceWithDomesticCompanyCounterpart(PaymentType.Cash) },
                     new object[] { InvoiceWithForeignCompanyCounterpart("CZ", BillType.SalesInvoiceIntraCommunitySupplies, ClassificationType.IntraCommunityForeignSalesOfGoodsAndServices, PaymentType.Cash) },
                     new object[] { InvoiceWithForeignCompanyCounterpart("US", BillType.SalesInvoiceThirdCountrySupplies, ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices, PaymentType.Cash) },
@@ -31,6 +32,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     new object[] { InvoiceWithConversionRate() },
                     new object[] { InvoiceWithRebateOfItems() },
                     new object[] { InvoiceWithVariousPaymentMethods() },
+                    new object[] { InvoiceForDepositCashPayment() },
                     new object[] { InvoiceWithVariousOrderItemTypes() }
                 };
         }
@@ -92,9 +94,9 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         }
 
         /// <summary>
-        /// Test case for bills: #1.2, #1.3, #2.4, #2.5
+        /// Test case for bills: #1.2, #1.3, #1.8, #1.16, #2.4, #2.5 
         /// </summary>
-        private static InvoiceDocument InvoiceWithEmptyCounterpart()
+        private static InvoiceDocument InvoiceWithEmptyCounterpart(PaymentType paymentType)
         {
             return new InvoiceDocument(
                 new List<Invoice>()
@@ -112,7 +114,35 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         }),
                         payments: new List<Payment>
                         {
-                            new Payment(new Amount(100m), PaymentType.Cash)
+                            new Payment(new Amount(100m), paymentType)
+                        }
+                    )
+                });
+        }
+
+        /// <summary>
+        /// Test case for bill: #1.14 
+        /// </summary>
+        private static InvoiceDocument InvoiceForDepositCashPayment()
+        {
+            return new InvoiceDocument(
+                new List<Invoice>()
+                {
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        invoiceHeader: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
+                        {
+                            new RevenueItem(new Amount(200.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.OtherOrdinaryIncome,  
+                                ClassificationCategory.OtherIncomeAndProfits, null, VatExemption.VatIncludedArticle46)
+                        },
+                        invoiceSummary: new InvoiceSummary(new Amount(200.00m),new Amount(0.00m), new Amount(200m),new List<ItemIncomeClassification>
+                        {
+                            new ItemIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits, new Amount(200.00m))
+                        }),
+                        payments: new List<Payment>
+                        {
+                            new Payment(new Amount(200m), PaymentType.Cash)
                         }
                     )
                 });
