@@ -4,6 +4,9 @@
     {
         RetailSalesReceipt,
         SalesInvoice,
-        SimplifiedInvoice
+        SimplifiedInvoice,
+        SalesInvoiceIntraCommunitySupplies,
+        SalesInvoiceThirdCountrySupplies,
+        OtherIncomeAdjustmentRegularisationEntriesAccountingBase
     }
 }

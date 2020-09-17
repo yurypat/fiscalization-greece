@@ -5,13 +5,14 @@ using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecordSummary
+    public class InvoiceSummary
     {
-        public InvoiceRecordSummary(Amount totalNetValue, Amount totalVatAmount, Amount totalGrossValue, IEnumerable<InvoiceRecordIncomeClassification> invoiceRecordIncomeClassification)
+        public InvoiceSummary(Amount totalNetValue, Amount totalVatAmount, Amount totalGrossValue, IEnumerable<ItemIncomeClassification> invoiceRecordIncomeClassification, Amount totalOtherTaxesAmount = null)
         {
             TotalNetValue = totalNetValue ?? throw new ArgumentNullException(nameof(totalNetValue));
             TotalVatValue = totalVatAmount ?? throw new ArgumentNullException(nameof(totalVatAmount));
             TotalGrossValue = totalGrossValue ?? throw new ArgumentNullException(nameof(totalGrossValue));
+            TotalOtherTaxesAmount = totalOtherTaxesAmount;
             InvoiceRecordIncomeClassification = invoiceRecordIncomeClassification ?? throw new ArgumentNullException(nameof(invoiceRecordIncomeClassification));
 
             if (invoiceRecordIncomeClassification.Count() == 0)
@@ -26,6 +27,8 @@ namespace Mews.Fiscalization.Greece.Model
 
         public Amount TotalGrossValue { get; }
 
-        public IEnumerable<InvoiceRecordIncomeClassification> InvoiceRecordIncomeClassification { get; }
+        public Amount TotalOtherTaxesAmount { get; }
+
+        public IEnumerable<ItemIncomeClassification> InvoiceRecordIncomeClassification { get; }
     }
 }
