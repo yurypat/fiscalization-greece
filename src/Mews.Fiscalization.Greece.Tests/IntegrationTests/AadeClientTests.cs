@@ -17,7 +17,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             UserSubscriptionKey = Environment.GetEnvironmentVariable("user_subscription_key") ?? "INSERT_SUBSCRIPTION_KEY";
         }
 
-        [Theory]
+        [Theory(Skip = "Temporary skip")]
         [MemberData(nameof(AadeTestInvoicesData.GetInvoices), MemberType = typeof(AadeTestInvoicesData))]
         public async Task ValidInvoiceDocumentWorks(InvoiceDocument invoiceDoc)
         {
