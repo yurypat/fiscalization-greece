@@ -3,16 +3,16 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecordParty
+    public class InvoiceParty
     {
         private const string GreeceCountryCode = "GR";
 
-        public InvoiceRecordParty(NotEmptyString taxNumber, NonNegativeInt branch, StringIdentifier name, CountryCode countryCode, InvoiceRecordPartyAddress invoiceRecordPartyAddress)
+        public InvoiceParty(NotEmptyString taxNumber, CountryCode countryCode, NonNegativeInt branch = null, StringIdentifier name = null, Address invoiceRecordPartyAddress = null)
         {
             TaxNumber = taxNumber ?? throw new ArgumentNullException(nameof(taxNumber));
-            Branch = branch ?? throw new ArgumentNullException(nameof(branch));
-            Name = name;
             CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
+            Branch = branch ?? new NonNegativeInt(0);
+            Name = name;
             Address = invoiceRecordPartyAddress;
 
             if (countryCode.Value == GreeceCountryCode && !Patterns.TaxIdentifier.IsMatch(taxNumber.Value))
@@ -29,6 +29,6 @@ namespace Mews.Fiscalization.Greece.Model
 
         public CountryCode CountryCode { get; }
 
-        public InvoiceRecordPartyAddress Address { get; }
+        public Address Address { get; }
     }
 }

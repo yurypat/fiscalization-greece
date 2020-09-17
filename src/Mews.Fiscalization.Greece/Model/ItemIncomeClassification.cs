@@ -3,9 +3,9 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecordIncomeClassification
+    public class ItemIncomeClassification
     {
-        public InvoiceRecordIncomeClassification(ClassificationType classificationType, ClassificationCategory classificationCategory, Amount amount)
+        public ItemIncomeClassification(ClassificationType classificationType, ClassificationCategory classificationCategory, Amount amount)
         {
             ClassificationType = classificationType;
             ClassificationCategory = classificationCategory;

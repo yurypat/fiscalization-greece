@@ -22,5 +22,10 @@ namespace Mews.Fiscalization.Greece.Model.Types
                 throw new ArgumentException($"Min length of string is {minLength}.");
             }
         }
+
+        public static bool IsValid(string value, int minLength, int? maxLength = null)
+        {
+            return value != null && value.Length >= minLength && (maxLength == null || value.Length <= maxLength.Value);
+        }
     }
 }

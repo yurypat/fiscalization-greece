@@ -13,5 +13,10 @@ namespace Mews.Fiscalization.Greece.Model.Types
                 throw new ArgumentException("Country code is not valid ISO 3166 code.", nameof(value));
             }
         }
+
+        public static bool IsValid(string value)
+        {
+            return IsValid(value, minLength: 2, maxLength: 2) && Enum.TryParse<Country>(value, out _);
+        }
     }
 }

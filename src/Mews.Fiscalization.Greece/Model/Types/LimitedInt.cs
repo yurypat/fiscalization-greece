@@ -2,7 +2,7 @@
 
 namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public class LimitedInt : Identifier<int>
+    public abstract class LimitedInt : Identifier<int>
     {
         public LimitedInt(int value, int minValue, int? maxValue = null)
             : base(value)
@@ -16,6 +16,11 @@ namespace Mews.Fiscalization.Greece.Model.Types
             {
                 throw new ArgumentException($"Min value of int is {minValue}.");
             }
+        }
+
+        public static bool IsValid(int value, int minValue, int? maxValue = null)
+        {
+            return value >= minValue && (maxValue == null || value <= maxValue.Value);
         }
     }
 }

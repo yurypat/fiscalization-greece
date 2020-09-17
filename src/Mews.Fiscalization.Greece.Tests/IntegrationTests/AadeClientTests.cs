@@ -35,6 +35,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             Assert.NotNull(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
             Assert.True(response.SendInvoiceResults.All(x => x.Errors == null));
         }
-        }
+    }
 }
 

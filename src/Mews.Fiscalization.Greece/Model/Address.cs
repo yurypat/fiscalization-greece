@@ -3,14 +3,14 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecordPartyAddress
+    public class Address
     {
-        public InvoiceRecordPartyAddress(StringIdentifier street, StringIdentifier number, NotEmptyString postalCode, NotEmptyString city)
+        public Address(NotEmptyString postalCode, NotEmptyString city, StringIdentifier street = null, StringIdentifier number = null)
         {
-            Street = street;
-            Number = number;
             PostalCode = postalCode ?? throw new ArgumentNullException(nameof(postalCode));
             City = city ?? throw new ArgumentNullException(nameof(city));
+            Street = street;
+            Number = number;
         }
 
         public StringIdentifier Street { get; }

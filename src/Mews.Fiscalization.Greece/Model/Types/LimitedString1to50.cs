@@ -6,5 +6,10 @@
             : base(value, 1, 50)
         {
         }
+
+        public static bool IsValid(string value)
+        {
+            return IsValid(value, minLength: 1, maxLength: 50);
+        }
     }
 }
