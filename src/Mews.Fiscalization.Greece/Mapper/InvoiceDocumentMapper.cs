@@ -19,7 +19,7 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             return new Dto.Xsd.InvoicesDoc
             {
-                Invoices = InvoiceDocument.InvoiceRecords.Select(invoiceRecord => GetInvoice(invoiceRecord)).ToArray()
+                Invoices = InvoiceDocument.Invoices.Select(invoiceRecord => GetInvoice(invoiceRecord)).ToArray()
             };
         }
 
@@ -36,8 +36,8 @@ namespace Mews.Fiscalization.Greece.Mapper
                 InvoiceCounterpart = GetInvoiceParty(invoice.Counterpart),
                 InvoiceSummary = GetInvoiceSummary(invoice),
                 InvoiceHeader = GetInvoiceHeader(invoice),
-                InvoiceDetails = invoice.InvoiceDetails.Select(invoiceDetail => GetInvoiceDetail(invoiceDetail)).ToArray(),
-                PaymentMethods = invoice.PaymentMethods?.Select(paymentMethod => new Dto.Xsd.PaymentMethod
+                InvoiceDetails = invoice.RevenueItems.Select(invoiceDetail => GetInvoiceDetail(invoiceDetail)).ToArray(),
+                PaymentMethods = invoice.Payments?.Select(paymentMethod => new Dto.Xsd.PaymentMethod
                 {
                     Amount = paymentMethod.Amount.Value,
                     PaymentMethodType = MapPaymentMethodType(paymentMethod.PaymentType)
@@ -82,18 +82,18 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             var invoiceHeader = new Dto.Xsd.InvoiceHeader
             {
-                InvoiceType = MapInvoiceType(invoice.InvoiceHeader.BillType),
-                IssueDate = invoice.InvoiceHeader.InvoiceIssueDate,
-                SerialNumber = invoice.InvoiceHeader.InvoiceSerialNumber.Value,
-                Series = invoice.InvoiceHeader.InvoiceSeries.Value,
-                CurrencySpecified = invoice.InvoiceHeader.CurrencyCode.IsDefined(),
-                ExchangeRateSpecified = invoice.InvoiceHeader.ExchangeRate.IsDefined(),
-                ExchangeRate = invoice.InvoiceHeader.ExchangeRate.GetOrDefault()
+                InvoiceType = MapInvoiceType(invoice.Header.BillType),
+                IssueDate = invoice.Header.InvoiceIssueDate,
+                SerialNumber = invoice.Header.InvoiceSerialNumber.Value,
+                Series = invoice.Header.InvoiceSeries.Value,
+                CurrencySpecified = invoice.Header.CurrencyCode.IsDefined(),
+                ExchangeRateSpecified = invoice.Header.ExchangeRate.IsDefined(),
+                ExchangeRate = invoice.Header.ExchangeRate.GetOrDefault()
             };
 
-            if (invoice.InvoiceHeader.CurrencyCode.IsDefined())
+            if (invoice.Header.CurrencyCode.IsDefined())
             {
-                invoiceHeader.Currency = (Dto.Xsd.Currency)Enum.Parse(typeof(Dto.Xsd.Currency), invoice.InvoiceHeader.CurrencyCode.Value, true);
+                invoiceHeader.Currency = (Dto.Xsd.Currency)Enum.Parse(typeof(Dto.Xsd.Currency), invoice.Header.CurrencyCode.Value, true);
             }
 
             return invoiceHeader;
@@ -107,7 +107,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 NetValue = revenueItem.NetValue.Value,
                 VatAmount = revenueItem.VatValue.Value,
                 VatCategory = MapVatCategory(revenueItem.TaxType),
-                IncomeClassification = revenueItem.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray()
+                IncomeClassification = revenueItem.IncomeClassifications.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray()
             };
 
             if (revenueItem.VatExemption.HasValue)
@@ -118,8 +118,8 @@ namespace Mews.Fiscalization.Greece.Mapper
 
             if (revenueItem.CityTax != null)
             {
-                invoiceDetail.OtherTaxesCategory = MapOtherTaxCategory(revenueItem.CityTax.CityTaxType);
-                invoiceDetail.OtherTaxesAmount = revenueItem.CityTax.CityTaxAmount.Value;
+                invoiceDetail.OtherTaxesCategory = MapOtherTaxCategory(revenueItem.CityTax.Type);
+                invoiceDetail.OtherTaxesAmount = revenueItem.CityTax.Amount.Value;
                 invoiceDetail.OtherTaxesCategorySpecified = true;
                 invoiceDetail.OtherTaxesAmountSpecified = true;
             }
@@ -131,15 +131,15 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             var invoiceSummary = new Dto.Xsd.InvoiceSummary
             {
-                TotalNetValue = invoice.InvoiceSummary.TotalNetValue.Value,
-                TotalVatAmount = invoice.InvoiceSummary.TotalVatValue.Value,
-                TotalGrossValue = invoice.InvoiceSummary.TotalGrossValue.Value,
-                IncomeClassification = invoice.InvoiceSummary.InvoiceRecordIncomeClassification.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
+                TotalNetValue = invoice.Summary.TotalNetValue.Value,
+                TotalVatAmount = invoice.Summary.TotalVatValue.Value,
+                TotalGrossValue = invoice.Summary.TotalGrossValue.Value,
+                IncomeClassification = invoice.Summary.InvoiceIncomeClassifications.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
             };
 
-            if (invoice.InvoiceSummary.TotalOtherTaxesAmount != null)
+            if (invoice.Summary.TotalOtherTaxesAmount != null)
             {
-                invoiceSummary.TotalOtherTaxesAmount = invoice.InvoiceSummary.TotalOtherTaxesAmount.Value;
+                invoiceSummary.TotalOtherTaxesAmount = invoice.Summary.TotalOtherTaxesAmount.Value;
             }
 
             return invoiceSummary;
@@ -172,7 +172,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 case BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase:
                     return Dto.Xsd.InvoiceType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase;
                 default:
-                    throw new ArgumentException($"Cannot map BillType {billType} to InvoiceType.");
+                    throw new ArgumentException($"Cannot map BillType {billType} to {nameof(Dto.Xsd.InvoiceType)}.");
             }
         }
 
@@ -189,7 +189,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 case ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries:
                     return Dto.Xsd.IncomeClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries;
                 default:
-                    throw new ArgumentException($"Cannot map ClassificationCategory {classificationCategory} to IncomeClassificationCategory.");
+                    throw new ArgumentException($"Cannot map ClassificationCategory {classificationCategory} to {nameof(Dto.Xsd.IncomeClassificationCategory)}.");
             }
         }
 
@@ -210,7 +210,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 case ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices:
                     return Dto.Xsd.IncomeClassificationType.ThirdCountryForeignSalesOfGoodsAndServices;
                 default:
-                    throw new ArgumentException($"Cannot map ClassificationType {classificationType} to IncomeClassificationType.");
+                    throw new ArgumentException($"Cannot map ClassificationType {classificationType} to {nameof(Dto.Xsd.IncomeClassificationType)}.");
             }
         }
 
@@ -229,7 +229,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 case TaxType.WithoutVat:
                     return Dto.Xsd.VatCategory.WithoutVat;
                 default:
-                    throw new ArgumentException($"Cannot map TaxType {taxType} to VatCategory.");
+                    throw new ArgumentException($"Cannot map TaxType {taxType} to {nameof(Dto.Xsd.VatCategory)}.");
             }
         }
 
@@ -248,62 +248,62 @@ namespace Mews.Fiscalization.Greece.Mapper
                 case PaymentType.Cash:
                     return Dto.Xsd.PaymentMethodType.Cash;
                 default:
-                    throw new ArgumentException($"Cannot map PaymentType {paymentType} to PaymentMethodType.");
+                    throw new ArgumentException($"Cannot map PaymentType {paymentType} to {nameof(Dto.Xsd.PaymentMethodType)}.");
             }
         }
 
-        private Dto.Xsd.VatExemptionCategory MapVatExemptionCategory(VatExemption vatExemption)
+        private Dto.Xsd.VatExemptionCategory MapVatExemptionCategory(VatExemptionType vatExemption)
         {
             switch(vatExemption)
             {
-                case VatExemption.VatIncludedArticle43:
+                case VatExemptionType.VatIncludedArticle43:
                     return Dto.Xsd.VatExemptionCategory.VatIncludedArticle43;
-                case VatExemption.VatIncludedArticle44:
+                case VatExemptionType.VatIncludedArticle44:
                     return Dto.Xsd.VatExemptionCategory.VatIncludedArticle44;
-                case VatExemption.VatIncludedArticle45:
+                case VatExemptionType.VatIncludedArticle45:
                     return Dto.Xsd.VatExemptionCategory.VatIncludedArticle45;
-                case VatExemption.VatIncludedArticle46:
+                case VatExemptionType.VatIncludedArticle46:
                     return Dto.Xsd.VatExemptionCategory.VatIncludedArticle46;
-                case VatExemption.WithoutVatArticle13:
+                case VatExemptionType.WithoutVatArticle13:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle13;
-                case VatExemption.WithoutVatArticle14:
+                case VatExemptionType.WithoutVatArticle14:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle14;
-                case VatExemption.WithoutVatArticle16:
+                case VatExemptionType.WithoutVatArticle16:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle16;
-                case VatExemption.WithoutVatArticle19:
+                case VatExemptionType.WithoutVatArticle19:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle19;
-                case VatExemption.WithoutVatArticle22:
+                case VatExemptionType.WithoutVatArticle22:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle22;
-                case VatExemption.WithoutVatArticle24:
+                case VatExemptionType.WithoutVatArticle24:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle24;
-                case VatExemption.WithoutVatArticle25:
+                case VatExemptionType.WithoutVatArticle25:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle25;
-                case VatExemption.WithoutVatArticle26:
+                case VatExemptionType.WithoutVatArticle26:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle26;
-                case VatExemption.WithoutVatArticle27:
+                case VatExemptionType.WithoutVatArticle27:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle27;
-                case VatExemption.WithoutVatArticle271CSeagoingVessels:
+                case VatExemptionType.WithoutVatArticle271CSeagoingVessels:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle271CSeagoingVessels;
-                case VatExemption.WithoutVatArticle27SeagoingVessels:
+                case VatExemptionType.WithoutVatArticle27SeagoingVessels:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle27SeagoingVessels;
-                case VatExemption.WithoutVatArticle28:
+                case VatExemptionType.WithoutVatArticle28:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle28;
-                case VatExemption.WithoutVatArticle3:
+                case VatExemptionType.WithoutVatArticle3:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle3;
-                case VatExemption.WithoutVatArticle39:
+                case VatExemptionType.WithoutVatArticle39:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle39;
-                case VatExemption.WithoutVatArticle39A:
+                case VatExemptionType.WithoutVatArticle39A:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle39A;
-                case VatExemption.WithoutVatArticle40:
+                case VatExemptionType.WithoutVatArticle40:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle40;
-                case VatExemption.WithoutVatArticle41:
+                case VatExemptionType.WithoutVatArticle41:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle41;
-                case VatExemption.WithoutVatArticle47:
+                case VatExemptionType.WithoutVatArticle47:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle47;
-                case VatExemption.WithoutVatArticle5:
+                case VatExemptionType.WithoutVatArticle5:
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle5;
                 default:
-                    throw new ArgumentException($"Cannot map VatExemption {vatExemption} to Dto.Xsd.VatExemptionCategory.");
+                    throw new ArgumentException($"Cannot map VatExemption {vatExemption} to {nameof(Dto.Xsd.VatExemptionCategory)}.");
             }
         }
 
@@ -322,7 +322,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 case CityTaxType.RoomsOrApartments:
                     return Dto.Xsd.OtherTaxCategory.RoomsOrApartments;
                 default:
-                    throw new ArgumentException($"Cannot map CityTaxType {cityTaxType} to OtherTaxCategory.");
+                    throw new ArgumentException($"Cannot map CityTaxType {cityTaxType} to {nameof(Dto.Xsd.OtherTaxCategory)}.");
             }
         }
     }
