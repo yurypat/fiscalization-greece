@@ -39,3 +39,5 @@ var response = await client.SendInvoicesAsync(invoiceDoc);
 ```
 
 # NuGet
+
+We have published the library as [Mews.Fiscalization.Greece](https://www.nuget.org/packages/Mews.Fiscalization.Greece/).
