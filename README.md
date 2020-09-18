@@ -5,7 +5,7 @@
 ## Key features
 - No Greek abbreviations.
 - Early data validation.
-- Intuitive immutable DTOs.
+- Immutable DTOs.
 - Logging support
 
 ## Usage
