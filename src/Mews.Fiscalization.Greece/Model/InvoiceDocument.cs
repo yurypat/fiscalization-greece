@@ -6,16 +6,16 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceDocument
     {
-        public InvoiceDocument(IEnumerable<Invoice> invoiceRecords)
+        public InvoiceDocument(IEnumerable<Invoice> invoices)
         {
-            InvoiceRecords = invoiceRecords ?? throw new ArgumentNullException(nameof(invoiceRecords));
+            Invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
 
-            if (invoiceRecords.Count() == 0)
+            if (invoices.Count() == 0)
             {
-                throw new ArgumentException($"Minimal count of {nameof(invoiceRecords)} is 1.");
+                throw new ArgumentException($"Minimal count of {nameof(invoices)} is 1.");
             }
         }
 
-        public IEnumerable<Invoice> InvoiceRecords { get; }
+        public IEnumerable<Invoice> Invoices { get; }
     }
 }
