@@ -33,7 +33,9 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     new object[] { InvoiceWithRebateOfItems() },
                     new object[] { InvoiceWithVariousPaymentMethods() },
                     new object[] { InvoiceForDepositCashPayment() },
-                    new object[] { InvoiceWithVariousOrderItemTypes() }
+                    new object[] { InvoiceWithVariousOrderItemTypes() },
+                    new object[] { InvoiceForCompanyWithoutDetails() },
+                    new object[] { SimpleInvoiceForCompany() }
                 };
         }
 
@@ -86,7 +88,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         }
 
         /// <summary>
-        /// Test case for bills: #1.2, #1.3, #1.8, #1.16, #2.4, #2.5 
+        /// Test case for bills: #1.2, #1.8, #1.16, #2.4
         /// </summary>
         private static InvoiceDocument InvoiceWithEmptyCounterpart(PaymentType paymentType)
         {
@@ -104,6 +106,30 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new Payment(new Amount(100m), paymentType)
                         }
+                    )
+                });
+        }
+
+        /// <summary>
+        /// Test case for bills: #1.3
+        /// </summary>
+        private static InvoiceDocument SimpleInvoiceForCompany()
+        {
+            return new InvoiceDocument(
+                new List<Invoice>()
+                {
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
+                        {
+                            new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits)
+                        },
+                        payments: new List<Payment>
+                        {
+                            new Payment(new Amount(100m), PaymentType.Cash)
+                        },
+                        counterpart:new InvoiceParty(new NotEmptyString("090701900"), new CountryCode("GR"))
                     )
                 });
         }
@@ -323,6 +349,29 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(425.00m), PaymentType.Cash),
+                        }
+                    )
+                });
+        }
+
+        /// <summary>
+        /// Test case for bills: #2.5
+        /// </summary>
+        private static InvoiceDocument InvoiceForCompanyWithoutDetails()
+        {
+            return new InvoiceDocument(
+                new List<Invoice>()
+                {
+                    new Invoice(
+                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, new CurrencyCode("EUR")),
+                        revenueItems: new List<RevenueItem>
+                        {
+                            new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.OtherIncomeAndProfits)
+                        },
+                        payments: new List<Payment>
+                        {
+                            new Payment(new Amount(100m), PaymentType.Cash)
                         }
                     )
                 });
