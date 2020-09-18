@@ -3,9 +3,9 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceRecordPaymentMethodDetails
+    public class Payment
     {
-        public InvoiceRecordPaymentMethodDetails(Amount amount, PaymentType paymentType)
+        public Payment(Amount amount, PaymentType paymentType)
         {
             Amount = amount ?? throw new ArgumentNullException(nameof(amount));
             PaymentType = paymentType;

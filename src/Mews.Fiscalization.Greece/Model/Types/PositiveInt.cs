@@ -6,5 +6,10 @@
             : base(value, minValue: 1)
         {
         }
+
+        public static bool IsValid(int value)
+        {
+            return IsValid(value, minValue: 1);
+        }
     }
 }

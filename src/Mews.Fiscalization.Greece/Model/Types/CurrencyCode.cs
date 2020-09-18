@@ -13,6 +13,11 @@ namespace Mews.Fiscalization.Greece.Model.Types
                 throw new ArgumentException("Currency code is not valid ISO-4217 code.", nameof(value));
             }
         }
+
+        public static bool IsValid(string value)
+        {
+            return IsValid(value, minLength: 3, maxLength: 3) && Enum.TryParse<Currency>(value, out _);
+        }
     }
 }
 
