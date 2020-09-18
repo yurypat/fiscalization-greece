@@ -47,6 +47,8 @@ namespace Mews.Fiscalization.Greece
         internal async Task<ResponseDoc> SendRequestAsync(InvoicesDoc invoicesDoc)
         {
             var requestContent = XmlManipulator.Serialize(invoicesDoc).DocumentElement.OuterXml;
+            Logger?.Debug("Created XML document from DTOs.", new { XmlString = requestContent });
+
             var requestMessage = BuildHttpPostMessage(requestContent);
 
             var stopwatch = new Stopwatch();
@@ -59,7 +61,10 @@ namespace Mews.Fiscalization.Greece
 
             var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
 
-            return XmlManipulator.Deserialize<ResponseDoc>(responseContent);
+            var responseDoc = XmlManipulator.Deserialize<ResponseDoc>(responseContent);
+            Logger?.Debug("Result received and successfully deserialized.", responseDoc);
+
+            return responseDoc;
         }
 
         private HttpRequestMessage BuildHttpPostMessage(string messageContent)
