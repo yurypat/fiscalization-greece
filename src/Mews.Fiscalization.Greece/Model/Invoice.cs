@@ -9,9 +9,8 @@ namespace Mews.Fiscalization.Greece.Model
     {
         public Invoice(
             InvoiceParty issuer,
-            InvoiceHeader invoiceHeader,
+            InvoiceHeader header,
             IEnumerable<RevenueItem> revenueItems,
-            InvoiceSummary invoiceSummary,
             StringIdentifier invoiceIdentifier = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
@@ -19,14 +18,13 @@ namespace Mews.Fiscalization.Greece.Model
             IEnumerable<Payment> payments = null)
         {
             Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
-            InvoiceHeader = invoiceHeader ?? throw new ArgumentNullException(nameof(invoiceHeader));
-            InvoiceDetails = revenueItems ?? throw new ArgumentNullException(nameof(revenueItems));
-            InvoiceSummary = invoiceSummary ?? throw new ArgumentNullException(nameof(invoiceSummary));
+            Header = header ?? throw new ArgumentNullException(nameof(header));
+            RevenueItems = revenueItems ?? throw new ArgumentNullException(nameof(revenueItems));
             InvoiceIdentifier = invoiceIdentifier;
             InvoiceRegistrationNumber = invoiceRegistrationNumber;
             CanceledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
             Counterpart = counterpart;
-            PaymentMethods = payments;
+            Payments = payments;
 
             if (revenueItems.Count() == 0)
             {
@@ -44,12 +42,10 @@ namespace Mews.Fiscalization.Greece.Model
 
         public InvoiceParty Counterpart { get; }
 
-        public InvoiceHeader InvoiceHeader { get; set; }
+        public InvoiceHeader Header { get; set; }
 
-        public IEnumerable<Payment> PaymentMethods { get; set; }
+        public IEnumerable<Payment> Payments { get; set; }
 
-        public IEnumerable<RevenueItem> InvoiceDetails { get; }
-
-        public InvoiceSummary InvoiceSummary { get; }
+        public IEnumerable<RevenueItem> RevenueItems { get; }
     }
 }

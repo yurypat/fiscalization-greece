@@ -7,12 +7,12 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class RevenueItem
     {
-        public RevenueItem(Amount netValue, TaxType taxType, Amount vatValue, IEnumerable<ItemIncomeClassification> invoiceIncomeClassifications, PositiveInt lineNumber = null, VatExemption? vatExemption = null, CityTax cityTax = null)
+        public RevenueItem(Amount netValue, TaxType taxType, Amount vatValue, IEnumerable<ItemIncomeClassification> incomeClassifications, PositiveInt lineNumber = null, VatExemptionType? vatExemption = null, CityTax cityTax = null)
         {
             NetValue = netValue ?? throw new ArgumentNullException(nameof(netValue));
             TaxType = taxType;
             VatValue = vatValue ?? throw new ArgumentNullException(nameof(vatValue));
-            InvoiceRecordIncomeClassification = invoiceIncomeClassifications ?? throw new ArgumentNullException(nameof(invoiceIncomeClassifications));
+            IncomeClassifications = incomeClassifications ?? throw new ArgumentNullException(nameof(incomeClassifications));
             LineNumber = lineNumber ?? new PositiveInt(1);
             VatExemption = vatExemption;
             CityTax = cityTax;
@@ -22,12 +22,12 @@ namespace Mews.Fiscalization.Greece.Model
                 throw new ArgumentException($"{nameof(VatExemption)} must be specified when TaxType is {taxType}");
             }
 
-            if (invoiceIncomeClassifications.Count() == 0)
+            if (incomeClassifications.Count() == 0)
             {
-                throw new ArgumentException($"Minimal count of {nameof(invoiceIncomeClassifications)} is 1.");
+                throw new ArgumentException($"Minimal count of {nameof(incomeClassifications)} is 1.");
             }
         }
-        public RevenueItem(Amount netValue, TaxType taxType, Amount vatValue, ClassificationType classificationType, ClassificationCategory classificationCategory, PositiveInt lineNumber = null, VatExemption? vatExemption = null, CityTax cityTax = null)
+        public RevenueItem(Amount netValue, TaxType taxType, Amount vatValue, ClassificationType classificationType, ClassificationCategory classificationCategory, PositiveInt lineNumber = null, VatExemptionType? vatExemption = null, CityTax cityTax = null)
             :this(netValue, taxType, vatValue, new[] { new ItemIncomeClassification(classificationType, classificationCategory, netValue) }, lineNumber, vatExemption, cityTax)
         {
         }
@@ -40,10 +40,10 @@ namespace Mews.Fiscalization.Greece.Model
 
         public Amount VatValue { get; }
 
-        public VatExemption? VatExemption { get; }
+        public VatExemptionType? VatExemption { get; }
 
         public CityTax CityTax { get; }
 
-        public IEnumerable<ItemIncomeClassification> InvoiceRecordIncomeClassification { get; }
+        public IEnumerable<ItemIncomeClassification> IncomeClassifications { get; }
     }
 }
