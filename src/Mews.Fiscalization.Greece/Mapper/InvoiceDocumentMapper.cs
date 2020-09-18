@@ -19,7 +19,7 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             return new Dto.Xsd.InvoicesDoc
             {
-                Invoices = InvoiceDocument.Invoices.Select(invoiceRecord => GetInvoice(invoiceRecord)).ToArray()
+                Invoices = InvoiceDocument.Invoices.Select(invoice => GetInvoice(invoice)).ToArray()
             };
         }
 
@@ -45,17 +45,17 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
         }
 
-        private Dto.Xsd.InvoiceParty GetInvoiceParty(InvoiceParty invoiceRecordParty)
+        private Dto.Xsd.InvoiceParty GetInvoiceParty(InvoiceParty invoiceParty)
         {
-            if (invoiceRecordParty != null)
+            if (invoiceParty != null)
             {
                 return new Dto.Xsd.InvoiceParty
                 {
-                    Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), invoiceRecordParty.CountryCode.Value, true),
-                    Branch = invoiceRecordParty.Branch.Value,
-                    Name = invoiceRecordParty.Name.GetOrDefault(),
-                    VatNumber = invoiceRecordParty.TaxNumber.Value,
-                    Address = GetAddress(invoiceRecordParty.Address)
+                    Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), invoiceParty.CountryCode.Value, true),
+                    Branch = invoiceParty.Branch.Value,
+                    Name = invoiceParty.Name.GetOrDefault(),
+                    VatNumber = invoiceParty.TaxNumber.Value,
+                    Address = GetAddress(invoiceParty.Address)
                 };
             }
 
@@ -145,13 +145,13 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceSummary;
         }
 
-        private Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassification invoiceRecordIncomeClassification)
+        private Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassification incomeClassification)
         {
             return new Dto.Xsd.IncomeClassification
             {
-                Amount = invoiceRecordIncomeClassification.Amount.Value,
-                ClassificationCategory = MapIncomeClassificationCategory(invoiceRecordIncomeClassification.ClassificationCategory),
-                ClassificationType = MapIncomeClassificationType(invoiceRecordIncomeClassification.ClassificationType)
+                Amount = incomeClassification.Amount.Value,
+                ClassificationCategory = MapIncomeClassificationCategory(incomeClassification.ClassificationCategory),
+                ClassificationType = MapIncomeClassificationType(incomeClassification.ClassificationType)
             };
         }
 
