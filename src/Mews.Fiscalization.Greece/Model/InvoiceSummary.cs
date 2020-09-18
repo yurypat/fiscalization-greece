@@ -7,17 +7,17 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceSummary
     {
-        public InvoiceSummary(Amount totalNetValue, Amount totalVatAmount, Amount totalGrossValue, IEnumerable<ItemIncomeClassification> invoiceRecordIncomeClassification, Amount totalOtherTaxesAmount = null)
+        public InvoiceSummary(Amount net, Amount vat, Amount gross, IEnumerable<ItemIncomeClassification> invoiceIncomeClassifications, Amount otherTaxes = null)
         {
-            TotalNetValue = totalNetValue ?? throw new ArgumentNullException(nameof(totalNetValue));
-            TotalVatValue = totalVatAmount ?? throw new ArgumentNullException(nameof(totalVatAmount));
-            TotalGrossValue = totalGrossValue ?? throw new ArgumentNullException(nameof(totalGrossValue));
-            TotalOtherTaxesAmount = totalOtherTaxesAmount;
-            InvoiceRecordIncomeClassification = invoiceRecordIncomeClassification ?? throw new ArgumentNullException(nameof(invoiceRecordIncomeClassification));
+            TotalNetValue = net ?? throw new ArgumentNullException(nameof(net));
+            TotalVatValue = vat ?? throw new ArgumentNullException(nameof(vat));
+            TotalGrossValue = gross ?? throw new ArgumentNullException(nameof(gross));
+            TotalOtherTaxesAmount = otherTaxes;
+            InvoiceIncomeClassifications = invoiceIncomeClassifications ?? throw new ArgumentNullException(nameof(invoiceIncomeClassifications));
 
-            if (invoiceRecordIncomeClassification.Count() == 0)
+            if (invoiceIncomeClassifications.Count() == 0)
             {
-                throw new ArgumentException($"Minimal count of {nameof(invoiceRecordIncomeClassification)} is 1.");
+                throw new ArgumentException($"Minimal count of {nameof(invoiceIncomeClassifications)} is 1.");
             }
         }
 
@@ -29,6 +29,6 @@ namespace Mews.Fiscalization.Greece.Model
 
         public Amount TotalOtherTaxesAmount { get; }
 
-        public IEnumerable<ItemIncomeClassification> InvoiceRecordIncomeClassification { get; }
+        public IEnumerable<ItemIncomeClassification> InvoiceIncomeClassifications { get; }
     }
 }
