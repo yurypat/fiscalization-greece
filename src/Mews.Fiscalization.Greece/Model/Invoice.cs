@@ -11,7 +11,6 @@ namespace Mews.Fiscalization.Greece.Model
             InvoiceParty issuer,
             InvoiceHeader header,
             IEnumerable<RevenueItem> revenueItems,
-            InvoiceSummary summary,
             StringIdentifier invoiceIdentifier = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
@@ -21,7 +20,6 @@ namespace Mews.Fiscalization.Greece.Model
             Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
             Header = header ?? throw new ArgumentNullException(nameof(header));
             RevenueItems = revenueItems ?? throw new ArgumentNullException(nameof(revenueItems));
-            Summary = summary ?? throw new ArgumentNullException(nameof(summary));
             InvoiceIdentifier = invoiceIdentifier;
             InvoiceRegistrationNumber = invoiceRegistrationNumber;
             CanceledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
@@ -49,7 +47,5 @@ namespace Mews.Fiscalization.Greece.Model
         public IEnumerable<Payment> Payments { get; set; }
 
         public IEnumerable<RevenueItem> RevenueItems { get; }
-
-        public InvoiceSummary Summary { get; }
     }
 }

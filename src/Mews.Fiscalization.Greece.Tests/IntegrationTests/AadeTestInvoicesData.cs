@@ -53,10 +53,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new RevenueItem(new Amount(53.65m), TaxType.Vat6, new Amount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
                         },
-                        summary: new InvoiceSummary(new Amount(53.65m),new Amount(12.88m), new Amount(66.53m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
-                        }),
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(66.53m), PaymentType.Cash)
@@ -81,10 +77,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new RevenueItem(new Amount(53.65m), TaxType.Vat24, new Amount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, cityTax: new CityTax(CityTaxType.Hotels5Stars, new Amount(4.00m)))
                         },
-                        summary: new InvoiceSummary(new Amount(53.65m), new Amount(12.88m), new Amount(70.53m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(53.65m))
-                        }, new Amount(4.00m)),
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(70.53m), PaymentType.Cash)
@@ -108,10 +100,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome)
                         },
-                        summary: new InvoiceSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
-                        }),
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(100m), paymentType)
@@ -136,10 +124,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new RevenueItem(new Amount(200.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.OtherSalesOfGoodsAndServices,  
                                 ClassificationCategory.OtherIncomeAndProfits, null, VatExemptionType.VatIncludedArticle46)
                         },
-                        summary: new InvoiceSummary(new Amount(200.00m),new Amount(0.00m), new Amount(200m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.OtherIncomeAndProfits, new Amount(200.00m))
-                        }),
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(200m), PaymentType.Cash)
@@ -163,10 +147,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome)
                         },
-                        summary: new InvoiceSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m))
-                        }),
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(100m), paymentType)
@@ -191,10 +171,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             {
                                 new RevenueItem(new Amount(100m), TaxType.WithoutVat, new Amount(0m), classificationType, ClassificationCategory.ProvisionOfServicesIncome)
                             },
-                        summary: new InvoiceSummary(new Amount(100m),new Amount(0m), new Amount(100m), new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(classificationType, ClassificationCategory.ProvisionOfServicesIncome, new Amount(100m))
-                        }),
                         payments: new List<Payment>
                             {
                                 new Payment(new Amount(100m), paymentType)
@@ -216,10 +192,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new RevenueItem(new Amount(23.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, vatExemption: VatExemptionType.VatIncludedArticle44)
                         },
-                        summary: new InvoiceSummary(new Amount(23.00m),new Amount(0.00m), new Amount(23.00m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(23.00m))
-                        }),
                         payments: new List<Payment>
                         {
                             //ToDo - validate mapping for external payments
@@ -266,10 +238,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new RevenueItem(new Amount(88.50m), TaxType.Vat13, new Amount(11.50m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
                         },
-                        summary: new InvoiceSummary(new Amount(88.50m),new Amount(11.50m), new Amount(100m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(88.50m))
-                        }),
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(100m), PaymentType.OnCredit)
@@ -294,10 +262,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new RevenueItem(new Amount(4.03m), TaxType.Vat24, new Amount(0.97m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new PositiveInt(1)),
                             new RevenueItem(new Amount(4.03m), TaxType.Vat24, new Amount(0.97m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new PositiveInt(2))
                         },
-                        summary: new InvoiceSummary(new Amount(8.06m),new Amount(1.94m), new Amount(10m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(8.06m))
-                        }),
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(10m), PaymentType.Cash)
@@ -319,12 +283,8 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase, new CurrencyCode("EUR"), null),
                         revenueItems: new List<RevenueItem>
                         {
-                            new RevenueItem(new Amount(10m), TaxType.WithoutVat, new Amount(0m), ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries)
-                        },
-                        summary: new InvoiceSummary(new Amount(10m),new Amount(0m), new Amount(10m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries, new Amount(10m))
-                        })
+                            new RevenueItem(new Amount(10m), TaxType.WithoutVat, new Amount(0m), ClassificationType.CreditExchangeDifferences, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries)
+                        }
                     )
                 });
         }
@@ -360,12 +320,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new RevenueItem(new Amount(100.00m), TaxType.Vat0, new Amount(0.00m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.OtherIncomeAndProfits, new PositiveInt(6),
                                 VatExemptionType.WithoutVatArticle13)
                         },
-                        summary: new InvoiceSummary(new Amount(409.63m), new Amount(15.37m), new Amount(425.00m),new List<ItemIncomeClassification>
-                        {
-                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome, new Amount(88.50m)),
-                            new ItemIncomeClassification(ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new Amount(21.13m)),
-                            new ItemIncomeClassification(ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.OtherIncomeAndProfits, new Amount(300.00m))
-                        }),
                         payments: new List<Payment>
                         {
                             new Payment(new Amount(425.00m), PaymentType.Cash),

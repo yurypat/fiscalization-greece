@@ -131,16 +131,26 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             var invoiceSummary = new Dto.Xsd.InvoiceSummary
             {
-                TotalNetValue = invoice.Summary.TotalNetValue.Value,
-                TotalVatAmount = invoice.Summary.TotalVatValue.Value,
-                TotalGrossValue = invoice.Summary.TotalGrossValue.Value,
-                IncomeClassification = invoice.Summary.InvoiceIncomeClassifications.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray(),
+                TotalNetValue = invoice.RevenueItems.Sum(x => x.NetValue.Value),
+                TotalVatAmount = invoice.RevenueItems.Sum(x => x.VatValue.Value)
             };
 
-            if (invoice.Summary.TotalOtherTaxesAmount != null)
+            var otherTaxesAmount = invoice.RevenueItems.Any(x => x.CityTax != null) ? invoice.RevenueItems.Sum(m => m.CityTax.Amount.Value) : (decimal?)null;
+            if (otherTaxesAmount.HasValue)
             {
-                invoiceSummary.TotalOtherTaxesAmount = invoice.Summary.TotalOtherTaxesAmount.Value;
+                invoiceSummary.TotalOtherTaxesAmount = otherTaxesAmount.Value;
             }
+
+            invoiceSummary.IncomeClassification = invoice.RevenueItems.SelectMany(x => x.IncomeClassifications).GroupBy(m => new { m.ClassificationCategory, m.ClassificationType },
+                (key, values) => new Dto.Xsd.IncomeClassification
+                {
+                    ClassificationCategory = MapIncomeClassificationCategory(key.ClassificationCategory),
+                    ClassificationType = MapIncomeClassificationType(key.ClassificationType),
+                    Amount = values.Sum(x => x.Amount.Value)
+                }).ToArray();
+
+
+            invoiceSummary.TotalGrossValue = invoiceSummary.TotalNetValue + invoiceSummary.TotalVatAmount + invoiceSummary.TotalOtherTaxesAmount;
 
             return invoiceSummary;
         }
