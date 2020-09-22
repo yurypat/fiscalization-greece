@@ -19,7 +19,7 @@ var record = new InvoiceDocument(
 new List<Invoice>()
 {
     new Invoice(
-        issuer: new InvoiceParty(new NotEmptyString({UserVatNumber}), new CountryCode("GR")),
+        issuer: new LocalInvoiceParty(new TaxIdentifier({UserVatNumber})),
         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
         revenueItems: new List<RevenueItem>
         {

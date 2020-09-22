@@ -8,13 +8,13 @@ namespace Mews.Fiscalization.Greece.Model
     public class Invoice
     {
         public Invoice(
-            InvoiceParty issuer,
+            LocalInvoiceParty issuer,
             InvoiceHeader header,
             IEnumerable<RevenueItem> revenueItems,
             StringIdentifier invoiceIdentifier = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
-            InvoiceParty counterpart = null,
+            ForeignInvoiceParty counterpart = null,
             IEnumerable<Payment> payments = null)
         {
             Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
@@ -38,9 +38,9 @@ namespace Mews.Fiscalization.Greece.Model
 
         public InvoiceRegistrationNumber CanceledByInvoiceRegistrationNumber { get; }
 
-        public InvoiceParty Issuer { get; }
+        public LocalInvoiceParty Issuer { get; }
 
-        public InvoiceParty Counterpart { get; }
+        public ForeignInvoiceParty Counterpart { get; }
 
         public InvoiceHeader Header { get; set; }
 
