@@ -116,7 +116,7 @@ namespace Mews.Fiscalization.Greece
                                 Message = errorMessage
                             }
                         }
-                    }).ToArray()
+                }).ToArray()
             };
         }
     }
