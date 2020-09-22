@@ -1,8 +1,6 @@
 ﻿using Mews.Fiscalization.Greece.Dto.Xsd;
-using Mews.Fiscalization.Greece.Extensions;
 using System.Linq;
 using System.Collections.Generic;
-using System;
 
 namespace Mews.Fiscalization.Greece.Model.Result
 {
@@ -15,7 +13,7 @@ namespace Mews.Fiscalization.Greece.Model.Result
                 invoiceIdentifier: response.InvoiceUid,
                 invoiceRegistrationNumber: response.InvoiceMark,
                 invoiceRegistrationNumberSpecified: response.InvoiceMarkSpecified,
-                errors: response.Errors?.Select(error => new Error(MapErrorCode(error.Code, response.StatusCode), error.Message))));
+                errors: response.Errors?.Select(error => new SendInvoiceError(MapErrorCode(error.Code, response.StatusCode), error.Message))));
         }
 
         public IEnumerable<SendInvoiceResult> SendInvoiceResults { get; }

@@ -5,17 +5,14 @@ namespace Mews.Fiscalization.Greece.Model.Result
 {
     public class SendInvoiceResult
     {
-        public SendInvoiceResult(int lineNumber, string invoiceIdentifier, long invoiceRegistrationNumber, bool invoiceRegistrationNumberSpecified, IEnumerable<Error> errors)
+        public SendInvoiceResult(int lineNumber, string invoiceIdentifier, long invoiceRegistrationNumber, bool invoiceRegistrationNumberSpecified, IEnumerable<SendInvoiceError> errors)
         {
             LineNumber = lineNumber;
+            Errors = errors;
 
             if (errors == null || errors.Count() == 0)
             {
                 Success = new SendInvoiceSuccess(invoiceIdentifier, invoiceRegistrationNumber, invoiceRegistrationNumberSpecified);
-            }
-            else
-            {
-                Error = new SendInvoiceError(errors.First());
             }
         }
 
@@ -28,6 +25,6 @@ namespace Mews.Fiscalization.Greece.Model.Result
 
         public SendInvoiceSuccess Success { get; }
 
-        public SendInvoiceError Error { get; }
+        public IEnumerable<SendInvoiceError> Errors { get; }
     }
 }

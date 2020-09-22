@@ -4,6 +4,7 @@ using Mews.Fiscalization.Greece.Model.Types;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,7 +68,7 @@ namespace Mews.Fiscalization.Greece
                 stopwatch.Stop();
                 Logger?.Info($"HTTP request failed after {stopwatch.ElapsedMilliseconds}ms.", new { HttpRequestDuration = stopwatch.ElapsedMilliseconds });
 
-                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.TimeoutErrorCode, ex.Message, invoicesDoc.Invoices.Length);
+                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.TimeoutErrorCode, ex.Message, invoicesDoc.Invoices);
             }
 
             stopwatch.Stop();
@@ -75,11 +76,11 @@ namespace Mews.Fiscalization.Greece
 
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.ForbiddenErrorCode, "Authorization error", invoicesDoc.Invoices.Length);
+                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.ForbiddenErrorCode, "Authorization error", invoicesDoc.Invoices);
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
             {
-                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.InternalServerErrorCode, "Internal server error", invoicesDoc.Invoices.Length);
+                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.InternalServerErrorCode, "Internal server error", invoicesDoc.Invoices);
             }
 
             var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
@@ -99,28 +100,23 @@ namespace Mews.Fiscalization.Greece
             return message;
         }
 
-        private ResponseDoc BuildResponseDocWithErrors(string errorCode, string errorMessage, int invoicesCount)
+        private ResponseDoc BuildResponseDocWithErrors(string errorCode, string errorMessage, Dto.Xsd.Invoice[] invoices)
         {
-            var invoiceResults = new List<Response>();
-            for (int i = 0; i < invoicesCount; i++)
-            {
-                invoiceResults.Add(new Response
-                {
-                    Index = i + 1,
-                    Errors = new[]
-                    {
-                        new Error
-                        {
-                            Code = errorCode,
-                            Message = errorMessage
-                        }
-                    }
-                });
-            }
-
             return new ResponseDoc
             {
-                Responses = invoiceResults.ToArray()
+                Responses = invoices.Select((_, index) => 
+                    new Response
+                    {
+                        Index = index + 1,
+                        Errors = new[]
+                        {
+                            new Error
+                            {
+                                Code = errorCode,
+                                Message = errorMessage
+                            }
+                        }
+                    }).ToArray()
             };
         }
     }

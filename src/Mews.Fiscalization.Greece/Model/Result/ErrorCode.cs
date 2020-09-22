@@ -2,9 +2,9 @@
 {
     public enum ErrorCode
     {
-        Network,
-        InternalServerError,
+        NetworkError,
+        TechnicalError,
         InvalidCredentials,
-        UnhandledValidation
+        ValidationError
     }
 }

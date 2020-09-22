@@ -5,10 +5,10 @@ namespace Mews.Fiscalization.Greece.Model.Result
 {
     public class SendInvoiceError
     {
-        public SendInvoiceError(Error error)
+        public SendInvoiceError(string code, string message)
         {
-            Message = error.Message;
-            Code = MapErrorCode(error.Code);
+            Message = message;
+            Code = MapErrorCode(code);
         }
 
         public ErrorCode Code { get; }
@@ -21,18 +21,14 @@ namespace Mews.Fiscalization.Greece.Model.Result
             {
                 case SendInvoiceErrorCodes.InternalServerErrorCode:
                 case "TechnicalError":
-                    return ErrorCode.InternalServerError;
-
+                    return ErrorCode.TechnicalError;
                 case SendInvoiceErrorCodes.TimeoutErrorCode:
-                    return ErrorCode.Network;
-
+                    return ErrorCode.NetworkError;
                 case SendInvoiceErrorCodes.ForbiddenErrorCode:
                     return ErrorCode.InvalidCredentials;
-
                 case "ValidationError":
                 case "XMLSyntaxError":
-                    return ErrorCode.UnhandledValidation;
-
+                    return ErrorCode.ValidationError;
                 default:
                     throw new NotImplementedException($"Error code: {code} is not implemented.");
             }
