@@ -5,23 +5,16 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceParty
     {
-        private const string GreeceCountryCode = "GR";
-
-        public InvoiceParty(NotEmptyString taxNumber, CountryCode countryCode, NonNegativeInt branch = null, StringIdentifier name = null, Address address = null)
+        public InvoiceParty(StringIdentifier taxNumber, CountryCode countryCode, NonNegativeInt branch = null, StringIdentifier name = null, Address address = null)
         {
             TaxNumber = taxNumber ?? throw new ArgumentNullException(nameof(taxNumber));
             CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
             Branch = branch ?? new NonNegativeInt(0);
             Name = name;
             Address = address;
-
-            if (countryCode.Value == GreeceCountryCode && !Patterns.TaxIdentifier.IsMatch(taxNumber.Value))
-            {
-                throw new ArgumentException($"The value '{taxNumber.Value}' does not match the pattern '{Patterns.TaxIdentifier}'");
-            }
         }
 
-        public NotEmptyString TaxNumber { get; }
+        public StringIdentifier TaxNumber { get; }
 
         public NonNegativeInt Branch { get; }
 
