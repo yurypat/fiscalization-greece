@@ -28,9 +28,8 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             var response = await client.SendInvoicesAsync(invoiceDoc);
 
             // Assert
-            Assert.NotEmpty(response.SendInvoiceResults.Single().InvoiceIdentifier);
-            Assert.NotNull(response.SendInvoiceResults.Single().InvoiceRegistrationNumber);
-            Assert.True(response.SendInvoiceResults.All(x => x.Errors == null));
+            Assert.NotEmpty(response.SendInvoiceResults);
+            Assert.True(response.SendInvoiceResults.Single().IsSuccess);
         }
     }
 }

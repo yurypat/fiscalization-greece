@@ -1,28 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Model.Result
 {
     public class SendInvoiceResult
     {
-        public SendInvoiceResult(SendInvoiceStatusCode statusCode, string invoiceIdentifier, long invoiceRegistrationNumber, bool invoiceRegistrationNumberSpecified, IEnumerable<SendInvoiceError> errors)
+        public SendInvoiceResult(int lineNumber, string invoiceIdentifier, long invoiceRegistrationNumber, bool invoiceRegistrationNumberSpecified, IEnumerable<Error> errors)
         {
-            StatusCode = statusCode;
-            InvoiceIdentifier = invoiceIdentifier;
-            if (invoiceRegistrationNumberSpecified)
+            LineNumber = lineNumber;
+
+            if (errors == null || errors.Count() == 0)
             {
-                InvoiceRegistrationNumber = invoiceRegistrationNumber;
+                Success = new SendInvoiceSuccess(invoiceIdentifier, invoiceRegistrationNumber, invoiceRegistrationNumberSpecified);
             }
-            Errors = errors;
+            else
+            {
+                Error = new SendInvoiceError(errors.First());
+            }
         }
 
-        public SendInvoiceStatusCode StatusCode { get; }
+        public int LineNumber { get; set; }
 
-        public string InvoiceIdentifier { get; }
+        public bool IsSuccess
+        {
+            get { return Success != null; }
+        }
 
-        public long? InvoiceRegistrationNumber { get; }
+        public SendInvoiceSuccess Success { get; }
 
-        public IEnumerable<SendInvoiceError> Errors { get; }
+        public SendInvoiceError Error { get; }
     }
 }

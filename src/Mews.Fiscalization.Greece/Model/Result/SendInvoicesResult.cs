@@ -11,30 +11,25 @@ namespace Mews.Fiscalization.Greece.Model.Result
         internal SendInvoicesResult(ResponseDoc responseDoc)
         {
             SendInvoiceResults = responseDoc.Responses.Select(response => new SendInvoiceResult(
-                statusCode: MapSendInvoiceStatusCode(response.StatusCode),
+                lineNumber: response.Index,
                 invoiceIdentifier: response.InvoiceUid,
                 invoiceRegistrationNumber: response.InvoiceMark,
                 invoiceRegistrationNumberSpecified: response.InvoiceMarkSpecified,
-                errors: response.Errors?.Select(error => new SendInvoiceError(error.Code, error.Message))));
+                errors: response.Errors?.Select(error => new Error(MapErrorCode(error.Code, response.StatusCode), error.Message))));
         }
 
         public IEnumerable<SendInvoiceResult> SendInvoiceResults { get; }
 
-        private SendInvoiceStatusCode MapSendInvoiceStatusCode(StatusCode statusCode)
+        private string MapErrorCode(string errorCode, StatusCode statusCode)
         {
-            switch(statusCode)
+            // Error codes which are returned from API have some integer value that describes particular error. But we need only category of the error
+            // so we return value of the status code.
+            if (int.TryParse(errorCode, out _))
             {
-                case StatusCode.Success:
-                    return SendInvoiceStatusCode.Success;
-                case StatusCode.TechnicalError:
-                    return SendInvoiceStatusCode.TechnicalError;
-                case StatusCode.ValidationError:
-                    return SendInvoiceStatusCode.ValidationError;
-                case StatusCode.XmlSyntaxError:
-                    return SendInvoiceStatusCode.XmlSyntaxError;
-                default:
-                    throw new ArgumentException($"Cannot map StatusCode {statusCode} to SendInvoiceStatusCode.");
+                return statusCode.ToString();
             }
+
+            return errorCode;
         }
     }
 }
