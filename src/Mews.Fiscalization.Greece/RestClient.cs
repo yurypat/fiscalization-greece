@@ -104,18 +104,17 @@ namespace Mews.Fiscalization.Greece
         {
             return new ResponseDoc
             {
-                Responses = invoices.Select((_, index) => 
-                    new Response
+                Responses = invoices.Select((_, index) => new Response
+                {
+                    Index = index + 1,
+                    Errors = new[]
                     {
-                        Index = index + 1,
-                        Errors = new[]
+                        new Error
                         {
-                            new Error
-                            {
-                                Code = errorCode,
-                                Message = errorMessage
-                            }
+                            Code = errorCode,
+                            Message = errorMessage
                         }
+                    }
                 }).ToArray()
             };
         }
