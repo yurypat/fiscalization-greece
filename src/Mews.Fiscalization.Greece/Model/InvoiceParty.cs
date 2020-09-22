@@ -3,7 +3,7 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class InvoiceParty
+    public abstract class InvoiceParty
     {
         public InvoiceParty(StringIdentifier taxNumber, CountryCode countryCode, NonNegativeInt branch = null, StringIdentifier name = null, Address address = null)
         {
