@@ -49,7 +49,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -73,7 +73,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -96,7 +96,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -119,7 +119,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -129,7 +129,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new Payment(new Amount(100m), PaymentType.Cash)
                         },
-                        counterpart:new InvoiceParty(new NotEmptyString("090701900"), new CountryCode("GR"))
+                        counterpart: new ForeignInvoiceParty(new NotEmptyString("090701900"), new CountryCode("GR"))
                     )
                 });
         }
@@ -143,7 +143,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -167,7 +167,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -177,7 +177,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         {
                             new Payment(new Amount(100m), paymentType)
                         },
-                        counterpart:new InvoiceParty(new NotEmptyString("090701900"), new CountryCode("GR"))
+                        counterpart: new ForeignInvoiceParty(new NotEmptyString("090701900"), new CountryCode("GR"))
                     )
                 });
         }
@@ -191,7 +191,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, billType, new CurrencyCode("EUR"), null),
                         revenueItems: new List<RevenueItem>
                             {
@@ -201,7 +201,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             {
                                 new Payment(new Amount(100m), paymentType)
                             },
-                        counterpart: new InvoiceParty(new NotEmptyString("12348765"), new CountryCode(countryCode), new NonNegativeInt(0), new StringIdentifier("Name"), new Address(postalCode: new NotEmptyString("12"), city: new NotEmptyString("City")))
+                        counterpart: new ForeignInvoiceParty(new NotEmptyString("12348765"), new CountryCode(countryCode), new NonNegativeInt(0), new StringIdentifier("Name"), new Address(postalCode: new NotEmptyString("12"), city: new NotEmptyString("City")))
                     )
                 });
         }
@@ -212,7 +212,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -258,7 +258,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -281,7 +281,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -305,7 +305,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase, new CurrencyCode("EUR"), null),
                         revenueItems: new List<RevenueItem>
                         {
@@ -325,7 +325,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
@@ -363,7 +363,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 new List<Invoice>()
                 {
                     new Invoice(
-                        issuer: new InvoiceParty(new NotEmptyString(UserVatNumber), new CountryCode("GR")),
+                        issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
                         header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, new CurrencyCode("EUR")),
                         revenueItems: new List<RevenueItem>
                         {
