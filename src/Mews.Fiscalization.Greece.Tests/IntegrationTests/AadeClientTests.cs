@@ -1,5 +1,7 @@
 ﻿using Mews.Fiscalization.Greece.Model;
+using Mews.Fiscalization.Greece.Model.Types;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -29,7 +31,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 
             // Assert
             Assert.NotEmpty(response.SendInvoiceResults);
-            Assert.True(response.SendInvoiceResults.Single().IsSuccess);
+            Assert.True(response.SendInvoiceResults.Single().Item.IsSuccess);
         }
     }
 }

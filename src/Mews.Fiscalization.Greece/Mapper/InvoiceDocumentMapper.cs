@@ -19,7 +19,7 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             return new Dto.Xsd.InvoicesDoc
             {
-                Invoices = InvoiceDocument.Invoices.Select(invoice => GetInvoice(invoice)).ToArray()
+                Invoices = InvoiceDocument.Invoices.Items.Select(invoice => GetInvoice(invoice)).ToArray()
             };
         }
 
