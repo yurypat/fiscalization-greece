@@ -1,4 +1,5 @@
 ﻿using Mews.Fiscalization.Greece.Model;
+using Mews.Fiscalization.Greece.Model.Collections;
 using Mews.Fiscalization.Greece.Model.Types;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument SimpleValidInvoice()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -60,7 +61,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(66.53m), PaymentType.Cash)
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument SimpleValidInvoiceWithCityTax()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -84,7 +85,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(70.53m), PaymentType.Cash)
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithEmptyCounterpart(PaymentType paymentType)
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -107,7 +108,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(100m), paymentType)
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument SimpleInvoiceForCompany()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -131,7 +132,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         counterpart: new ForeignInvoiceParty(new NotEmptyString("090701900"), new CountryCode("GR"))
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -140,7 +141,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceForDepositCashPayment()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -155,7 +156,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(200m), PaymentType.Cash)
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -164,7 +165,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithDomesticCompanyCounterpart(PaymentType paymentType)
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -179,7 +180,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                         },
                         counterpart: new ForeignInvoiceParty(new NotEmptyString("090701900"), new CountryCode("GR"))
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -188,7 +189,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithForeignCompanyCounterpart(string countryCode, BillType billType, ClassificationType classificationType, PaymentType paymentType)
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -203,13 +204,13 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             },
                         counterpart: new ForeignInvoiceParty(new NotEmptyString("12348765"), new CountryCode(countryCode), new NonNegativeInt(0), new StringIdentifier("Name"), new Address(postalCode: new NotEmptyString("12"), city: new NotEmptyString("City")))
                     )
-                });
+                }, 0));
         }
 
         private static InvoiceDocument InvoiceWithVariousPaymentMethods()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -246,7 +247,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(1m), PaymentType.OnCredit)  //External payment (Wife transfer)
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -255,7 +256,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument SimplifiedInvoiceForCustomer()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -269,7 +270,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(100m), PaymentType.OnCredit)
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -278,7 +279,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithConversionRate()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -293,7 +294,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(10m), PaymentType.Cash)
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -302,7 +303,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithRebateOfItems()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -312,7 +313,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new RevenueItem(new Amount(10m), TaxType.WithoutVat, new Amount(0m), ClassificationType.CreditExchangeDifferences, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries)
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -322,7 +323,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceWithVariousOrderItemTypes()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -351,7 +352,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(425.00m), PaymentType.Cash),
                         }
                     )
-                });
+                }, 0));
         }
 
         /// <summary>
@@ -360,7 +361,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static InvoiceDocument InvoiceForCompanyWithoutDetails()
         {
             return new InvoiceDocument(
-                new List<Invoice>()
+                SequentialEnumerable.FromPreordered(new List<Invoice>()
                 {
                     new Invoice(
                         issuer: new LocalInvoiceParty(new TaxIdentifier(UserVatNumber)),
@@ -374,7 +375,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                             new Payment(new Amount(100m), PaymentType.Cash)
                         }
                     )
-                });
+                }, 0));
         }
     }
 }
