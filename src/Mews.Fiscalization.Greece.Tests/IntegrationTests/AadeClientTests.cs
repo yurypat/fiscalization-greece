@@ -17,6 +17,20 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             UserSubscriptionKey = Environment.GetEnvironmentVariable("user_subscription_key") ?? "INSERT_SUBSCRIPTION_KEY";
         }
 
+
+        [Fact(Skip = "Temporary skip")]
+        public async Task CheckUserCredentials()
+        {
+            // Arrange
+            var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
+
+            // Act
+            var response = await client.CheckUserCredentialsAsync();
+
+            // Assert
+            Assert.True(response);
+        }
+
         [Theory(Skip = "Temporary skip")]
         [MemberData(nameof(AadeTestInvoicesData.GetInvoices), MemberType = typeof(AadeTestInvoicesData))]
         public async Task ValidInvoiceDocumentWorks(InvoiceDocument invoiceDoc)

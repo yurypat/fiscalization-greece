@@ -30,5 +30,10 @@ namespace Mews.Fiscalization.Greece
 
             return new SendInvoicesResult(responseDoc);
         }
+        
+        public Task<bool> CheckUserCredentialsAsync()
+        {
+            return RestClient.CheckUserCredentialsAsync();
+        }
     }
 }
