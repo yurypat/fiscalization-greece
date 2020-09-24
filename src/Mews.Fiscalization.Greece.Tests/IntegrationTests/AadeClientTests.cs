@@ -29,7 +29,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 
             // Assert
             Assert.NotEmpty(response.SendInvoiceResults);
-            Assert.True(response.SendInvoiceResults.Single().IsSuccess);
+            Assert.True(response.SendInvoiceResults.Single().Item.IsSuccess);
         }
     }
 }
