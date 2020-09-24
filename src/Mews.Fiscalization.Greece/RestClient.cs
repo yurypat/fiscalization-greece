@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Mews.Fiscalization.Greece
 {
@@ -16,6 +17,7 @@ namespace Mews.Fiscalization.Greece
         private static readonly Uri ProductionBaseUri = new Uri("https://mydata-dev.azure-api.net");
         private static readonly Uri SandboxBaseUri = new Uri("https://mydata-dev.azure-api.net");
         private static readonly string SendInvoicesEndpointMethodName = "SendInvoices";
+        private static readonly string GetRequestDocsEndpointMethodName = "RequestDocs";
         private static readonly string UserIdHeaderName = "aade-user-id";
         private static readonly string SubscriptionKeyHeaderName = "Ocp-Apim-Subscription-Key";
         private static readonly string XmlMediaType = "application/xml";
@@ -26,7 +28,7 @@ namespace Mews.Fiscalization.Greece
 
         public AadeLogger Logger { get; }
 
-        public Uri EndpointUri { get; }
+        public Uri BaseUri { get; }
 
         private HttpClient HttpClient { get; }
 
@@ -35,10 +37,9 @@ namespace Mews.Fiscalization.Greece
             UserId = userId ?? throw new ArgumentNullException(userId);
             SubscriptionKey = subscriptionKey ?? throw new ArgumentNullException(subscriptionKey);
 
-            var baseUri = environment == AadeEnvironment.Production
+            BaseUri = environment == AadeEnvironment.Production
                 ? ProductionBaseUri
                 : SandboxBaseUri;
-            EndpointUri = new Uri(baseUri, SendInvoicesEndpointMethodName);
 
             Logger = logger;
 
@@ -91,9 +92,37 @@ namespace Mews.Fiscalization.Greece
             return responseDoc;
         }
 
+        internal async Task<bool> CheckUserCredentialsAsync()
+        {
+            HttpResponseMessage response;
+            var queryString = HttpUtility.ParseQueryString(string.Empty);
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            try
+            {
+                queryString["mark"] = "mark";
+                var endpointUri = new Uri(BaseUri, $"{GetRequestDocsEndpointMethodName}?{queryString}");
+                response = await HttpClient.GetAsync(endpointUri).ConfigureAwait(continueOnCapturedContext: false);
+            }
+            catch (Exception ex)
+            {
+                stopwatch.Stop();
+                Logger?.Info($"HTTP request failed after {stopwatch.ElapsedMilliseconds}ms.", new { HttpRequestDuration = stopwatch.ElapsedMilliseconds });
+
+                return false;
+            }
+            stopwatch.Stop();
+            Logger?.Info($"HTTP request finished in {stopwatch.ElapsedMilliseconds}ms.", new { HttpRequestDuration = stopwatch.ElapsedMilliseconds });
+
+            return response.StatusCode != System.Net.HttpStatusCode.Unauthorized;
+        }
+
         private HttpRequestMessage BuildHttpPostMessage(string messageContent)
         {
-            var message = new HttpRequestMessage(HttpMethod.Post, EndpointUri);
+            var endpointUri = new Uri(BaseUri, SendInvoicesEndpointMethodName);
+            var message = new HttpRequestMessage(HttpMethod.Post, endpointUri);
 
             message.Content = new StringContent(content: messageContent, encoding: Encoding.UTF8, mediaType: XmlMediaType);
 
