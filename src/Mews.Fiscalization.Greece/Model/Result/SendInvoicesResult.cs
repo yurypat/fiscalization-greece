@@ -13,7 +13,7 @@ namespace Mews.Fiscalization.Greece.Model.Result
                 invoiceIdentifier: response.InvoiceUid,
                 invoiceRegistrationNumber: response.InvoiceMark,
                 invoiceRegistrationNumberSpecified: response.InvoiceMarkSpecified,
-                errors: response.Errors?.Select(error => new SendInvoiceError(MapErrorCode(error.Code, response.StatusCode), error.Message))))));
+                errors: response.Errors?.Select(error => new ResultError(MapErrorCode(error.Code, response.StatusCode), error.Message))))));
         }
 
         public ISequentialEnumerable<SendInvoiceResult> SendInvoiceResults { get; }

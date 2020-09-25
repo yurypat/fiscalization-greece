@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Model.Result
 {
     public class SendInvoiceResult
     {
-        public SendInvoiceResult(string invoiceIdentifier, long invoiceRegistrationNumber, bool invoiceRegistrationNumberSpecified, IEnumerable<SendInvoiceError> errors)
+        public SendInvoiceResult(string invoiceIdentifier, long invoiceRegistrationNumber, bool invoiceRegistrationNumberSpecified, IEnumerable<ResultError> errors)
         {
             Errors = errors;
 
@@ -22,6 +22,6 @@ namespace Mews.Fiscalization.Greece.Model.Result
 
         public SendInvoiceSuccess Success { get; }
 
-        public IEnumerable<SendInvoiceError> Errors { get; }
+        public IEnumerable<ResultError> Errors { get; }
     }
 }
