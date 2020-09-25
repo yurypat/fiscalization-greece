@@ -3,9 +3,9 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model.Result
 {
-    public class SendInvoiceError
+    public class ResultError
     {
-        public SendInvoiceError(string code, string message)
+        public ResultError(string code, string message)
         {
             Message = message;
             Code = MapErrorCode(code);
@@ -24,7 +24,7 @@ namespace Mews.Fiscalization.Greece.Model.Result
                     return ErrorCode.TechnicalError;
                 case SendInvoiceErrorCodes.TimeoutErrorCode:
                     return ErrorCode.NetworkError;
-                case SendInvoiceErrorCodes.ForbiddenErrorCode:
+                case SendInvoiceErrorCodes.UnauthorizedErrorCode:
                     return ErrorCode.InvalidCredentials;
                 case "ValidationError":
                 case "XMLSyntaxError":

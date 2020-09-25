@@ -1,8 +1,8 @@
 ﻿using Mews.Fiscalization.Greece.Dto.Xsd;
 using Mews.Fiscalization.Greece.Model;
+using Mews.Fiscalization.Greece.Model.Result;
 using Mews.Fiscalization.Greece.Model.Types;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -48,75 +48,91 @@ namespace Mews.Fiscalization.Greece
             HttpClient.DefaultRequestHeaders.Add(SubscriptionKeyHeaderName, $"{SubscriptionKey}");
         }
 
-        internal async Task<ResponseDoc> SendRequestAsync(InvoicesDoc invoicesDoc)
+        internal Task<ResponseDoc> SendRequestAsync(InvoicesDoc invoicesDoc)
         {
             var requestContent = XmlManipulator.Serialize(invoicesDoc).DocumentElement.OuterXml;
             Logger?.Debug("Created XML document from DTOs.", new { XmlString = requestContent });
 
             var requestMessage = BuildHttpPostMessage(requestContent);
+            
+            return SendAsync(
+                sendFunc:
+                    () => HttpClient.SendAsync(requestMessage),
+                buildErrorResponseFunc:
+                    (errorCode, errorMessage) => BuildResponseDocWithErrors(errorCode, errorMessage, invoicesDoc.Invoices),
+                buildResponseFunc:
+                    async httpResponseMessage =>
+                    {
+                        if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                        {
+                            return BuildResponseDocWithErrors(SendInvoiceErrorCodes.UnauthorizedErrorCode, "Authorization error", invoicesDoc.Invoices);
+                        }
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+                        var responseContent = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
 
-            HttpResponseMessage response;
+                        var responseDoc = XmlManipulator.Deserialize<ResponseDoc>(responseContent);
+                        Logger?.Debug("Result received and successfully deserialized.", responseDoc);
 
-            try
-            {
-                response = await HttpClient.SendAsync(requestMessage).ConfigureAwait(continueOnCapturedContext: false);
-            }
-            catch (Exception ex)
-            {
-                stopwatch.Stop();
-                Logger?.Info($"HTTP request failed after {stopwatch.ElapsedMilliseconds}ms.", new { HttpRequestDuration = stopwatch.ElapsedMilliseconds });
-
-                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.TimeoutErrorCode, ex.Message, invoicesDoc.Invoices);
-            }
-
-            stopwatch.Stop();
-            Logger?.Info($"HTTP request finished in {stopwatch.ElapsedMilliseconds}ms.", new { HttpRequestDuration = stopwatch.ElapsedMilliseconds });
-
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.ForbiddenErrorCode, "Authorization error", invoicesDoc.Invoices);
-            }
-            else if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
-            {
-                return BuildResponseDocWithErrors(SendInvoiceErrorCodes.InternalServerErrorCode, "Internal server error", invoicesDoc.Invoices);
-            }
-
-            var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
-
-            var responseDoc = XmlManipulator.Deserialize<ResponseDoc>(responseContent);
-            Logger?.Debug("Result received and successfully deserialized.", responseDoc);
-
-            return responseDoc;
+                        return responseDoc;
+                    }
+                );
         }
 
-        internal async Task<bool> CheckUserCredentialsAsync()
+        internal Task<CheckUserCredentialsResult> CheckUserCredentialsAsync()
         {
-            HttpResponseMessage response;
             var queryString = HttpUtility.ParseQueryString(string.Empty);
+            queryString["mark"] = "mark";
 
+            var endpointUri = new Uri(BaseUri, $"{GetRequestDocsEndpointMethodName}?{queryString}");
+
+            return SendAsync(
+                sendFunc: 
+                    () => HttpClient.GetAsync(endpointUri),
+                buildErrorResponseFunc:
+                    (errorCode, errorMessage) => BuildCheckUserCredentialsResponseWithError(errorCode, errorMessage),
+                buildResponseFunc:
+                    httpResponseMessage => Task.FromResult(new CheckUserCredentialsResult(httpResponseMessage.StatusCode != System.Net.HttpStatusCode.Unauthorized))
+                );
+        }
+
+        private async Task<TResult> SendAsync<TResult>(
+            Func<Task<HttpResponseMessage>> sendFunc,
+            Func<string, string, TResult> buildErrorResponseFunc,
+            Func<HttpResponseMessage, Task<TResult>> buildResponseFunc)
+        {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            HttpResponseMessage response;
+
             try
             {
-                queryString["mark"] = "mark";
-                var endpointUri = new Uri(BaseUri, $"{GetRequestDocsEndpointMethodName}?{queryString}");
-                response = await HttpClient.GetAsync(endpointUri).ConfigureAwait(continueOnCapturedContext: false);
+                response = await sendFunc().ConfigureAwait(continueOnCapturedContext: false);
+            }
+            catch (TaskCanceledException ex)
+            {
+                stopwatch.Stop();
+                Logger?.Info($"HTTP request timeout after {stopwatch.ElapsedMilliseconds}ms.", new { HttpRequestDuration = stopwatch.ElapsedMilliseconds });
+
+                return buildErrorResponseFunc(SendInvoiceErrorCodes.TimeoutErrorCode, ex.Message);
             }
             catch (Exception ex)
             {
                 stopwatch.Stop();
                 Logger?.Info($"HTTP request failed after {stopwatch.ElapsedMilliseconds}ms.", new { HttpRequestDuration = stopwatch.ElapsedMilliseconds });
 
-                return false;
+                return buildErrorResponseFunc(SendInvoiceErrorCodes.InternalServerErrorCode, ex.Message);
             }
+
             stopwatch.Stop();
             Logger?.Info($"HTTP request finished in {stopwatch.ElapsedMilliseconds}ms.", new { HttpRequestDuration = stopwatch.ElapsedMilliseconds });
 
-            return response.StatusCode != System.Net.HttpStatusCode.Unauthorized;
+            if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                return buildErrorResponseFunc(SendInvoiceErrorCodes.InternalServerErrorCode, "Internal server error");
+            }
+
+            return await buildResponseFunc(response);
         }
 
         private HttpRequestMessage BuildHttpPostMessage(string messageContent)
@@ -127,6 +143,11 @@ namespace Mews.Fiscalization.Greece
             message.Content = new StringContent(content: messageContent, encoding: Encoding.UTF8, mediaType: XmlMediaType);
 
             return message;
+        }
+        
+        private CheckUserCredentialsResult BuildCheckUserCredentialsResponseWithError(string errorCode, string errorMessage)
+        {
+            return new CheckUserCredentialsResult(error: new ResultError(errorCode, errorMessage));
         }
 
         private ResponseDoc BuildResponseDocWithErrors(string errorCode, string errorMessage, Dto.Xsd.Invoice[] invoices)
