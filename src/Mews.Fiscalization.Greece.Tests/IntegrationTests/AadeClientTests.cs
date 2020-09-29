@@ -28,7 +28,8 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             var response = await client.CheckUserCredentialsAsync();
 
             // Assert
-            Assert.True(response);
+            Assert.True(response.IsSuccess);
+            Assert.True(response.Success.IsAuthorized);
         }
 
         [Theory(Skip = "Temporary skip")]
