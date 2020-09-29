@@ -4,6 +4,7 @@
     {
         RetailSalesReceipt,
         SalesInvoice,
+        CreditInvoice,
         SimplifiedInvoice,
         SalesInvoiceIntraCommunitySupplies,
         SalesInvoiceThirdCountrySupplies,

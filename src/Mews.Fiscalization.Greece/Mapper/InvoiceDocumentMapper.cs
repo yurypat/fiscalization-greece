@@ -23,7 +23,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
         }
 
-        private Dto.Xsd.Invoice GetInvoice(Invoice invoice)
+        private Dto.Xsd.Invoice GetInvoice(InvoiceBase invoice)
         {
             return new Dto.Xsd.Invoice
             {
@@ -78,7 +78,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return null;
         }
 
-        private Dto.Xsd.InvoiceHeader GetInvoiceHeader(Invoice invoice)
+        private Dto.Xsd.InvoiceHeader GetInvoiceHeader(InvoiceBase invoice)
         {
             var invoiceHeader = new Dto.Xsd.InvoiceHeader
             {
@@ -99,7 +99,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceHeader;
         }
 
-        private Dto.Xsd.InvoiceDetail GetInvoiceDetail(RevenueItem revenueItem)
+        private Dto.Xsd.InvoiceDetail GetInvoiceDetail(RevenueItemBase revenueItem)
         {
             var invoiceDetail = new Dto.Xsd.InvoiceDetail
             {
@@ -127,7 +127,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceDetail;
         }
 
-        private Dto.Xsd.InvoiceSummary GetInvoiceSummary(Invoice invoice)
+        private Dto.Xsd.InvoiceSummary GetInvoiceSummary(InvoiceBase invoice)
         {
             var invoiceSummary = new Dto.Xsd.InvoiceSummary
             {
@@ -155,7 +155,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceSummary;
         }
 
-        private Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassification incomeClassification)
+        private Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassificationBase incomeClassification)
         {
             return new Dto.Xsd.IncomeClassification
             {
@@ -181,6 +181,8 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return Dto.Xsd.InvoiceType.SalesInvoiceThirdCountrySupplies;
                 case BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase:
                     return Dto.Xsd.InvoiceType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase;
+                case BillType.CreditInvoice:
+                    return Dto.Xsd.InvoiceType.CreditInvoiceNonAssociated;
                 default:
                     throw new ArgumentException($"Cannot map BillType {billType} to {nameof(Dto.Xsd.InvoiceType)}.");
             }
@@ -264,7 +266,7 @@ namespace Mews.Fiscalization.Greece.Mapper
 
         private Dto.Xsd.VatExemptionCategory MapVatExemptionCategory(VatExemptionType vatExemption)
         {
-            switch(vatExemption)
+            switch (vatExemption)
             {
                 case VatExemptionType.VatIncludedArticle43:
                     return Dto.Xsd.VatExemptionCategory.VatIncludedArticle43;
@@ -319,7 +321,7 @@ namespace Mews.Fiscalization.Greece.Mapper
 
         private Dto.Xsd.OtherTaxCategory MapOtherTaxCategory(CityTaxType cityTaxType)
         {
-            switch(cityTaxType)
+            switch (cityTaxType)
             {
                 case CityTaxType.Hotels1Or2Stars:
                     return Dto.Xsd.OtherTaxCategory.Hotels1Or2Stars;

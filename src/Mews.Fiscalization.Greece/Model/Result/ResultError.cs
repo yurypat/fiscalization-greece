@@ -27,7 +27,7 @@ namespace Mews.Fiscalization.Greece.Model.Result
                 case SendInvoiceErrorCodes.UnauthorizedErrorCode:
                     return ErrorCode.InvalidCredentials;
                 case "ValidationError":
-                case "XMLSyntaxError":
+                case "XmlSyntaxError":
                     return ErrorCode.ValidationError;
                 default:
                     throw new NotImplementedException($"Error code: {code} is not implemented.");

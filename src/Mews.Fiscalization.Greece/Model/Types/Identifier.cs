@@ -7,6 +7,6 @@
             Value = value;
         }
 
-        public T Value { get; }
+        public virtual T Value { get; }
     }
 }
