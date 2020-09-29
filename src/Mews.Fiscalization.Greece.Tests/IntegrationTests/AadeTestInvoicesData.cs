@@ -386,7 +386,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new NegativeInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new NegativeInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, new CurrencyCode("EUR")),
+                        header: new NegativeInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<NegativeRevenueItem>
                         {
                             new NegativeRevenueItem(new NegativeAmount(-53.65m), TaxType.Vat6, new NegativeAmount(-12.88m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProductSaleIncome)
