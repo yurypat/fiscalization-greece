@@ -1,49 +1,18 @@
 ﻿using Mews.Fiscalization.Greece.Model.Types;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class RevenueItem
+    public class RevenueItem : RevenueItemBase
     {
-        public RevenueItem(Amount netValue, TaxType taxType, Amount vatValue, IEnumerable<ItemIncomeClassification> incomeClassifications, PositiveInt lineNumber = null, VatExemptionType? vatExemption = null, CityTax cityTax = null)
-        {
-            NetValue = netValue ?? throw new ArgumentNullException(nameof(netValue));
-            TaxType = taxType;
-            VatValue = vatValue ?? throw new ArgumentNullException(nameof(vatValue));
-            IncomeClassifications = incomeClassifications ?? throw new ArgumentNullException(nameof(incomeClassifications));
-            LineNumber = lineNumber ?? new PositiveInt(1);
-            VatExemption = vatExemption;
-            CityTax = cityTax;
-
-            if (taxType == TaxType.Vat0 && !vatExemption.HasValue)
-            {
-                throw new ArgumentException($"{nameof(VatExemption)} must be specified when TaxType is {taxType}");
-            }
-
-            if (incomeClassifications.Count() == 0)
-            {
-                throw new ArgumentException($"Minimal count of {nameof(incomeClassifications)} is 1.");
-            }
-        }
         public RevenueItem(Amount netValue, TaxType taxType, Amount vatValue, ClassificationType classificationType, ClassificationCategory classificationCategory, PositiveInt lineNumber = null, VatExemptionType? vatExemption = null, CityTax cityTax = null)
-            :this(netValue, taxType, vatValue, new[] { new ItemIncomeClassification(classificationType, classificationCategory, netValue) }, lineNumber, vatExemption, cityTax)
+            : base(netValue, taxType, vatValue, new[] { new ItemIncomeClassification(classificationType, classificationCategory, netValue) }, lineNumber, vatExemption, cityTax)
         {
         }
 
-        public PositiveInt LineNumber { get; }
-
-        public Amount NetValue { get; }
-
-        public TaxType TaxType { get; }
-
-        public Amount VatValue { get; }
-
-        public VatExemptionType? VatExemption { get; }
-
-        public CityTax CityTax { get; }
-
-        public IEnumerable<ItemIncomeClassification> IncomeClassifications { get; }
+        public RevenueItem(Amount netValue, TaxType taxType, Amount vatValue, IEnumerable<ItemIncomeClassification> incomeClassifications, PositiveInt lineNumber = null, VatExemptionType? vatExemption = null, CityTax cityTax = null)
+            : base(netValue, taxType, vatValue, incomeClassifications, lineNumber, vatExemption, cityTax)
+        {
+        }
     }
 }
