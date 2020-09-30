@@ -2,11 +2,11 @@
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class LocalInvoiceParty : InvoiceParty
+    public class LocalCompany : InvoiceParty
     {
         private const string GreeceCountryCode = "GR";
 
-        public LocalInvoiceParty(TaxIdentifier taxNumber, NonNegativeInt branch = null, StringIdentifier name = null, Address address = null)
+        public LocalCompany(TaxIdentifier taxNumber, NonNegativeInt branch = null, StringIdentifier name = null, Address address = null)
             : base(taxNumber, new CountryCode(GreeceCountryCode), branch, name ,address)
         {
         }
