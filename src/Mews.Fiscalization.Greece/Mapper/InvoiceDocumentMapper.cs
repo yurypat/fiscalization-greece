@@ -23,7 +23,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
         }
 
-        private Dto.Xsd.Invoice GetInvoice(InvoiceBase invoice)
+        private Dto.Xsd.Invoice GetInvoice(Invoice invoice)
         {
             return new Dto.Xsd.Invoice
             {
@@ -78,7 +78,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return null;
         }
 
-        private Dto.Xsd.InvoiceHeader GetInvoiceHeader(InvoiceBase invoice)
+        private Dto.Xsd.InvoiceHeader GetInvoiceHeader(Invoice invoice)
         {
             var invoiceHeader = new Dto.Xsd.InvoiceHeader
             {
@@ -99,7 +99,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceHeader;
         }
 
-        private Dto.Xsd.InvoiceDetail GetInvoiceDetail(RevenueItemBase revenueItem)
+        private Dto.Xsd.InvoiceDetail GetInvoiceDetail(Revenue revenueItem)
         {
             var invoiceDetail = new Dto.Xsd.InvoiceDetail
             {
@@ -127,7 +127,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceDetail;
         }
 
-        private Dto.Xsd.InvoiceSummary GetInvoiceSummary(InvoiceBase invoice)
+        private Dto.Xsd.InvoiceSummary GetInvoiceSummary(Invoice invoice)
         {
             var invoiceSummary = new Dto.Xsd.InvoiceSummary
             {
@@ -155,7 +155,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceSummary;
         }
 
-        private Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassificationBase incomeClassification)
+        private Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassification incomeClassification)
         {
             return new Dto.Xsd.IncomeClassification
             {

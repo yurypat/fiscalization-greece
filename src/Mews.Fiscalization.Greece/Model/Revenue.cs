@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public abstract class RevenueItemBase
+    public abstract class Revenue
     {
-        public RevenueItemBase(LimitedDecimal netValue, TaxType taxType, LimitedDecimal vatValue, IEnumerable<ItemIncomeClassificationBase> incomeClassifications, PositiveInt lineNumber = null, VatExemptionType? vatExemption = null, CityTax cityTax = null)
+        public Revenue(LimitedDecimal netValue, TaxType taxType, LimitedDecimal vatValue, IEnumerable<ItemIncomeClassification> incomeClassifications, PositiveInt lineNumber = null, VatExemptionType? vatExemption = null, CityTax cityTax = null)
         {
             NetValue = netValue ?? throw new ArgumentNullException(nameof(netValue));
             TaxType = taxType;
@@ -40,6 +40,6 @@ namespace Mews.Fiscalization.Greece.Model
 
         public CityTax CityTax { get; }
 
-        public IEnumerable<ItemIncomeClassificationBase> IncomeClassifications { get; }
+        public IEnumerable<ItemIncomeClassification> IncomeClassifications { get; }
     }
 }

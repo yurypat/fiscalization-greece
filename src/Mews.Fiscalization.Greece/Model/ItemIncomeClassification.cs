@@ -1,12 +1,21 @@
 ﻿using Mews.Fiscalization.Greece.Model.Types;
+using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class ItemIncomeClassification : ItemIncomeClassificationBase
+    public class ItemIncomeClassification
     {
-        public ItemIncomeClassification(ClassificationType classificationType, ClassificationCategory classificationCategory, Amount amount)
-            : base(classificationType, classificationCategory, amount)
+        public ItemIncomeClassification(ClassificationType classificationType, ClassificationCategory classificationCategory, LimitedDecimal amount)
         {
+            ClassificationType = classificationType;
+            ClassificationCategory = classificationCategory;
+            Amount = amount ?? throw new ArgumentNullException(nameof(Amount));
         }
+
+        public ClassificationType ClassificationType { get; }
+
+        public ClassificationCategory ClassificationCategory { get; }
+
+        public LimitedDecimal Amount { get; }
     }
 }

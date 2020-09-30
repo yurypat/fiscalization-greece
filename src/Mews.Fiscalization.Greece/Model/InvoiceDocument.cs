@@ -6,7 +6,7 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class InvoiceDocument
     {
-        public InvoiceDocument(ISequentialEnumerable<InvoiceBase> invoices)
+        public InvoiceDocument(ISequentialEnumerable<Invoice> invoices)
         {
             Invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
 
@@ -16,6 +16,6 @@ namespace Mews.Fiscalization.Greece.Model
             }
         }
 
-        public ISequentialEnumerable<InvoiceBase> Invoices { get; }
+        public ISequentialEnumerable<Invoice> Invoices { get; }
     }
 }

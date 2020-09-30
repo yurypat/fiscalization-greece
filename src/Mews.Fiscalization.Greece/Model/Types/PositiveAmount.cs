@@ -1,8 +1,8 @@
 ﻿namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public class Amount : LimitedDecimal
+    public class PositiveAmount : LimitedDecimal
     {
-        public Amount(decimal value)
+        public PositiveAmount(decimal value)
             : base(value, minValue: 0, maxDecimalPlaces: 2)
         {
         }
