@@ -1,12 +1,18 @@
 ﻿using Mews.Fiscalization.Greece.Model.Types;
+using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class Payment : PaymentBase
+    public abstract class Payment
     {
-        public Payment(Amount amount, PaymentType paymentType)
-            : base(amount, paymentType)
+        public Payment(LimitedDecimal amount, PaymentType paymentType)
         {
+            Amount = amount ?? throw new ArgumentNullException(nameof(amount));
+            PaymentType = paymentType;
         }
+
+        public LimitedDecimal Amount { get; }
+
+        public PaymentType PaymentType { get; }
     }
 }

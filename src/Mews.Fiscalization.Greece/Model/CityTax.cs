@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class CityTax
     {
-        public CityTax(CityTaxType type, Amount amount)
+        public CityTax(CityTaxType type, PositiveAmount amount)
         {
             Type = type;
             Amount = amount ?? throw new ArgumentNullException(nameof(amount));
@@ -13,6 +13,6 @@ namespace Mews.Fiscalization.Greece.Model
 
         public CityTaxType Type { get; }
 
-        public Amount Amount { get; }
+        public PositiveAmount Amount { get; }
     }
 }
