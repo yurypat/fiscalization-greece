@@ -52,7 +52,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(53.65m), TaxType.Vat6, new PositiveAmount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
@@ -76,7 +76,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(53.65m), TaxType.Vat24, new PositiveAmount(12.88m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, cityTax: new CityTax(CityTaxType.Hotels5Stars, new PositiveAmount(4.00m)))
@@ -99,7 +99,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(88.50m), TaxType.Vat13, new PositiveAmount(11.50m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProvisionOfServicesIncome)
@@ -122,7 +122,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(88.50m), TaxType.Vat13, new PositiveAmount(11.50m), ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits)
@@ -146,10 +146,10 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
-                            new PositiveRevenue(new PositiveAmount(200.00m), TaxType.Vat0, new PositiveAmount(0.00m), ClassificationType.OtherSalesOfGoodsAndServices,  
+                            new PositiveRevenue(new PositiveAmount(200.00m), TaxType.Vat0, new PositiveAmount(0.00m), ClassificationType.OtherSalesOfGoodsAndServices,
                                 ClassificationCategory.OtherIncomeAndProfits, null, VatExemptionType.VatIncludedArticle46)
                         },
                         payments: new List<PositivePayment>
@@ -170,7 +170,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SalesInvoice, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(88.50m), TaxType.Vat13, new PositiveAmount(11.50m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProvisionOfServicesIncome)
@@ -194,7 +194,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, billType, new CurrencyCode("EUR"), null),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, billType, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                             {
                                 new PositiveRevenue(new PositiveAmount(100m), TaxType.WithoutVat, new PositiveAmount(0m), classificationType, ClassificationCategory.ProvisionOfServicesIncome)
@@ -215,7 +215,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(23.00m), TaxType.Vat0, new PositiveAmount(0.00m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, vatExemption: VatExemptionType.VatIncludedArticle44)
@@ -261,7 +261,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(88.50m), TaxType.Vat13, new PositiveAmount(11.50m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome)
@@ -284,7 +284,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(4.03m), TaxType.Vat24, new PositiveAmount(0.97m), ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele, ClassificationCategory.ProductSaleIncome, new PositiveInt(1)),
@@ -308,7 +308,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase, new CurrencyCode("EUR"), null),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(10m), TaxType.WithoutVat, new PositiveAmount(0m), ClassificationType.CreditExchangeDifferences, ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries)
@@ -328,7 +328,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.RetailSalesReceipt, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             //Night 9/16/2020
@@ -366,7 +366,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new PositiveInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, new CurrencyCode("EUR")),
+                        header: new PositiveInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.SimplifiedInvoice, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<PositiveRevenue>
                         {
                             new PositiveRevenue(new PositiveAmount(88.50m), TaxType.Vat13, new PositiveAmount(11.50m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.OtherIncomeAndProfits)
@@ -386,7 +386,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                 {
                     new NegativeInvoice(
                         issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                        header: new NegativeInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
+                        header: new NegativeInvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, BillType.CreditInvoiceNonAssociated, currencyCode: new CurrencyCode("EUR")),
                         revenueItems: new List<NegativeRevenue>
                         {
                             new NegativeRevenue(new NegativeAmount(-53.65m), TaxType.Vat6, new NegativeAmount(-12.88m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProductSaleIncome)

@@ -5,6 +5,7 @@
         RetailSalesReceipt,
         SalesInvoice,
         CreditInvoice,
+        CreditInvoiceNonAssociated,
         SimplifiedInvoice,
         SalesInvoiceIntraCommunitySupplies,
         SalesInvoiceThirdCountrySupplies,
