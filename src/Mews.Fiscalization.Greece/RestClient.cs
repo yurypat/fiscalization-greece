@@ -14,7 +14,7 @@ namespace Mews.Fiscalization.Greece
 {
     internal class RestClient
     {
-        private static readonly Uri ProductionBaseUri = new Uri("https://mydata-prod-apim.azure-api.net/myDATA");
+        private static readonly Uri ProductionBaseUri = new Uri("https://mydatapi.aade.gr/myDATA");
         private static readonly Uri SandboxBaseUri = new Uri("https://mydata-dev.azure-api.net");
         private static readonly string SendInvoicesEndpointMethodName = "SendInvoices";
         private static readonly string GetRequestDocsEndpointMethodName = "RequestDocs";
