@@ -2,7 +2,7 @@
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class LocalCompany : InvoiceParty
+    public class LocalCompany : Company
     {
         private const string GreeceCountryCode = "GR";
 

@@ -3,14 +3,20 @@ using System;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public abstract class InvoiceHeader
+    public class InvoiceHeader
     {
-        public InvoiceHeader(LimitedString1to50 invoiceSeries, LimitedString1to50 invoiceSerialNumber, DateTime invoiceIssueDate, BillType billType, CurrencyCode currencyCode = null, ExchangeRate exchangeRate = null)
+        public InvoiceHeader(
+            LimitedString1to50 invoiceSeries,
+            LimitedString1to50 invoiceSerialNumber,
+            DateTime invoiceIssueDate,
+            StringIdentifier invoiceIdentifier = null,
+            CurrencyCode currencyCode = null,
+            ExchangeRate exchangeRate = null)
         {
             InvoiceSeries = invoiceSeries ?? throw new ArgumentNullException(nameof(invoiceSeries));
             InvoiceSerialNumber = invoiceSerialNumber ?? throw new ArgumentNullException(nameof(invoiceSerialNumber));
             InvoiceIssueDate = invoiceIssueDate;
-            BillType = billType;
+            InvoiceIdentifier = invoiceIdentifier;
             CurrencyCode = currencyCode;
             ExchangeRate = exchangeRate;
         }
@@ -21,7 +27,7 @@ namespace Mews.Fiscalization.Greece.Model
 
         public DateTime InvoiceIssueDate { get; }
 
-        public BillType BillType { get; }
+        public StringIdentifier InvoiceIdentifier { get; }
 
         public CurrencyCode CurrencyCode { get; }
 

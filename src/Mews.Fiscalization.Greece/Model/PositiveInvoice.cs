@@ -1,22 +1,20 @@
 ﻿using Mews.Fiscalization.Greece.Model.Types;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Model
 {
     public class PositiveInvoice : Invoice
     {
         public PositiveInvoice(
+            InvoiceHeader header,
+            BillType billType,
             LocalCompany issuer,
-            PositiveInvoiceHeader header,
             IEnumerable<PositiveRevenue> revenueItems,
-            StringIdentifier invoiceIdentifier = null,
+            Company counterpart = null,
+            IEnumerable<PositivePayment> payments = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
-            InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
-            ForeignCompany counterpart = null,
-            IEnumerable<PositivePayment> payments = null)
-            : base(issuer, header, revenueItems, invoiceIdentifier, invoiceRegistrationNumber, cancelledByInvoiceRegistrationNumber, counterpart, payments)
+            InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null)
+            : base(header, billType, issuer, revenueItems, counterpart, payments, invoiceRegistrationNumber, cancelledByInvoiceRegistrationNumber)
         {
         }
     }

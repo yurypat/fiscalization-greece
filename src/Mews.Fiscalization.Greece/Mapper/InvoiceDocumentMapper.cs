@@ -2,28 +2,22 @@
 using Mews.Fiscalization.Greece.Model;
 using System;
 using System.Linq;
+using Mews.Fiscalization.Greece.Model.Collections;
 using TaxType = Mews.Fiscalization.Greece.Model.TaxType;
 
 namespace Mews.Fiscalization.Greece.Mapper
 {
-    public class InvoiceDocumentMapper
+    public static class InvoiceDocumentMapper
     {
-        public InvoiceDocumentMapper(InvoiceDocument invoiceDocument)
-        {
-            InvoiceDocument = invoiceDocument;
-        }
-
-        private InvoiceDocument InvoiceDocument { get; }
-
-        public Dto.Xsd.InvoicesDoc GetInvoiceDoc()
+        public static Dto.Xsd.InvoicesDoc GetInvoiceDoc(ISequentialEnumerable<Invoice> invoices)
         {
             return new Dto.Xsd.InvoicesDoc
             {
-                Invoices = InvoiceDocument.Invoices.Items.Select(invoice => GetInvoice(invoice)).ToArray()
+                Invoices = invoices.Items.Select(invoice => GetInvoice(invoice)).ToArray()
             };
         }
 
-        private Dto.Xsd.Invoice GetInvoice(Invoice invoice)
+        private static Dto.Xsd.Invoice GetInvoice(Invoice invoice)
         {
             return new Dto.Xsd.Invoice
             {
@@ -31,7 +25,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 InvoiceMark = invoice.InvoiceRegistrationNumber.GetOrDefault(),
                 InvoiceCancelationMarkSpecified = invoice.CanceledByInvoiceRegistrationNumber.IsDefined(),
                 InvoiceCancelationMark = invoice.CanceledByInvoiceRegistrationNumber.GetOrDefault(),
-                InvoiceId = invoice.InvoiceIdentifier.GetOrDefault(),
+                InvoiceId = invoice.Header.InvoiceIdentifier.GetOrDefault(),
                 InvoiceIssuer = GetInvoiceParty(invoice.Issuer),
                 InvoiceCounterpart = GetInvoiceParty(invoice.Counterpart),
                 InvoiceSummary = GetInvoiceSummary(invoice),
@@ -45,7 +39,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
         }
 
-        private Dto.Xsd.InvoiceParty GetInvoiceParty(InvoiceParty invoiceParty)
+        private static Dto.Xsd.InvoiceParty GetInvoiceParty(InvoiceParty invoiceParty)
         {
             if (invoiceParty != null)
             {
@@ -62,7 +56,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return null;
         }
 
-        private Dto.Xsd.Address GetAddress(Address address)
+        private static Dto.Xsd.Address GetAddress(Address address)
         {
             if (address != null)
             {
@@ -78,11 +72,11 @@ namespace Mews.Fiscalization.Greece.Mapper
             return null;
         }
 
-        private Dto.Xsd.InvoiceHeader GetInvoiceHeader(Invoice invoice)
+        private static Dto.Xsd.InvoiceHeader GetInvoiceHeader(Invoice invoice)
         {
             var invoiceHeader = new Dto.Xsd.InvoiceHeader
             {
-                InvoiceType = MapInvoiceType(invoice.Header.BillType),
+                InvoiceType = MapInvoiceType(invoice.BillType),
                 IssueDate = invoice.Header.InvoiceIssueDate,
                 SerialNumber = invoice.Header.InvoiceSerialNumber.Value,
                 Series = invoice.Header.InvoiceSeries.Value,
@@ -99,7 +93,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceHeader;
         }
 
-        private Dto.Xsd.InvoiceDetail GetInvoiceDetail(Revenue revenueItem)
+        private static Dto.Xsd.InvoiceDetail GetInvoiceDetail(Revenue revenueItem)
         {
             var invoiceDetail = new Dto.Xsd.InvoiceDetail
             {
@@ -127,7 +121,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceDetail;
         }
 
-        private Dto.Xsd.InvoiceSummary GetInvoiceSummary(Invoice invoice)
+        private static Dto.Xsd.InvoiceSummary GetInvoiceSummary(Invoice invoice)
         {
             var invoiceSummary = new Dto.Xsd.InvoiceSummary
             {
@@ -155,7 +149,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceSummary;
         }
 
-        private Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassification incomeClassification)
+        private static Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassification incomeClassification)
         {
             return new Dto.Xsd.IncomeClassification
             {
@@ -165,7 +159,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
         }
 
-        private Dto.Xsd.InvoiceType MapInvoiceType(BillType billType)
+        private static Dto.Xsd.InvoiceType MapInvoiceType(BillType billType)
         {
             switch (billType)
             {
@@ -188,7 +182,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             }
         }
 
-        private Dto.Xsd.IncomeClassificationCategory MapIncomeClassificationCategory(ClassificationCategory classificationCategory)
+        private static Dto.Xsd.IncomeClassificationCategory MapIncomeClassificationCategory(ClassificationCategory classificationCategory)
         {
             switch (classificationCategory)
             {
@@ -205,7 +199,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             }
         }
 
-        private Dto.Xsd.IncomeClassificationType MapIncomeClassificationType(ClassificationType classificationType)
+        private static Dto.Xsd.IncomeClassificationType MapIncomeClassificationType(ClassificationType classificationType)
         {
             switch (classificationType)
             {
@@ -226,7 +220,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             }
         }
 
-        private Dto.Xsd.VatCategory MapVatCategory(TaxType taxType)
+        private static Dto.Xsd.VatCategory MapVatCategory(TaxType taxType)
         {
             switch (taxType)
             {
@@ -245,7 +239,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             }
         }
 
-        private Dto.Xsd.PaymentMethodType MapPaymentMethodType(PaymentType paymentType)
+        private static Dto.Xsd.PaymentMethodType MapPaymentMethodType(PaymentType paymentType)
         {
             switch (paymentType)
             {
@@ -264,7 +258,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             }
         }
 
-        private Dto.Xsd.VatExemptionCategory MapVatExemptionCategory(VatExemptionType vatExemption)
+        private static Dto.Xsd.VatExemptionCategory MapVatExemptionCategory(VatExemptionType vatExemption)
         {
             switch (vatExemption)
             {
@@ -319,7 +313,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             }
         }
 
-        private Dto.Xsd.OtherTaxCategory MapOtherTaxCategory(CityTaxType cityTaxType)
+        private static Dto.Xsd.OtherTaxCategory MapOtherTaxCategory(CityTaxType cityTaxType)
         {
             switch (cityTaxType)
             {
