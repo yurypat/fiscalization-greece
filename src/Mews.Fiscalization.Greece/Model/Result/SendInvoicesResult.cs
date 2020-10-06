@@ -1,6 +1,5 @@
 ﻿using Mews.Fiscalization.Greece.Dto.Xsd;
 using System.Linq;
-using System.Collections.Generic;
 using Mews.Fiscalization.Greece.Model.Collections;
 
 namespace Mews.Fiscalization.Greece.Model.Result

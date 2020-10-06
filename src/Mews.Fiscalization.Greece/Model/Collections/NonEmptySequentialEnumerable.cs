@@ -38,7 +38,7 @@ namespace Mews.Fiscalization.Greece.Model.Collections
         {
             Values = indexedItems.AsList();
 
-            if (!Values.NonEmpty() || !Values.IsSequential(startIndex: Indexes.Min()))
+            if (Values.IsEmpty() || !Values.IsSequential(startIndex: Indexes.Min()))
             {
                 throw new ArgumentException("Item indexes are not sequential.", nameof(indexedItems));
             }
@@ -67,6 +67,11 @@ namespace Mews.Fiscalization.Greece.Model.Collections
 
     public static class SequentialEnumerable
     {
+        public static ISequentialEnumerable<T> FromPreordered<T>(params T[] source)
+        {
+            return FromPreordered(source.ToList(), startIndex: 0);
+        }
+
         public static ISequentialEnumerable<T> FromPreordered<T>(IEnumerable<T> source, int startIndex)
         {
             return new SequentialEnumerable<T>(source.Select((item, index) => new IndexedItem<T>(startIndex + index, item)));

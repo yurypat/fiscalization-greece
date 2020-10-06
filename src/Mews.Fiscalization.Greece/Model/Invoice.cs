@@ -8,43 +8,44 @@ namespace Mews.Fiscalization.Greece.Model
     public abstract class Invoice
     {
         public Invoice(
-            LocalCompany issuer,
             InvoiceHeader header,
+            BillType billType,
+            LocalCompany issuer,
             IEnumerable<Revenue> revenueItems,
-            StringIdentifier invoiceIdentifier = null,
+            Company counterpart = null,
+            IEnumerable<Payment> payments = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
-            InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
-            ForeignCompany counterpart = null,
-            IEnumerable<Payment> payments = null)
+            InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null)
         {
-            Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
             Header = header ?? throw new ArgumentNullException(nameof(header));
-            InvoiceIdentifier = invoiceIdentifier;
+            BillType = billType;
+            Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
+            RevenueItems = revenueItems.ToList();
+            Counterpart = counterpart;
+            Payments = payments;
             InvoiceRegistrationNumber = invoiceRegistrationNumber;
             CanceledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
-            Counterpart = counterpart;
-            RevenueItems = revenueItems;
-            Payments = payments;
 
-            if (revenueItems.Count() == 0)
+            if (!RevenueItems.Any())
             {
                 throw new ArgumentException($"Minimal count of {nameof(revenueItems)} is 1.");
             }
         }
-        public InvoiceHeader Header { get; set; }
 
-        public StringIdentifier InvoiceIdentifier { get; }
+        public InvoiceHeader Header { get; }
+
+        public BillType BillType { get; }
+
+        public LocalCompany Issuer { get; }
+
+        public IReadOnlyList<Revenue> RevenueItems { get; }
+
+        public Company Counterpart { get; }
+
+        public IEnumerable<Payment> Payments { get; }
 
         public InvoiceRegistrationNumber InvoiceRegistrationNumber { get; }
 
         public InvoiceRegistrationNumber CanceledByInvoiceRegistrationNumber { get; }
-
-        public LocalCompany Issuer { get; }
-
-        public ForeignCompany Counterpart { get; }
-
-        public IEnumerable<Revenue> RevenueItems { get; }
-
-        public IEnumerable<Payment> Payments { get; set; }
     }
 }

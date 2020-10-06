@@ -2,7 +2,7 @@
 
 namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public abstract class LimitedString : StringIdentifier
+    public abstract class LimitedString : Identifier<string>
     {
         public LimitedString(string value, int minLength, int? maxLength = null)
             : base(value)
