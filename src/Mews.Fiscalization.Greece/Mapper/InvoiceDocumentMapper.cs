@@ -25,7 +25,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 InvoiceMark = invoice.InvoiceRegistrationNumber.GetOrDefault(),
                 InvoiceCancelationMarkSpecified = invoice.CanceledByInvoiceRegistrationNumber.IsDefined(),
                 InvoiceCancelationMark = invoice.CanceledByInvoiceRegistrationNumber.GetOrDefault(),
-                InvoiceId = invoice.Header.InvoiceIdentifier.GetOrDefault(),
+                InvoiceId = invoice.Header.InvoiceIdentifier,
                 InvoiceIssuer = GetInvoiceParty(invoice.Issuer),
                 InvoiceCounterpart = GetInvoiceParty(invoice.Counterpart),
                 InvoiceSummary = GetInvoiceSummary(invoice),
@@ -47,8 +47,8 @@ namespace Mews.Fiscalization.Greece.Mapper
                 {
                     Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), invoiceParty.CountryCode.Value, true),
                     Branch = invoiceParty.Branch.Value,
-                    Name = invoiceParty.Name.GetOrDefault(),
-                    VatNumber = invoiceParty.TaxNumber.Value,
+                    Name = invoiceParty.Name,
+                    VatNumber = invoiceParty.TaxNumber,
                     Address = GetAddress(invoiceParty.Address)
                 };
             }
@@ -63,9 +63,9 @@ namespace Mews.Fiscalization.Greece.Mapper
                 return new Dto.Xsd.Address
                 {
                     City = address.City.Value,
-                    Number = address.Number.GetOrDefault(),
+                    Number = address.Number,
                     PostalCode = address.PostalCode.Value,
-                    Street = address.Street.GetOrDefault()
+                    Street = address.Street
                 };
             }
 

@@ -35,7 +35,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 
         [Theory(Skip = "Temporary skip")]
         [MemberData(nameof(AadeTestInvoicesData.GetInvoices), MemberType = typeof(AadeTestInvoicesData))]
-        public async Task ValidInvoiceDocumentWorks(ISequentialEnumerable<Invoice> invoices)
+        public async Task ValidInvoicesWork(ISequentialEnumerable<Invoice> invoices)
         {
             // Arrange
             var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);

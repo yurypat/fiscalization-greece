@@ -20,14 +20,13 @@ namespace Mews.Fiscalization.Greece.Model
             Header = header ?? throw new ArgumentNullException(nameof(header));
             BillType = billType;
             Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
-            var revenue = revenueItems.ToList();
-            RevenueItems = revenue;
+            RevenueItems = revenueItems.ToList();
             Counterpart = counterpart;
             Payments = payments;
             InvoiceRegistrationNumber = invoiceRegistrationNumber;
             CanceledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
 
-            if (revenue.Count == 0)
+            if (!RevenueItems.Any())
             {
                 throw new ArgumentException($"Minimal count of {nameof(revenueItems)} is 1.");
             }
@@ -39,7 +38,7 @@ namespace Mews.Fiscalization.Greece.Model
 
         public LocalCompany Issuer { get; }
 
-        public IEnumerable<Revenue> RevenueItems { get; }
+        public IReadOnlyList<Revenue> RevenueItems { get; }
 
         public Company Counterpart { get; }
 

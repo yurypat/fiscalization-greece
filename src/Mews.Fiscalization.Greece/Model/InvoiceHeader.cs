@@ -9,7 +9,7 @@ namespace Mews.Fiscalization.Greece.Model
             LimitedString1to50 invoiceSeries,
             LimitedString1to50 invoiceSerialNumber,
             DateTime invoiceIssueDate,
-            StringIdentifier invoiceIdentifier = null,
+            string invoiceIdentifier = null,
             CurrencyCode currencyCode = null,
             ExchangeRate exchangeRate = null)
         {
@@ -27,7 +27,7 @@ namespace Mews.Fiscalization.Greece.Model
 
         public DateTime InvoiceIssueDate { get; }
 
-        public StringIdentifier InvoiceIdentifier { get; }
+        public string InvoiceIdentifier { get; }
 
         public CurrencyCode CurrencyCode { get; }
 

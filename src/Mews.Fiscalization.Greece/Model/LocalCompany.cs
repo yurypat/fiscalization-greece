@@ -6,7 +6,7 @@ namespace Mews.Fiscalization.Greece.Model
     {
         private const string GreeceCountryCode = "GR";
 
-        public LocalCompany(TaxIdentifier taxNumber, NonNegativeInt branch = null, StringIdentifier name = null, Address address = null)
+        public LocalCompany(TaxIdentifier taxNumber, NonNegativeInt branch = null, string name = null, Address address = null)
             : base(taxNumber, new CountryCode(GreeceCountryCode), branch, name ,address)
         {
         }
