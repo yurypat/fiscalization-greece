@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mews.Fiscalization.Greece.Model.Collections;
 using Xunit;
 
 namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
@@ -39,13 +40,13 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 
         [Theory(Skip = "Temporary skip")]
         [MemberData(nameof(AadeTestInvoicesData.GetInvoices), MemberType = typeof(AadeTestInvoicesData))]
-        public async Task ValidInvoiceDocumentWorks(InvoiceDocument invoiceDoc)
+        public async Task ValidInvoicesWork(ISequentialEnumerable<Invoice> invoices)
         {
             // Arrange
             var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
 
             // Act
-            var response = await client.SendInvoicesAsync(invoiceDoc);
+            var response = await client.SendInvoicesAsync(invoices);
 
             // Assert
             Assert.NotEmpty(response.SendInvoiceResults);

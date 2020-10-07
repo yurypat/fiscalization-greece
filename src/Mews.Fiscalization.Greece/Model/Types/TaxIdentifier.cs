@@ -2,7 +2,7 @@
 
 namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public class TaxIdentifier : StringIdentifier
+    public class TaxIdentifier : NotEmptyString
     {
         public TaxIdentifier(string value)
             : base(value)
@@ -17,7 +17,7 @@ namespace Mews.Fiscalization.Greece.Model.Types
             }
         }
 
-        public static bool IsValid(string value)
+        public new static bool IsValid(string value)
         {
             return value != null && Patterns.TaxIdentifier.IsMatch(value);
         }
