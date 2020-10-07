@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class Address
     {
-        public Address(NotEmptyString postalCode, NotEmptyString city, string street = null, string number = null)
+        public Address(NonEmptyString postalCode, NonEmptyString city, string street = null, string number = null)
         {
             PostalCode = postalCode ?? throw new ArgumentNullException(nameof(postalCode));
             City = city ?? throw new ArgumentNullException(nameof(city));
@@ -17,8 +17,8 @@ namespace Mews.Fiscalization.Greece.Model
 
         public string Number { get; }
 
-        public NotEmptyString PostalCode { get; }
+        public NonEmptyString PostalCode { get; }
 
-        public NotEmptyString City { get; }
+        public NonEmptyString City { get; }
     }
 }

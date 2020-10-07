@@ -8,9 +8,9 @@ namespace Mews.Fiscalization.Greece.Model
         public NonNegativeInvoice(
             InvoiceHeader header,
             BillType billType,
-            LocalCompany issuer,
+            LocalCounterpart issuer,
             IEnumerable<NonNegativeRevenue> revenueItems,
-            Company counterpart = null,
+            Counterpart counterpart = null,
             IEnumerable<NonNegativePayment> payments = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null)

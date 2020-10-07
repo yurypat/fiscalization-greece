@@ -48,7 +48,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.RetailSalesReceipt,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -70,7 +70,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.RetailSalesReceipt,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -92,7 +92,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.SalesInvoice,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -103,7 +103,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     {
                         new NonNegativePayment(new NonNegativeAmount(100m), PaymentType.Cash)
                     },
-                    counterpart: new Company(new NotEmptyString("090701900"), new CountryCode("GR"))
+                    counterpart: new Counterpart(new NonEmptyString("090701900"), new CountryCode("GR"))
                 )
             );
         }
@@ -115,7 +115,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.RetailSalesReceipt,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -138,7 +138,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.SalesInvoice,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -149,7 +149,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     {
                         new NonNegativePayment(new NonNegativeAmount(100m), paymentType)
                     },
-                    counterpart: new Company(new NotEmptyString("090701900"), new CountryCode("GR"))
+                    counterpart: new Counterpart(new NonEmptyString("090701900"), new CountryCode("GR"))
                 )
             );
         }
@@ -161,7 +161,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: billType,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -172,7 +172,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     {
                         new NonNegativePayment(new NonNegativeAmount(100m), paymentType)
                     },
-                    counterpart: new Company(new NotEmptyString("12348765"), new CountryCode(countryCode), new NonNegativeInt(0), "Name", new Address(postalCode: new NotEmptyString("12"), city: new NotEmptyString("City")))
+                    counterpart: new Counterpart(new NonEmptyString("12348765"), new CountryCode(countryCode), new NonNegativeInt(0), "Name", new Address(postalCode: new NonEmptyString("12"), city: new NonEmptyString("City")))
                 )
             );
         }
@@ -181,7 +181,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.RetailSalesReceipt,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -226,7 +226,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.SimplifiedInvoice,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -248,7 +248,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.RetailSalesReceipt,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -271,7 +271,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -290,7 +290,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.RetailSalesReceipt,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -327,7 +327,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NonNegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     billType: BillType.SimplifiedInvoice,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NonNegativeRevenue>
@@ -346,7 +346,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         {
             return SequentialEnumerable.FromPreordered(
                 new NegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NegativeRevenue>
                     {
@@ -356,7 +356,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     {
                         new NegativePayment(new NegativeAmount(-66.53m), PaymentType.Cash)
                     },
-                    counterpart: new Company(new NotEmptyString("090701900"), new CountryCode("GR"), new NonNegativeInt(0), address: new Address(postalCode: new NotEmptyString("12"), city: new NotEmptyString("City")))
+                    counterpart: new Counterpart(new NonEmptyString("090701900"), new CountryCode("GR"), new NonNegativeInt(0), address: new Address(postalCode: new NonEmptyString("12"), city: new NonEmptyString("City")))
                 )
             );
         }

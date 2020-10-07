@@ -40,17 +40,17 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
         }
 
-        private static Dto.Xsd.InvoiceParty GetInvoiceParty(InvoiceParty invoiceParty)
+        private static Dto.Xsd.InvoiceParty GetInvoiceParty(Counterpart counterpart)
         {
-            if (invoiceParty != null)
+            if (counterpart != null)
             {
                 return new Dto.Xsd.InvoiceParty
                 {
-                    Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), invoiceParty.CountryCode.Value, true),
-                    Branch = invoiceParty.Branch.Value,
-                    Name = invoiceParty.Name,
-                    VatNumber = invoiceParty.TaxNumber,
-                    Address = GetAddress(invoiceParty.Address)
+                    Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), counterpart.CountryCode.Value, true),
+                    Branch = counterpart.Branch.Value,
+                    Name = counterpart.Name,
+                    VatNumber = counterpart.TaxNumber,
+                    Address = GetAddress(counterpart.Address)
                 };
             }
 

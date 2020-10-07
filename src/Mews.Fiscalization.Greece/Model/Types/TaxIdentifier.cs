@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public class TaxIdentifier : NotEmptyString
+    public class TaxIdentifier : NonEmptyString
     {
         private static readonly Regex Pattern = new Regex("[0-9]{9}$");
 
