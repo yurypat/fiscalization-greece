@@ -3,6 +3,7 @@ using Mews.Fiscalization.Greece.Model.Collections;
 using Mews.Fiscalization.Greece.Model.Types;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 {
@@ -17,26 +18,28 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 
         public static IEnumerable<object[]> GetInvoices()
         {
-            return new List<object[]>
-                {
-                    new object[] { SimpleValidInvoice() },
-                    new object[] { InvoiceWithEmptyCounterpart(PaymentType.Cash) },
-                    new object[] { InvoiceWithEmptyCounterpart(PaymentType.DomesticPaymentsAccountNumber) },
-                    new object[] { InvoiceWithDomesticCompanyCounterpart(PaymentType.Cash) },
-                    new object[] { InvoiceWithForeignCompanyCounterpart("CZ", BillType.SalesInvoiceIntraCommunitySupplies, ClassificationType.IntraCommunityForeignSalesOfGoodsAndServices, PaymentType.Cash) },
-                    new object[] { InvoiceWithForeignCompanyCounterpart("US", BillType.SalesInvoiceThirdCountrySupplies, ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices, PaymentType.Cash) },
-                    new object[] { InvoiceWithDomesticCompanyCounterpart(PaymentType.OnCredit) },
-                    new object[] { InvoiceWithForeignCompanyCounterpart("CZ", BillType.SalesInvoiceIntraCommunitySupplies, ClassificationType.IntraCommunityForeignSalesOfGoodsAndServices, PaymentType.OnCredit) },
-                    new object[] { InvoiceWithForeignCompanyCounterpart("US", BillType.SalesInvoiceThirdCountrySupplies, ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices, PaymentType.OnCredit) },
-                    new object[] { SimplifiedInvoiceForCustomer() },
-                    new object[] { InvoiceWithConversionRate() },
-                    new object[] { InvoiceWithRebateOfItems() },
-                    new object[] { InvoiceWithVariousPaymentMethods() },
-                    new object[] { InvoiceForDepositCashPayment() },
-                    new object[] { InvoiceWithVariousOrderItemTypes() },
-                    new object[] { InvoiceForCompanyWithoutDetails() },
-                    new object[] { SimpleInvoiceForCompany() }
-                };
+            var invoices = new List<object>
+            {
+                SimpleValidInvoice(),
+                InvoiceWithEmptyCounterpart(PaymentType.Cash),
+                InvoiceWithEmptyCounterpart(PaymentType.DomesticPaymentsAccountNumber),
+                InvoiceWithDomesticCompanyCounterpart(PaymentType.Cash),
+                InvoiceWithForeignCompanyCounterpart("CZ", BillType.SalesInvoiceIntraCommunitySupplies, ClassificationType.IntraCommunityForeignSalesOfGoodsAndServices, PaymentType.Cash),
+                InvoiceWithForeignCompanyCounterpart("US", BillType.SalesInvoiceThirdCountrySupplies, ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices, PaymentType.Cash),
+                InvoiceWithDomesticCompanyCounterpart(PaymentType.OnCredit),
+                InvoiceWithForeignCompanyCounterpart("CZ", BillType.SalesInvoiceIntraCommunitySupplies, ClassificationType.IntraCommunityForeignSalesOfGoodsAndServices, PaymentType.OnCredit),
+                InvoiceWithForeignCompanyCounterpart("US", BillType.SalesInvoiceThirdCountrySupplies, ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices, PaymentType.OnCredit),
+                SimplifiedInvoiceForCustomer(),
+                InvoiceWithConversionRate(),
+                InvoiceWithRebateOfItems(),
+                InvoiceWithVariousPaymentMethods(),
+                InvoiceForDepositCashPayment(),
+                InvoiceWithVariousOrderItemTypes(),
+                InvoiceForCompanyWithoutDetails(),
+                SimpleInvoiceForCompany(),
+                CreditInvoiceWithNegativeAmounts()
+            };
+            return invoices.Select(i => new [] { i });
         }
 
         /// <summary>
