@@ -35,8 +35,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     new object[] { InvoiceForDepositCashPayment() },
                     new object[] { InvoiceWithVariousOrderItemTypes() },
                     new object[] { InvoiceForCompanyWithoutDetails() },
-                    new object[] { SimpleInvoiceForCompany() },
-                    new object[] { CreditInvoiceWithNegativeAmounts() }
+                    new object[] { SimpleInvoiceForCompany() }
                 };
         }
 

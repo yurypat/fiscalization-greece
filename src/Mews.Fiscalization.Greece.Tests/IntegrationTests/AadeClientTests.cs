@@ -1,8 +1,10 @@
 ﻿using Mews.Fiscalization.Greece.Model;
+using Mews.Fiscalization.Greece.Model.Collections;
+using Mews.Fiscalization.Greece.Model.Types;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mews.Fiscalization.Greece.Model.Collections;
 using Xunit;
 
 namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
@@ -11,11 +13,13 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
     {
         private static readonly string UserId = "";
         private static readonly string UserSubscriptionKey = "";
+        private static readonly string UserVatNumber = "";
 
         static AadeClientTests()
         {
             UserId = Environment.GetEnvironmentVariable("user_id") ?? "INSERT_USER_ID";
             UserSubscriptionKey = Environment.GetEnvironmentVariable("user_subscription_key") ?? "INSERT_SUBSCRIPTION_KEY";
+            UserVatNumber = Environment.GetEnvironmentVariable("user_vat_number") ?? "INSERT_USER_VAT_NUMBER";
         }
 
 
@@ -46,6 +50,65 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             // Assert
             Assert.NotEmpty(response.SendInvoiceResults);
             Assert.True(response.SendInvoiceResults.Single().Item.IsSuccess);
+        }
+
+        [Fact(Skip = "Temporary skip")]
+        public async Task ValidNegativeInvoiceWorks()
+        {
+            // Arrange
+            var client = new AadeClient(UserId, UserSubscriptionKey, AadeEnvironment.Sandbox);
+
+            // Act
+
+            // Step 1 - regular invoice
+            var invoices = SequentialEnumerable.FromPreordered(
+                new NonNegativeInvoice(
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
+                    billType: BillType.SalesInvoice,
+                    header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
+                    revenueItems: new List<NonNegativeRevenue>
+                    {
+                        new NonNegativeRevenue(new NonNegativeAmount(88.50m), new NonNegativeAmount(11.50m), TaxType.Vat13, ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits)
+                    },
+                    payments: new List<NonNegativePayment>
+                    {
+                        new NonNegativePayment(new NonNegativeAmount(100m), PaymentType.Cash)
+                    },
+                    counterpart: new Counterpart(new NonEmptyString("090701900"), new CountryCode("GR"))
+                ));
+
+            var response = await client.SendInvoicesAsync(invoices);
+
+            Assert.NotEmpty(response.SendInvoiceResults);
+            Assert.True(response.SendInvoiceResults.Single().Item.IsSuccess);
+
+            // We need to wait some time to allow external system to store the mark from the first call
+            await Task.Delay(1000);
+
+            // Step 2 - negative invoice
+            var correlatedInvoice = response.SendInvoiceResults.First().Item.Success.InvoiceRegistrationNumber.Value;
+
+            var negativeInvoice = SequentialEnumerable.FromPreordered(
+                new NegativeInvoice(
+                    issuer: new LocalCounterpart(new TaxIdentifier(UserVatNumber)),
+                    correlatedInvoice: new InvoiceRegistrationNumber(correlatedInvoice),
+                    header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50021"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
+                    revenueItems: new List<NegativeRevenue>
+                    {
+                        new NegativeRevenue(new NegativeAmount(-53.65m), new NegativeAmount(-12.88m), TaxType.Vat6, ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProductSaleIncome)
+                    },
+                    payments: new List<NegativePayment>
+                    {
+                        new NegativePayment(new NegativeAmount(-66.53m), PaymentType.Cash)
+                    },
+                    counterpart: new Counterpart(new NonEmptyString("090701900"), new CountryCode("GR"), new NonNegativeInt(0), address: new Address(postalCode: new NonEmptyString("12"), city: new NonEmptyString("City")))
+            ));
+
+            var negativeInvoiceResponse = await client.SendInvoicesAsync(negativeInvoice);
+
+            // Assert
+            Assert.NotEmpty(negativeInvoiceResponse.SendInvoiceResults);
+            Assert.True(negativeInvoiceResponse.SendInvoiceResults.Single().Item.IsSuccess);
         }
     }
 }

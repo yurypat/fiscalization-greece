@@ -83,7 +83,10 @@ namespace Mews.Fiscalization.Greece.Mapper
                 Series = invoice.Header.InvoiceSeries.Value,
                 CurrencySpecified = invoice.Header.CurrencyCode.IsNotNull(),
                 ExchangeRateSpecified = invoice.Header.ExchangeRate.IsNotNull(),
-                ExchangeRate = invoice.Header.ExchangeRate?.Value ?? 0
+                ExchangeRate = invoice.Header.ExchangeRate?.Value ?? 0,
+                CorrelatedInvoicesSpecified = invoice.CorrelatedInvoice.IsNotNull(),
+                CorrelatedInvoices = invoice.CorrelatedInvoice?.Value ?? 0
+
             };
 
             if (invoice.Header.CurrencyCode.IsNotNull())
@@ -165,6 +168,8 @@ namespace Mews.Fiscalization.Greece.Mapper
                 case BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase:
                     return Dto.Xsd.InvoiceType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase;
                 case BillType.CreditInvoice:
+                    return Dto.Xsd.InvoiceType.CreditInvoiceAssociated;
+                case BillType.CreditInvoiceNonAssociated:
                     return Dto.Xsd.InvoiceType.CreditInvoiceNonAssociated;
                 default:
                     throw new ArgumentException($"Cannot map BillType {billType} to {nameof(Dto.Xsd.InvoiceType)}.");
