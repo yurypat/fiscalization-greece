@@ -36,8 +36,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     new object[] { InvoiceForDepositCashPayment() },
                     new object[] { InvoiceWithVariousOrderItemTypes() },
                     new object[] { InvoiceForCompanyWithoutDetails() },
-                    new object[] { SimpleInvoiceForCompany() },
-                    new object[] { CreditInvoiceWithNegativeAmounts() }
+                    new object[] { SimpleInvoiceForCompany() }
                 };
         }
 
@@ -362,25 +361,6 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     {
                         new PositivePayment(new NonNegativeAmount(100m), PaymentType.Cash)
                     }
-                )
-            );
-        }
-
-        private static ISequentialEnumerable<Invoice> CreditInvoiceWithNegativeAmounts()
-        {
-            return SequentialEnumerable.FromPreordered(
-                new NegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
-                    header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
-                    revenueItems: new List<NegativeRevenue>
-                    {
-                        new NegativeRevenue(new NegativeAmount(-53.65m), TaxType.Vat6, new NegativeAmount(-12.88m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProductSaleIncome)
-                    },
-                    payments: new List<NegativePayment>
-                    {
-                        new NegativePayment(new NegativeAmount(-66.53m), PaymentType.Cash)
-                    },
-                    counterpart: new Company(new NotEmptyString("090701900"), new CountryCode("GR"), new NonNegativeInt(0), address: new Address(postalCode: new NotEmptyString("12"), city: new NotEmptyString("City")))
                 )
             );
         }
