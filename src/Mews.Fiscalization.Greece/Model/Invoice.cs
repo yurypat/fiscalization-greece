@@ -15,7 +15,8 @@ namespace Mews.Fiscalization.Greece.Model
             Company counterpart = null,
             IEnumerable<Payment> payments = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
-            InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null)
+            InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
+            InvoiceRegistrationNumber correlatedInvoice = null)
         {
             Header = header ?? throw new ArgumentNullException(nameof(header));
             BillType = billType;
@@ -25,6 +26,7 @@ namespace Mews.Fiscalization.Greece.Model
             Payments = payments;
             InvoiceRegistrationNumber = invoiceRegistrationNumber;
             CanceledByInvoiceRegistrationNumber = cancelledByInvoiceRegistrationNumber;
+            CorrelatedInvoice = correlatedInvoice;
 
             if (!RevenueItems.Any())
             {
@@ -47,5 +49,7 @@ namespace Mews.Fiscalization.Greece.Model
         public InvoiceRegistrationNumber InvoiceRegistrationNumber { get; }
 
         public InvoiceRegistrationNumber CanceledByInvoiceRegistrationNumber { get; }
+
+        public InvoiceRegistrationNumber CorrelatedInvoice { get; }
     }
 }

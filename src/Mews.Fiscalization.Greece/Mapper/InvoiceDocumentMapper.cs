@@ -83,8 +83,8 @@ namespace Mews.Fiscalization.Greece.Mapper
                 CurrencySpecified = invoice.Header.CurrencyCode.IsDefined(),
                 ExchangeRateSpecified = invoice.Header.ExchangeRate.IsDefined(),
                 ExchangeRate = invoice.Header.ExchangeRate.GetOrDefault(),
-                CorrelatedInvoicesSpecified = invoice.Header.CorrelatedInvoice.IsDefined(),
-                CorrelatedInvoices = invoice.Header.CorrelatedInvoice.GetOrDefault()
+                CorrelatedInvoicesSpecified = invoice.CorrelatedInvoice.IsDefined(),
+                CorrelatedInvoices = invoice.CorrelatedInvoice.GetOrDefault()
             };
 
             if (invoice.Header.CurrencyCode.IsDefined())
