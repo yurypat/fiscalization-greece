@@ -49,7 +49,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                     Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), counterpart.CountryCode.Value, true),
                     Branch = counterpart.Branch.Value,
                     Name = counterpart.Name,
-                    VatNumber = counterpart.TaxNumber.Value,
+                    VatNumber = counterpart.TaxIdentifier.Value,
                     Address = GetAddress(counterpart.Address)
                 };
             }

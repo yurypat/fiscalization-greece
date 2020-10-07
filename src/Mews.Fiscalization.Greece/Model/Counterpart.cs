@@ -5,16 +5,16 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class Counterpart
     {
-        public Counterpart(NonEmptyString taxNumber, CountryCode countryCode, NonNegativeInt branch = null, string name = null, Address address = null)
+        public Counterpart(CountryCode countryCode, NonEmptyString taxIdentifier = null, NonNegativeInt branch = null, string name = null, Address address = null)
         {
-            TaxNumber = taxNumber ?? throw new ArgumentNullException(nameof(taxNumber));
+            TaxIdentifier = taxIdentifier ?? new NonEmptyString("0");
             CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
             Branch = branch ?? new NonNegativeInt(0);
             Name = name;
             Address = address;
         }
 
-        public NonEmptyString TaxNumber { get; }
+        public NonEmptyString TaxIdentifier { get; }
 
         public NonNegativeInt Branch { get; }
 

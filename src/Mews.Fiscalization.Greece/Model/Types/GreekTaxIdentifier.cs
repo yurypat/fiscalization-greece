@@ -3,11 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public class TaxIdentifier : NonEmptyString
+    public class GreekTaxIdentifier : NonEmptyString
     {
         private static readonly Regex Pattern = new Regex("[0-9]{9}$");
 
-        public TaxIdentifier(string value)
+        public GreekTaxIdentifier(string value)
             : base(value)
         {
             if (value == null)
