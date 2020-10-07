@@ -2,9 +2,9 @@
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class PositivePayment : Payment
+    public class NonNegativePayment : Payment
     {
-        public PositivePayment(NonNegativeAmount amount, PaymentType paymentType)
+        public NonNegativePayment(NonNegativeAmount amount, PaymentType paymentType)
             : base(amount, paymentType)
         {
         }

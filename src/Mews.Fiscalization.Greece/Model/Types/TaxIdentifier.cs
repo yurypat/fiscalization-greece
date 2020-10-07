@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalization.Greece.Model.Types
 {
     public class TaxIdentifier : NotEmptyString
     {
+        private static readonly Regex Pattern = new Regex("[0-9]{9}$");
+
         public TaxIdentifier(string value)
             : base(value)
         {
@@ -11,15 +14,15 @@ namespace Mews.Fiscalization.Greece.Model.Types
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            if (!Patterns.TaxIdentifier.IsMatch(value))
+            if (!Pattern.IsMatch(value))
             {
-                throw new ArgumentException($"The value '{value}' does not match the pattern '{Patterns.TaxIdentifier}'");
+                throw new ArgumentException($"The value '{value}' does not match the pattern '{Pattern}'");
             }
         }
 
         public new static bool IsValid(string value)
         {
-            return value != null && Patterns.TaxIdentifier.IsMatch(value);
+            return value != null && Pattern.IsMatch(value);
         }
     }
 }

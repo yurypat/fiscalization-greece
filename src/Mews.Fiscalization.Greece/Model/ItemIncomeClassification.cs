@@ -5,7 +5,7 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public class ItemIncomeClassification
     {
-        public ItemIncomeClassification(ClassificationType classificationType, ClassificationCategory classificationCategory, LimitedDecimal amount)
+        public ItemIncomeClassification(ClassificationType classificationType, ClassificationCategory classificationCategory, Amount amount)
         {
             ClassificationType = classificationType;
             ClassificationCategory = classificationCategory;
@@ -16,6 +16,6 @@ namespace Mews.Fiscalization.Greece.Model
 
         public ClassificationCategory ClassificationCategory { get; }
 
-        public LimitedDecimal Amount { get; }
+        public Amount Amount { get; }
     }
 }
