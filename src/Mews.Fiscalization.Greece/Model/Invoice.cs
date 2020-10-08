@@ -9,7 +9,6 @@ namespace Mews.Fiscalization.Greece.Model
     {
         public Invoice(
             InvoiceHeader header,
-            BillType billType,
             LocalCounterpart issuer,
             IEnumerable<Revenue> revenueItems,
             Counterpart counterpart = null,
@@ -19,7 +18,6 @@ namespace Mews.Fiscalization.Greece.Model
             InvoiceRegistrationNumber correlatedInvoice = null)
         {
             Header = header ?? throw new ArgumentNullException(nameof(header));
-            BillType = billType;
             Issuer = issuer ?? throw new ArgumentNullException(nameof(issuer));
             RevenueItems = revenueItems.ToList();
             Counterpart = counterpart;
@@ -35,8 +33,6 @@ namespace Mews.Fiscalization.Greece.Model
         }
 
         public InvoiceHeader Header { get; }
-
-        public BillType BillType { get; }
 
         public LocalCounterpart Issuer { get; }
 

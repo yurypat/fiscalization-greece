@@ -89,7 +89,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
             var correlatedInvoice = response.SendInvoiceResults.First().Item.Success.InvoiceRegistrationNumber.Value;
 
             var negativeInvoice = SequentialEnumerable.FromPreordered(
-                new NegativeInvoice(
+                new CreditInvoice(
                     issuer: new LocalCounterpart(new GreekTaxIdentifier(UserVatNumber)),
                     correlatedInvoice: new InvoiceRegistrationNumber(correlatedInvoice),
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50021"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),

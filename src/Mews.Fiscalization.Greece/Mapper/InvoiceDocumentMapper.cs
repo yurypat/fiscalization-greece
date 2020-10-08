@@ -77,7 +77,7 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             var invoiceHeader = new Dto.Xsd.InvoiceHeader
             {
-                InvoiceType = MapInvoiceType(invoice.BillType),
+                InvoiceType = MapInvoiceType(invoice),
                 IssueDate = invoice.Header.InvoiceIssueDate,
                 SerialNumber = invoice.Header.InvoiceSerialNumber.Value,
                 Series = invoice.Header.InvoiceSeries.Value,
@@ -151,67 +151,52 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
         }
 
-        private static Dto.Xsd.InvoiceType MapInvoiceType(BillType billType)
+        private static Dto.Xsd.InvoiceType MapInvoiceType(Invoice invoice)
         {
-            switch (billType)
+            if (invoice is CreditInvoice)
             {
-                case BillType.RetailSalesReceipt:
-                    return Dto.Xsd.InvoiceType.RetailSalesReceipt;
-                case BillType.SimplifiedInvoice:
-                    return Dto.Xsd.InvoiceType.SimplifiedInvoice;
-                case BillType.SalesInvoice:
-                    return Dto.Xsd.InvoiceType.SalesInvoice;
-                case BillType.SalesInvoiceIntraCommunitySupplies:
-                    return Dto.Xsd.InvoiceType.SalesInvoiceIntraCommunitySupplies;
-                case BillType.SalesInvoiceThirdCountrySupplies:
-                    return Dto.Xsd.InvoiceType.SalesInvoiceThirdCountrySupplies;
-                case BillType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase:
-                    return Dto.Xsd.InvoiceType.OtherIncomeAdjustmentRegularisationEntriesAccountingBase;
-                case BillType.CreditInvoice:
+                if (invoice.CorrelatedInvoice.IsNotNull())
+                {
                     return Dto.Xsd.InvoiceType.CreditInvoiceAssociated;
-                case BillType.CreditInvoiceNonAssociated:
-                    return Dto.Xsd.InvoiceType.CreditInvoiceNonAssociated;
-                default:
-                    throw new ArgumentException($"Cannot map BillType {billType} to {nameof(Dto.Xsd.InvoiceType)}.");
+                }
+                return Dto.Xsd.InvoiceType.CreditInvoiceNonAssociated;
+            }
+
+            if (invoice is RetailSalesReceipt)
+            {
+                return Dto.Xsd.InvoiceType.RetailSalesReceipt;
+            }
+
+            if (invoice is SimplifiedInvoice)
+            {
+                return Dto.Xsd.InvoiceType.SimplifiedInvoice;
+            }
+
+            if (invoice is SalesInvoice)
+            {
+                Country country = null;
+                if (country?.Code.Value == "GR")
+                {
+                    return Dto.Xsd.InvoiceType.SalesInvoice;
+                }
+                else if (country.IsWithinEU)
+                {
+                    return Dto.Xsd.InvoiceType.SalesInvoiceIntraCommunitySupplies;
+                }
+                return Dto.Xsd.InvoiceType.SalesInvoiceThirdCountrySupplies;
             }
         }
 
-        private static Dto.Xsd.IncomeClassificationCategory MapIncomeClassificationCategory(ClassificationCategory classificationCategory)
+        private static (Dto.Xsd.IncomeClassificationCategory Category, Dto.Xsd.IncomeClassificationType Type) MapRevenueClassification(
+            ClassificationCategory classificationCategory)
         {
-            switch (classificationCategory)
-            {
-                case ClassificationCategory.ProductSaleIncome:
-                    return Dto.Xsd.IncomeClassificationCategory.ProductSaleIncome;
-                case ClassificationCategory.ProvisionOfServicesIncome:
-                    return Dto.Xsd.IncomeClassificationCategory.ProvisionOfServicesIncome;
-                case ClassificationCategory.OtherIncomeAndProfits:
-                    return Dto.Xsd.IncomeClassificationCategory.OtherIncomeAndProfits;
-                case ClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries:
-                    return Dto.Xsd.IncomeClassificationCategory.OtherIncomeAdjustmentAndRegularisationEntries;
-                default:
-                    throw new ArgumentException($"Cannot map ClassificationCategory {classificationCategory} to {nameof(Dto.Xsd.IncomeClassificationCategory)}.");
-            }
-        }
-
-        private static Dto.Xsd.IncomeClassificationType MapIncomeClassificationType(ClassificationType classificationType)
-        {
-            switch (classificationType)
-            {
-                case ClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele:
-                    return Dto.Xsd.IncomeClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele;
-                case ClassificationType.OtherSalesOfGoodsAndServices:
-                    return Dto.Xsd.IncomeClassificationType.OtherSalesOfGoodsAndServices;
-                case ClassificationType.OtherOrdinaryIncome:
-                    return Dto.Xsd.IncomeClassificationType.OtherOrdinaryIncome;
-                case ClassificationType.CreditExchangeDifferences:
-                    return Dto.Xsd.IncomeClassificationType.CreditExchangeDifferences;
-                case ClassificationType.IntraCommunityForeignSalesOfGoodsAndServices:
-                    return Dto.Xsd.IncomeClassificationType.IntraCommunityForeignSalesOfGoodsAndServices;
-                case ClassificationType.ThirdCountryForeignSalesOfGoodsAndServices:
-                    return Dto.Xsd.IncomeClassificationType.ThirdCountryForeignSalesOfGoodsAndServices;
-                default:
-                    throw new ArgumentException($"Cannot map ClassificationType {classificationType} to {nameof(Dto.Xsd.IncomeClassificationType)}.");
-            }
+            //     RetailSalesOfGoodsAndServicesPrivateClientele, -> Products and services on Receipt
+            //
+            //     OtherSalesOfGoodsAndServices, -> Products and services
+            //     IntraCommunityForeignSalesOfGoodsAndServices, -> Products and services to EU
+            //     ThirdCountryForeignSalesOfGoodsAndServices, -> Products and services abroad
+            //
+            //     OtherOrdinaryIncome, -> Other
         }
 
         private static Dto.Xsd.VatCategory MapVatCategory(TaxType taxType)

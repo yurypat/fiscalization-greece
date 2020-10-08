@@ -174,7 +174,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
                     {
                         new NonNegativePayment(new NonNegativeAmount(100m), paymentType)
                     },
-                    counterpart: new Counterpart(new CountryCode(countryCode), new NonEmptyString("12348765"), new NonNegativeInt(0), "Name", new Address(postalCode: new NonEmptyString("12"), city: new NonEmptyString("City")))
+                    counterpart: new Counterpart(new Country(new CountryCode(countryCode), false), new NonEmptyString("12348765"), new NonNegativeInt(0), "Name", new Address(postalCode: new NonEmptyString("12"), city: new NonEmptyString("City")))
                 )
             );
         }
@@ -347,7 +347,7 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
         private static ISequentialEnumerable<Invoice> CreditInvoiceWithNegativeAmounts()
         {
             return SequentialEnumerable.FromPreordered(
-                new NegativeInvoice(
+                new CreditInvoice(
                     issuer: new LocalCounterpart(new GreekTaxIdentifier(UserVatNumber)),
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NegativeRevenue>

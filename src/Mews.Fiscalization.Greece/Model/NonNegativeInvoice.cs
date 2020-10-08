@@ -7,14 +7,13 @@ namespace Mews.Fiscalization.Greece.Model
     {
         public NonNegativeInvoice(
             InvoiceHeader header,
-            BillType billType,
             LocalCounterpart issuer,
             IEnumerable<NonNegativeRevenue> revenueItems,
             Counterpart counterpart = null,
             IEnumerable<NonNegativePayment> payments = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null)
-            : base(header, billType, issuer, revenueItems, counterpart, payments, invoiceRegistrationNumber, cancelledByInvoiceRegistrationNumber)
+            : base(header, issuer, revenueItems, counterpart, payments, invoiceRegistrationNumber, cancelledByInvoiceRegistrationNumber)
         {
         }
     }
