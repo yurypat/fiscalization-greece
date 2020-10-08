@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class PositiveInvoice : Invoice
+    public class NonNegativeInvoice : Invoice
     {
-        public PositiveInvoice(
+        public NonNegativeInvoice(
             InvoiceHeader header,
             BillType billType,
-            LocalCompany issuer,
-            IEnumerable<PositiveRevenue> revenueItems,
-            Company counterpart = null,
-            IEnumerable<PositivePayment> payments = null,
+            LocalCounterpart issuer,
+            IEnumerable<NonNegativeRevenue> revenueItems,
+            Counterpart counterpart = null,
+            IEnumerable<NonNegativePayment> payments = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null)
             : base(header, billType, issuer, revenueItems, counterpart, payments, invoiceRegistrationNumber, cancelledByInvoiceRegistrationNumber)

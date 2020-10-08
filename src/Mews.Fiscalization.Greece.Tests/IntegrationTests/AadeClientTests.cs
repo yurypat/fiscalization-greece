@@ -62,19 +62,19 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 
             // Step 1 - regular invoice
             var invoices = SequentialEnumerable.FromPreordered(
-                new PositiveInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                new NonNegativeInvoice(
+                    issuer: new LocalCounterpart(new GreekTaxIdentifier(UserVatNumber)),
                     billType: BillType.SalesInvoice,
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50020"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
-                    revenueItems: new List<PositiveRevenue>
+                    revenueItems: new List<NonNegativeRevenue>
                     {
-                        new PositiveRevenue(new NonNegativeAmount(88.50m), TaxType.Vat13, new NonNegativeAmount(11.50m), ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits)
+                        new NonNegativeRevenue(new NonNegativeAmount(88.50m), new NonNegativeAmount(11.50m), TaxType.Vat13, ClassificationType.OtherOrdinaryIncome, ClassificationCategory.OtherIncomeAndProfits)
                     },
-                    payments: new List<PositivePayment>
+                    payments: new List<NonNegativePayment>
                     {
-                        new PositivePayment(new NonNegativeAmount(100m), PaymentType.Cash)
+                        new NonNegativePayment(new NonNegativeAmount(100m), PaymentType.Cash)
                     },
-                    counterpart: new Company(new NotEmptyString("090701900"), new CountryCode("GR"))
+                    counterpart: new LocalCounterpart(new GreekTaxIdentifier("090701900"))
                 ));
 
             var response = await client.SendInvoicesAsync(invoices);
@@ -90,18 +90,18 @@ namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
 
             var negativeInvoice = SequentialEnumerable.FromPreordered(
                 new NegativeInvoice(
-                    issuer: new LocalCompany(new TaxIdentifier(UserVatNumber)),
+                    issuer: new LocalCounterpart(new GreekTaxIdentifier(UserVatNumber)),
                     correlatedInvoice: new InvoiceRegistrationNumber(correlatedInvoice),
                     header: new InvoiceHeader(new LimitedString1to50("0"), new LimitedString1to50("50021"), DateTime.Now, currencyCode: new CurrencyCode("EUR")),
                     revenueItems: new List<NegativeRevenue>
                     {
-                        new NegativeRevenue(new NegativeAmount(-53.65m), TaxType.Vat6, new NegativeAmount(-12.88m), ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProductSaleIncome)
+                        new NegativeRevenue(new NegativeAmount(-53.65m), new NegativeAmount(-12.88m), TaxType.Vat6, ClassificationType.OtherSalesOfGoodsAndServices, ClassificationCategory.ProductSaleIncome)
                     },
                     payments: new List<NegativePayment>
                     {
                         new NegativePayment(new NegativeAmount(-66.53m), PaymentType.Cash)
                     },
-                    counterpart: new Company(new NotEmptyString("090701900"), new CountryCode("GR"), new NonNegativeInt(0), address: new Address(postalCode: new NotEmptyString("12"), city: new NotEmptyString("City")))
+                    counterpart: new LocalCounterpart(new GreekTaxIdentifier("090701900"), new NonNegativeInt(0), address: new Address(postalCode: new NonEmptyString("12"), city: new NonEmptyString("City")))
             ));
 
             var negativeInvoiceResponse = await client.SendInvoicesAsync(negativeInvoice);

@@ -5,13 +5,13 @@ namespace Mews.Fiscalization.Greece.Model
 {
     public abstract class Payment
     {
-        public Payment(LimitedDecimal amount, PaymentType paymentType)
+        public Payment(Amount amount, PaymentType paymentType)
         {
             Amount = amount ?? throw new ArgumentNullException(nameof(amount));
             PaymentType = paymentType;
         }
 
-        public LimitedDecimal Amount { get; }
+        public Amount Amount { get; }
 
         public PaymentType PaymentType { get; }
     }

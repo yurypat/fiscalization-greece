@@ -1,20 +1,20 @@
-﻿using Mews.Fiscalization.Greece.Model.Types;
-using System;
+﻿using System;
+using Mews.Fiscalization.Greece.Model.Types;
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public abstract class InvoiceParty
+    public class Counterpart
     {
-        public InvoiceParty(string taxNumber, CountryCode countryCode, NonNegativeInt branch = null, string name = null, Address address = null)
+        public Counterpart(CountryCode countryCode, NonEmptyString taxIdentifier = null, NonNegativeInt branch = null, string name = null, Address address = null)
         {
-            TaxNumber = taxNumber ?? throw new ArgumentNullException(nameof(taxNumber));
+            TaxIdentifier = taxIdentifier ?? new NonEmptyString("0");
             CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
             Branch = branch ?? new NonNegativeInt(0);
             Name = name;
             Address = address;
         }
 
-        public string TaxNumber { get; }
+        public NonEmptyString TaxIdentifier { get; }
 
         public NonNegativeInt Branch { get; }
 

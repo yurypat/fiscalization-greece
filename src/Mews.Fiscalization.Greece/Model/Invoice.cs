@@ -10,9 +10,9 @@ namespace Mews.Fiscalization.Greece.Model
         public Invoice(
             InvoiceHeader header,
             BillType billType,
-            LocalCompany issuer,
+            LocalCounterpart issuer,
             IEnumerable<Revenue> revenueItems,
-            Company counterpart = null,
+            Counterpart counterpart = null,
             IEnumerable<Payment> payments = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
@@ -38,11 +38,11 @@ namespace Mews.Fiscalization.Greece.Model
 
         public BillType BillType { get; }
 
-        public LocalCompany Issuer { get; }
+        public LocalCounterpart Issuer { get; }
 
         public IReadOnlyList<Revenue> RevenueItems { get; }
 
-        public Company Counterpart { get; }
+        public Counterpart Counterpart { get; }
 
         public IEnumerable<Payment> Payments { get; }
 

@@ -2,11 +2,11 @@
 
 namespace Mews.Fiscalization.Greece.Model
 {
-    public class NegativeRevenue : Revenue
+    public class NonNegativeRevenue : Revenue
     {
-        public NegativeRevenue(
-            NegativeAmount netValue,
-            NegativeAmount vatValue,
+        public NonNegativeRevenue(
+            NonNegativeAmount netValue,
+            NonNegativeAmount vatValue,
             TaxType taxType,
             ClassificationType classificationType,
             ClassificationCategory classificationCategory,

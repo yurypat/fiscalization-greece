@@ -1,8 +1,8 @@
 ﻿namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public class NotEmptyString : LimitedString
+    public class NonEmptyString : LimitedString
     {
-        public NotEmptyString(string value)
+        public NonEmptyString(string value)
             : base(value, minLength: 1)
         {
         }

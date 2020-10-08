@@ -2,10 +2,10 @@
 
 namespace Mews.Fiscalization.Greece.Model.Types
 {
-    public class NegativeAmount : LimitedDecimal
+    public class NegativeAmount : Amount
     {
         public NegativeAmount(decimal value)
-            : base(value, maxValue: 0, maxDecimalPlaces: 2)
+            : base(value, maxValue: 0)
         {
         }
 

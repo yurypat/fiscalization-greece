@@ -3,6 +3,7 @@ using Mews.Fiscalization.Greece.Model;
 using System;
 using System.Linq;
 using Mews.Fiscalization.Greece.Model.Collections;
+using Mews.Fiscalization.Greece.Model.Types;
 using TaxType = Mews.Fiscalization.Greece.Model.TaxType;
 
 namespace Mews.Fiscalization.Greece.Mapper
@@ -21,10 +22,10 @@ namespace Mews.Fiscalization.Greece.Mapper
         {
             return new Dto.Xsd.Invoice
             {
-                InvoiceMarkSpecified = invoice.InvoiceRegistrationNumber.IsDefined(),
-                InvoiceMark = invoice.InvoiceRegistrationNumber.GetOrDefault(),
-                InvoiceCancelationMarkSpecified = invoice.CanceledByInvoiceRegistrationNumber.IsDefined(),
-                InvoiceCancelationMark = invoice.CanceledByInvoiceRegistrationNumber.GetOrDefault(),
+                InvoiceMarkSpecified = invoice.InvoiceRegistrationNumber.IsNotNull(),
+                InvoiceMark = invoice.InvoiceRegistrationNumber?.Value ?? 0,
+                InvoiceCancelationMarkSpecified = invoice.CanceledByInvoiceRegistrationNumber.IsNotNull(),
+                InvoiceCancelationMark = invoice.CanceledByInvoiceRegistrationNumber?.Value  ?? 0,
                 InvoiceId = invoice.Header.InvoiceIdentifier,
                 InvoiceIssuer = GetInvoiceParty(invoice.Issuer),
                 InvoiceCounterpart = GetInvoiceParty(invoice.Counterpart),
@@ -39,17 +40,17 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
         }
 
-        private static Dto.Xsd.InvoiceParty GetInvoiceParty(InvoiceParty invoiceParty)
+        private static Dto.Xsd.InvoiceParty GetInvoiceParty(Counterpart counterpart)
         {
-            if (invoiceParty != null)
+            if (counterpart != null)
             {
                 return new Dto.Xsd.InvoiceParty
                 {
-                    Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), invoiceParty.CountryCode.Value, true),
-                    Branch = invoiceParty.Branch.Value,
-                    Name = invoiceParty.Name,
-                    VatNumber = invoiceParty.TaxNumber,
-                    Address = GetAddress(invoiceParty.Address)
+                    Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), counterpart.CountryCode.Value, true),
+                    Branch = counterpart.Branch.Value,
+                    Name = counterpart.Name,
+                    VatNumber = counterpart.TaxIdentifier.Value,
+                    Address = GetAddress(counterpart.Address)
                 };
             }
 
@@ -80,14 +81,15 @@ namespace Mews.Fiscalization.Greece.Mapper
                 IssueDate = invoice.Header.InvoiceIssueDate,
                 SerialNumber = invoice.Header.InvoiceSerialNumber.Value,
                 Series = invoice.Header.InvoiceSeries.Value,
-                CurrencySpecified = invoice.Header.CurrencyCode.IsDefined(),
-                ExchangeRateSpecified = invoice.Header.ExchangeRate.IsDefined(),
-                ExchangeRate = invoice.Header.ExchangeRate.GetOrDefault(),
-                CorrelatedInvoicesSpecified = invoice.CorrelatedInvoice.IsDefined(),
-                CorrelatedInvoices = invoice.CorrelatedInvoice.GetOrDefault()
+                CurrencySpecified = invoice.Header.CurrencyCode.IsNotNull(),
+                ExchangeRateSpecified = invoice.Header.ExchangeRate.IsNotNull(),
+                ExchangeRate = invoice.Header.ExchangeRate?.Value ?? 0,
+                CorrelatedInvoicesSpecified = invoice.CorrelatedInvoice.IsNotNull(),
+                CorrelatedInvoices = invoice.CorrelatedInvoice?.Value ?? 0
+
             };
 
-            if (invoice.Header.CurrencyCode.IsDefined())
+            if (invoice.Header.CurrencyCode.IsNotNull())
             {
                 invoiceHeader.Currency = (Dto.Xsd.Currency)Enum.Parse(typeof(Dto.Xsd.Currency), invoice.Header.CurrencyCode.Value, true);
             }
@@ -103,21 +105,13 @@ namespace Mews.Fiscalization.Greece.Mapper
                 NetValue = revenueItem.NetValue.Value,
                 VatAmount = revenueItem.VatValue.Value,
                 VatCategory = MapVatCategory(revenueItem.TaxType),
-                IncomeClassification = revenueItem.IncomeClassifications.Select(invoiceIncomeClassification => GetIncomeClassification(invoiceIncomeClassification)).ToArray()
+                IncomeClassification = new [] { GetIncomeClassification(revenueItem) }
             };
 
             if (revenueItem.VatExemption.HasValue)
             {
                 invoiceDetail.VatExemptionCategory = MapVatExemptionCategory(revenueItem.VatExemption.Value);
                 invoiceDetail.VatExemptionCategorySpecified = true;
-            }
-
-            if (revenueItem.CityTax != null)
-            {
-                invoiceDetail.OtherTaxesCategory = MapOtherTaxCategory(revenueItem.CityTax.Type);
-                invoiceDetail.OtherTaxesAmount = revenueItem.CityTax.Amount.Value;
-                invoiceDetail.OtherTaxesCategorySpecified = true;
-                invoiceDetail.OtherTaxesAmountSpecified = true;
             }
 
             return invoiceDetail;
@@ -131,19 +125,15 @@ namespace Mews.Fiscalization.Greece.Mapper
                 TotalVatAmount = invoice.RevenueItems.Sum(x => x.VatValue.Value)
             };
 
-            var otherTaxesAmount = invoice.RevenueItems.Any(x => x.CityTax != null) ? invoice.RevenueItems.Sum(m => m.CityTax.Amount.Value) : (decimal?)null;
-            if (otherTaxesAmount.HasValue)
-            {
-                invoiceSummary.TotalOtherTaxesAmount = otherTaxesAmount.Value;
-            }
-
-            invoiceSummary.IncomeClassification = invoice.RevenueItems.SelectMany(x => x.IncomeClassifications).GroupBy(m => new { m.ClassificationCategory, m.ClassificationType },
-                (key, values) => new Dto.Xsd.IncomeClassification
+            invoiceSummary.IncomeClassification = invoice.RevenueItems.GroupBy(
+                keySelector: m => (m.ClassificationCategory, m.ClassificationType),
+                resultSelector: (key, revenueItems) => new Dto.Xsd.IncomeClassification
                 {
                     ClassificationCategory = MapIncomeClassificationCategory(key.ClassificationCategory),
                     ClassificationType = MapIncomeClassificationType(key.ClassificationType),
-                    Amount = values.Sum(x => x.Amount.Value)
-                }).ToArray();
+                    Amount = revenueItems.Sum(i => i.NetValue.Value)
+                }
+            ).ToArray();
 
 
             invoiceSummary.TotalGrossValue = invoiceSummary.TotalNetValue + invoiceSummary.TotalVatAmount + invoiceSummary.TotalOtherTaxesAmount;
@@ -151,13 +141,13 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceSummary;
         }
 
-        private static Dto.Xsd.IncomeClassification GetIncomeClassification(ItemIncomeClassification incomeClassification)
+        private static Dto.Xsd.IncomeClassification GetIncomeClassification(Revenue revenue)
         {
             return new Dto.Xsd.IncomeClassification
             {
-                Amount = incomeClassification.Amount.Value,
-                ClassificationCategory = MapIncomeClassificationCategory(incomeClassification.ClassificationCategory),
-                ClassificationType = MapIncomeClassificationType(incomeClassification.ClassificationType)
+                Amount = revenue.NetValue.Value,
+                ClassificationCategory = MapIncomeClassificationCategory(revenue.ClassificationCategory),
+                ClassificationType = MapIncomeClassificationType(revenue.ClassificationType)
             };
         }
 
@@ -314,25 +304,6 @@ namespace Mews.Fiscalization.Greece.Mapper
                     return Dto.Xsd.VatExemptionCategory.WithoutVatArticle5;
                 default:
                     throw new ArgumentException($"Cannot map VatExemption {vatExemption} to Dto.Xsd.{nameof(Dto.Xsd.VatExemptionCategory)}.");
-            }
-        }
-
-        private static Dto.Xsd.OtherTaxCategory MapOtherTaxCategory(CityTaxType cityTaxType)
-        {
-            switch (cityTaxType)
-            {
-                case CityTaxType.Hotels1Or2Stars:
-                    return Dto.Xsd.OtherTaxCategory.Hotels1Or2Stars;
-                case CityTaxType.Hotels3Stars:
-                    return Dto.Xsd.OtherTaxCategory.Hotels3Stars;
-                case CityTaxType.Hotels4Stars:
-                    return Dto.Xsd.OtherTaxCategory.Hotels4Stars;
-                case CityTaxType.Hotels5Stars:
-                    return Dto.Xsd.OtherTaxCategory.Hotels5Stars;
-                case CityTaxType.RoomsOrApartments:
-                    return Dto.Xsd.OtherTaxCategory.RoomsOrApartments;
-                default:
-                    throw new ArgumentException($"Cannot map CityTaxType {cityTaxType} to {nameof(Dto.Xsd.OtherTaxCategory)}.");
             }
         }
     }
