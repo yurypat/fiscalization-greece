@@ -10,6 +10,8 @@ namespace Mews.Fiscalization.Greece.Mapper
 {
     public static class InvoiceDocumentMapper
     {
+        private const string GreeceCountryCode = "GR";
+
         public static Dto.Xsd.InvoicesDoc GetInvoiceDoc(ISequentialEnumerable<Invoice> invoices)
         {
             return new Dto.Xsd.InvoicesDoc
@@ -25,13 +27,13 @@ namespace Mews.Fiscalization.Greece.Mapper
                 InvoiceMarkSpecified = invoice.InvoiceRegistrationNumber.IsNotNull(),
                 InvoiceMark = invoice.InvoiceRegistrationNumber?.Value ?? 0,
                 InvoiceCancelationMarkSpecified = invoice.CanceledByInvoiceRegistrationNumber.IsNotNull(),
-                InvoiceCancelationMark = invoice.CanceledByInvoiceRegistrationNumber?.Value  ?? 0,
+                InvoiceCancelationMark = invoice.CanceledByInvoiceRegistrationNumber?.Value ?? 0,
                 InvoiceId = invoice.Header.InvoiceIdentifier,
                 InvoiceIssuer = GetInvoiceParty(invoice.Issuer),
                 InvoiceCounterpart = GetInvoiceParty(invoice.Counterpart),
                 InvoiceSummary = GetInvoiceSummary(invoice),
                 InvoiceHeader = GetInvoiceHeader(invoice),
-                InvoiceDetails = invoice.RevenueItems.Select(invoiceDetail => GetInvoiceDetail(invoiceDetail)).ToArray(),
+                InvoiceDetails = invoice.RevenueItems.Select(invoiceDetail => GetInvoiceDetail(invoice, invoiceDetail)).ToArray(),
                 PaymentMethods = invoice.Payments?.Select(paymentMethod => new Dto.Xsd.PaymentMethod
                 {
                     Amount = paymentMethod.Amount.Value,
@@ -46,7 +48,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             {
                 return new Dto.Xsd.InvoiceParty
                 {
-                    Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), counterpart.CountryCode.Value, true),
+                    Country = (Dto.Xsd.Country)Enum.Parse(typeof(Dto.Xsd.Country), counterpart.Country.Code.Value, true),
                     Branch = counterpart.Branch.Value,
                     Name = counterpart.Name,
                     VatNumber = counterpart.TaxIdentifier.Value,
@@ -97,7 +99,7 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceHeader;
         }
 
-        private static Dto.Xsd.InvoiceDetail GetInvoiceDetail(Revenue revenueItem)
+        private static Dto.Xsd.InvoiceDetail GetInvoiceDetail(Invoice invoice, Revenue revenueItem)
         {
             var invoiceDetail = new Dto.Xsd.InvoiceDetail
             {
@@ -105,7 +107,7 @@ namespace Mews.Fiscalization.Greece.Mapper
                 NetValue = revenueItem.NetValue.Value,
                 VatAmount = revenueItem.VatValue.Value,
                 VatCategory = MapVatCategory(revenueItem.TaxType),
-                IncomeClassification = new [] { GetIncomeClassification(revenueItem) }
+                IncomeClassification = new[] { GetIncomeClassification(invoice, revenueItem) }
             };
 
             if (revenueItem.VatExemption.HasValue)
@@ -126,11 +128,11 @@ namespace Mews.Fiscalization.Greece.Mapper
             };
 
             invoiceSummary.IncomeClassification = invoice.RevenueItems.GroupBy(
-                keySelector: m => (m.ClassificationCategory, m.ClassificationType),
+                keySelector: m => m.RevenueType,
                 resultSelector: (key, revenueItems) => new Dto.Xsd.IncomeClassification
                 {
-                    ClassificationCategory = MapIncomeClassificationCategory(key.ClassificationCategory),
-                    ClassificationType = MapIncomeClassificationType(key.ClassificationType),
+                    ClassificationCategory = MapRevenueClassification(invoice, key).Category,
+                    ClassificationType = MapRevenueClassification(invoice, key).Type,
                     Amount = revenueItems.Sum(i => i.NetValue.Value)
                 }
             ).ToArray();
@@ -141,13 +143,15 @@ namespace Mews.Fiscalization.Greece.Mapper
             return invoiceSummary;
         }
 
-        private static Dto.Xsd.IncomeClassification GetIncomeClassification(Revenue revenue)
+        private static Dto.Xsd.IncomeClassification GetIncomeClassification(Invoice invoice, Revenue revenue)
         {
+            var revenueClassification = MapRevenueClassification(invoice, revenue.RevenueType);
+
             return new Dto.Xsd.IncomeClassification
             {
                 Amount = revenue.NetValue.Value,
-                ClassificationCategory = MapIncomeClassificationCategory(revenue.ClassificationCategory),
-                ClassificationType = MapIncomeClassificationType(revenue.ClassificationType)
+                ClassificationCategory = revenueClassification.Category,
+                ClassificationType = revenueClassification.Type
             };
         }
 
@@ -174,8 +178,8 @@ namespace Mews.Fiscalization.Greece.Mapper
 
             if (invoice is SalesInvoice)
             {
-                Country country = null;
-                if (country?.Code.Value == "GR")
+                Country country = invoice.Counterpart.Country;
+                if (country.Code.Value == GreeceCountryCode)
                 {
                     return Dto.Xsd.InvoiceType.SalesInvoice;
                 }
@@ -185,18 +189,63 @@ namespace Mews.Fiscalization.Greece.Mapper
                 }
                 return Dto.Xsd.InvoiceType.SalesInvoiceThirdCountrySupplies;
             }
+
+            throw new ArgumentException($"Cannot map invoice to {nameof(Dto.Xsd.InvoiceType)}.");
         }
 
         private static (Dto.Xsd.IncomeClassificationCategory Category, Dto.Xsd.IncomeClassificationType Type) MapRevenueClassification(
-            ClassificationCategory classificationCategory)
+            Invoice invoice,
+            RevenueType revenueType)
         {
-            //     RetailSalesOfGoodsAndServicesPrivateClientele, -> Products and services on Receipt
-            //
-            //     OtherSalesOfGoodsAndServices, -> Products and services
-            //     IntraCommunityForeignSalesOfGoodsAndServices, -> Products and services to EU
-            //     ThirdCountryForeignSalesOfGoodsAndServices, -> Products and services abroad
-            //
-            //     OtherOrdinaryIncome, -> Other
+            if (revenueType == RevenueType.Products)
+            {
+                return (Dto.Xsd.IncomeClassificationCategory.ProductSaleIncome, GetGoodsAndServicesClassificationType());
+            }
+            else if (revenueType == RevenueType.Services)
+            {
+                return (Dto.Xsd.IncomeClassificationCategory.ProvisionOfServicesIncome, GetGoodsAndServicesClassificationType());
+            }
+            else if (revenueType == RevenueType.Other)
+            {
+                if (invoice is SalesInvoice)
+                {
+                    return (Dto.Xsd.IncomeClassificationCategory.OtherIncomeAndProfits, Dto.Xsd.IncomeClassificationType.OtherOrdinaryIncome);
+                }
+                else if (invoice is CreditInvoice)
+                {
+                    if (invoice.CorrelatedInvoice.IsNotNull())
+                    {
+                        return (Dto.Xsd.IncomeClassificationCategory.OtherIncomeAndProfits, Dto.Xsd.IncomeClassificationType.OtherOrdinaryIncome);
+                    }
+                }
+
+                return (Dto.Xsd.IncomeClassificationCategory.OtherIncomeAndProfits, Dto.Xsd.IncomeClassificationType.OtherSalesOfGoodsAndServices);
+            }
+
+            throw new ArgumentException($"Cannot map revenue type to a pair of {nameof(Dto.Xsd.IncomeClassificationCategory)} and {nameof(Dto.Xsd.IncomeClassificationType)}.");
+
+            Dto.Xsd.IncomeClassificationType GetGoodsAndServicesClassificationType()
+            {
+                if (invoice is SalesInvoice)
+                {
+                    Country country = invoice.Counterpart.Country;
+                    if (country.Code.Value == GreeceCountryCode)
+                    {
+                        return Dto.Xsd.IncomeClassificationType.OtherSalesOfGoodsAndServices;
+                    }
+                    else if (country.IsWithinEU)
+                    {
+                        return Dto.Xsd.IncomeClassificationType.IntraCommunityForeignSalesOfGoodsAndServices;
+                    }
+                    return Dto.Xsd.IncomeClassificationType.ThirdCountryForeignSalesOfGoodsAndServices;
+                }
+                else if (invoice is CreditInvoice)
+                {
+                    return Dto.Xsd.IncomeClassificationType.OtherSalesOfGoodsAndServices;
+                }
+
+                return Dto.Xsd.IncomeClassificationType.RetailSalesOfGoodsAndServicesPrivateClientele;
+            }
         }
 
         private static Dto.Xsd.VatCategory MapVatCategory(TaxType taxType)

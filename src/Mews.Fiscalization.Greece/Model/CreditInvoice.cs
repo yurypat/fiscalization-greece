@@ -15,7 +15,7 @@ namespace Mews.Fiscalization.Greece.Model
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
             InvoiceRegistrationNumber correlatedInvoice = null)
-            : base(header, issuer, revenueItems, counterpart, payments, invoiceRegistrationNumber, cancelledByInvoiceRegistrationNumber, correlatedInvoice)
+            : base(header, issuer, revenueItems, payments, invoiceRegistrationNumber, cancelledByInvoiceRegistrationNumber, counterpart, correlatedInvoice)
         {
             if (counterpart == null)
             {

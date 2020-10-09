@@ -11,10 +11,10 @@ namespace Mews.Fiscalization.Greece.Model
             InvoiceHeader header,
             LocalCounterpart issuer,
             IEnumerable<Revenue> revenueItems,
-            Counterpart counterpart = null,
             IEnumerable<Payment> payments = null,
             InvoiceRegistrationNumber invoiceRegistrationNumber = null,
             InvoiceRegistrationNumber cancelledByInvoiceRegistrationNumber = null,
+            Counterpart counterpart = null,
             InvoiceRegistrationNumber correlatedInvoice = null)
         {
             Header = header ?? throw new ArgumentNullException(nameof(header));
